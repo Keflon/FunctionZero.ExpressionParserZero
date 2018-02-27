@@ -1,0 +1,100 @@
+﻿        Long
+        Double,
+        String,
+        Variable,
+        Bool,
+        NullableBool,
+        VSet,
+        Object, 
+        Null,
+
+
+        matrix.RegisterDelegate(Long, Long,             (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Long, Double,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Long, String,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Long, Variable,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Long, Bool,             (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Long, NullableBool,     (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Long, VSet,             (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Long, Object,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Long, Null,             (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+
+        matrix.RegisterDelegate(Double, Long,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Double, Double,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Double, String,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Double, Variable,       (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Double, Bool,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Double, NullableBool,   (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Double, VSet,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Double, Object,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Double, Null,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+
+        matrix.RegisterDelegate(String, Long,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(String, Double,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(String, String,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(String, Variable,       (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(String, Bool,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(String, NullableBool,   (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(String, VSet,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(String, Object,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(String, Null,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+
+        matrix.RegisterDelegate(Variable, Long,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Variable, Double,       (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Variable, String,       (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Variable, Variable,     (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Variable, Bool,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Variable, NullableBool, (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Variable, VSet,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Variable, Object,       (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Variable, Null,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+
+        matrix.RegisterDelegate(Bool, Long,             (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Bool, Double,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Bool, String,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Bool, Variable,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Bool, Bool,             (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Bool, NullableBool,     (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Bool, VSet,             (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Bool, Object,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Bool, Null,             (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+
+        matrix.RegisterDelegate(NullableBool, Long,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(NullableBool, Double,       (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(NullableBool, String,       (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(NullableBool, Variable,     (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(NullableBool, Bool,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(NullableBool, NullableBool, (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(NullableBool, VSet,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(NullableBool, Object,       (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(NullableBool, Null,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+
+        matrix.RegisterDelegate(VSet, Long,             (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(VSet, Double,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(VSet, String,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(VSet, Variable,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(VSet, Bool,             (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(VSet, NullableBool,     (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(VSet, VSet,             (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(VSet, Object,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(VSet, Null,             (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+
+        matrix.RegisterDelegate(Object, Long,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Object, Double,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Object, String,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Object, Variable,       (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Object, Bool,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Object, NullableBool,   (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Object, VSet,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Object, Object,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Object, Null,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        
+        matrix.RegisterDelegate(Null, Long,             (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Null, Double,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Null, String,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Null, Variable,         (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Null, Bool,             (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Null, NullableBool,     (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Null, VSet,             (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Null, Object,           (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));
+        matrix.RegisterDelegate(Null, Null,             (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, ()leftOperand.GetValue() REPLACE_OPERATOR ()rightOperand.GetValue()));

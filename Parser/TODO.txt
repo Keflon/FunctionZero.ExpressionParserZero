@@ -1,0 +1,8 @@
+﻿TODO: 
+Functions - count parameters. Validate that count.
+Function Matrices / Vectors. Flesh them out.In exception messages, show expression and error position marker.
+
+Add this:
+Error: Cannot do <operation> on types <left> and <right>. Call RegisterDelegate to allow such an operation. 
+
+In FunctionMatrix and FunctionVector, lose the strName. => the same matrix can be used for '<=' and 'LTE'.
