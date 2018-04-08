@@ -32,8 +32,12 @@ namespace FunctionZero.ExpressionParserZero.Parser.FunctionVectors
     {
         internal static SingleOperandFunctionVector Create()
         {
+	        bool? a = false;
+	        bool? b = !a;
+
             var vector = new SingleOperandFunctionVector();
             vector.RegisterDelegate(OperandType.Bool, operand => new Operand(OperandType.Bool, !(bool)operand.GetValue()));
+            vector.RegisterDelegate(OperandType.NullableBool, operand => new Operand(OperandType.NullableBool, !(bool?)operand.GetValue()));
             return vector;
         }
     }

@@ -48,8 +48,14 @@ namespace FunctionZero.ExpressionParserZero.Variables
                     case OperandType.Long:
                         _value = (long)value;
                         break;
+	                case OperandType.NullableLong:
+                        _value = (long?)value;
+                        break;
                     case OperandType.Double:
                         _value = (double)value;
+                        break;
+	                case OperandType.NullableDouble:
+                        _value = (double?)value;
                         break;
                     case OperandType.String:
                         _value = (string)value;

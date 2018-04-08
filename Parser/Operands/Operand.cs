@@ -70,8 +70,14 @@ namespace FunctionZero.ExpressionParserZero.Operands
 				case OperandType.Long:
 					return tokenValue is long;
 
+				case OperandType.NullableLong:
+					return tokenValue == null || tokenValue is long;
+
 				case OperandType.Double:
 					return tokenValue is double;
+
+				case OperandType.NullableDouble:
+					return tokenValue == null || tokenValue is double;
 
 				case OperandType.String:
 					return tokenValue is string;

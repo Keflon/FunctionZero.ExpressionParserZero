@@ -37,14 +37,13 @@ namespace FunctionZero.ExpressionParserZero.Operands
     public enum OperandType
     {
         Long = 0,
+		NullableLong,
         Double,
-        String,
-        Variable,
+		NullableDouble,
+		String,
+		Variable,
         Bool,
-
         NullableBool,
-		// TODO: Add NullableLong and NullableDouble
-
         VSet,
         Object, 
         

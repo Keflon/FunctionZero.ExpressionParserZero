@@ -31,14 +31,37 @@ using FunctionZero.ExpressionParserZero.Operands;
 
 namespace FunctionZero.ExpressionParserZero.Parser.FunctionMatrices
 {
-    public static class BitwiseOrMatrix
-    {
-        public static DoubleOperandFunctionMatrix Create()
-        {
-            var matrix = new DoubleOperandFunctionMatrix();
-            matrix.RegisterDelegate(OperandType.Long, OperandType.Long, (leftOperand, rightOperand) => new Operand(OperandType.Long, (long)leftOperand.GetValue() | (long)rightOperand.GetValue()));
-            matrix.RegisterDelegate(OperandType.Bool, OperandType.Bool, (leftOperand, rightOperand) => new Operand(OperandType.Bool, (bool)leftOperand.GetValue() | (bool)rightOperand.GetValue()));
-            return matrix;
-        }
-    }
+	public static class BitwiseOrMatrix
+	{
+		/*
+Long			Long
+Long			NullableLong
+NullableLong	Long
+NullableLong	NullableLong
+Bool			Bool
+Bool			NullableBool
+NullableBool	Bool
+NullableBool	NullableBool
+*/
+		public static DoubleOperandFunctionMatrix Create()
+		{
+			var matrix = new DoubleOperandFunctionMatrix();
+			//matrix.RegisterDelegate(OperandType.Long, OperandType.Long, (leftOperand, rightOperand) => new Operand(OperandType.Long, (long)leftOperand.GetValue() | (long)rightOperand.GetValue()));
+			//matrix.RegisterDelegate(OperandType.Bool, OperandType.Bool, (leftOperand, rightOperand) => new Operand(OperandType.Bool, (bool)leftOperand.GetValue() | (bool)rightOperand.GetValue()));
+
+			matrix.RegisterDelegate(OperandType.Long, OperandType.Long, (leftOperand, rightOperand) => new Operand(OperandType.Long, (long)leftOperand.GetValue() | (long)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.Long, OperandType.NullableLong, (leftOperand, rightOperand) => new Operand(OperandType.NullableLong, (long)leftOperand.GetValue() | (long?)rightOperand.GetValue()));
+
+			matrix.RegisterDelegate(OperandType.NullableLong, OperandType.Long, (leftOperand, rightOperand) => new Operand(OperandType.NullableLong, (long?)leftOperand.GetValue() | (long)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.NullableLong, OperandType.NullableLong, (leftOperand, rightOperand) => new Operand(OperandType.NullableLong, (long?)leftOperand.GetValue() | (long?)rightOperand.GetValue()));
+
+			matrix.RegisterDelegate(OperandType.Bool, OperandType.Bool, (leftOperand, rightOperand) => new Operand(OperandType.Bool, (bool)leftOperand.GetValue() | (bool)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.Bool, OperandType.NullableBool, (leftOperand, rightOperand) => new Operand(OperandType.NullableBool, (bool)leftOperand.GetValue() | (bool?)rightOperand.GetValue()));
+
+			matrix.RegisterDelegate(OperandType.NullableBool, OperandType.Bool, (leftOperand, rightOperand) => new Operand(OperandType.NullableBool, (bool?)leftOperand.GetValue() | (bool)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.NullableBool, OperandType.NullableBool, (leftOperand, rightOperand) => new Operand(OperandType.NullableBool, (bool?)leftOperand.GetValue() | (bool?)rightOperand.GetValue()));
+
+			return matrix;
+		}
+	}
 }

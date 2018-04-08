@@ -37,7 +37,9 @@ namespace FunctionZero.ExpressionParserZero.Parser.FunctionVectors
         {
             var vector = new SingleOperandFunctionVector();
             vector.RegisterDelegate(OperandType.Long, operand => new Operand(OperandType.Long, -(long)operand.GetValue()));
+            vector.RegisterDelegate(OperandType.NullableLong, operand => new Operand(OperandType.NullableLong, -(long?)operand.GetValue()));
             vector.RegisterDelegate(OperandType.Double, operand => new Operand(OperandType.Double, -(double)operand.GetValue()));
+            vector.RegisterDelegate(OperandType.NullableDouble, operand => new Operand(OperandType.NullableDouble, -(double?)operand.GetValue()));
             return vector;
         }
     }

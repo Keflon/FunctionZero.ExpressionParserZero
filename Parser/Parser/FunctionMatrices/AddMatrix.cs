@@ -33,15 +33,52 @@ namespace FunctionZero.ExpressionParserZero.Parser.FunctionMatrices
 {
     public static class AddMatrix
     {
-        internal static DoubleOperandFunctionMatrix Create()
+		/*
+		Long			Long
+		Long			NullableLong
+		Long			Double
+		Long			NullableDouble
+		NullableLong	Long
+		NullableLong	NullableLong
+		NullableLong	Double
+		NullableLong	NullableDouble
+		Double			Long
+		Double			NullableLong
+		Double			Double
+		Double			NullableDouble
+		NullableDouble	Long
+		NullableDouble	NullableLong
+		NullableDouble	Double
+		NullableDouble	NullableDouble
+
+		String			String
+		*/
+
+		internal static DoubleOperandFunctionMatrix Create()
         {
             var matrix = new DoubleOperandFunctionMatrix();
-            matrix.RegisterDelegate(OperandType.Long, OperandType.Long, (leftOperand, rightOperand) => new Operand(OperandType.Long, (long)leftOperand.GetValue() + (long)rightOperand.GetValue()));
-            matrix.RegisterDelegate(OperandType.Long, OperandType.Double, (leftOperand, rightOperand) => new Operand(OperandType.Double, (long)leftOperand.GetValue() + (double)rightOperand.GetValue()));
-            matrix.RegisterDelegate(OperandType.Double, OperandType.Long, (leftOperand, rightOperand) => new Operand(OperandType.Double, (double)leftOperand.GetValue() + (long)rightOperand.GetValue()));
-            matrix.RegisterDelegate(OperandType.Double, OperandType.Double, (leftOperand, rightOperand) => new Operand(OperandType.Double, (double)leftOperand.GetValue() + (double)rightOperand.GetValue()));
 
-            matrix.RegisterDelegate(OperandType.String, OperandType.String, (leftOperand, rightOperand) => new Operand(OperandType.String, (string)leftOperand.GetValue() + (string)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.Long, OperandType.Long, (leftOperand, rightOperand) => new Operand(OperandType.Long, (long)leftOperand.GetValue() + (long)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.Long, OperandType.NullableLong, (leftOperand, rightOperand) => new Operand(OperandType.NullableLong, (long)leftOperand.GetValue() + (long?)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.Long, OperandType.Double, (leftOperand, rightOperand) => new Operand(OperandType.Double, (long)leftOperand.GetValue() + (double)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.Long, OperandType.NullableDouble, (leftOperand, rightOperand) => new Operand(OperandType.NullableDouble, (long)leftOperand.GetValue() + (double?)rightOperand.GetValue()));
+
+			matrix.RegisterDelegate(OperandType.NullableLong, OperandType.Long, (leftOperand, rightOperand) => new Operand(OperandType.NullableLong, (long?)leftOperand.GetValue() + (long)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.NullableLong, OperandType.NullableLong, (leftOperand, rightOperand) => new Operand(OperandType.NullableLong, (long?)leftOperand.GetValue() + (long?)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.NullableLong, OperandType.Double, (leftOperand, rightOperand) => new Operand(OperandType.NullableDouble, (long?)leftOperand.GetValue() + (double)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.NullableLong, OperandType.NullableDouble, (leftOperand, rightOperand) => new Operand(OperandType.NullableDouble, (long?)leftOperand.GetValue() + (double?)rightOperand.GetValue()));
+
+			matrix.RegisterDelegate(OperandType.Double, OperandType.Long, (leftOperand, rightOperand) => new Operand(OperandType.Double, (double)leftOperand.GetValue() + (long)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.Double, OperandType.NullableLong, (leftOperand, rightOperand) => new Operand(OperandType.NullableDouble, (double)leftOperand.GetValue() + (long?)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.Double, OperandType.Double, (leftOperand, rightOperand) => new Operand(OperandType.Double, (double)leftOperand.GetValue() + (double)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.Double, OperandType.NullableDouble, (leftOperand, rightOperand) => new Operand(OperandType.NullableDouble, (double)leftOperand.GetValue() + (double?)rightOperand.GetValue()));
+
+			matrix.RegisterDelegate(OperandType.NullableDouble, OperandType.Long, (leftOperand, rightOperand) => new Operand(OperandType.NullableDouble, (double?)leftOperand.GetValue() + (long)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.NullableDouble, OperandType.NullableLong, (leftOperand, rightOperand) => new Operand(OperandType.NullableDouble, (double?)leftOperand.GetValue() + (long?)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.NullableDouble, OperandType.Double, (leftOperand, rightOperand) => new Operand(OperandType.NullableDouble, (double?)leftOperand.GetValue() + (double)rightOperand.GetValue()));
+			matrix.RegisterDelegate(OperandType.NullableDouble, OperandType.NullableDouble, (leftOperand, rightOperand) => new Operand(OperandType.NullableDouble, (double?)leftOperand.GetValue() + (double?)rightOperand.GetValue()));
+
+			matrix.RegisterDelegate(OperandType.String, OperandType.String, (leftOperand, rightOperand) => new Operand(OperandType.String, (string)leftOperand.GetValue() + (string)rightOperand.GetValue()));
 
             // HACK: TODO: Expose ability to register this from outside the library.
             matrix.RegisterDelegate(OperandType.String, OperandType.Long, (leftOperand, rightOperand) => new Operand(OperandType.String, (string)leftOperand.GetValue() + (long)rightOperand.GetValue()));

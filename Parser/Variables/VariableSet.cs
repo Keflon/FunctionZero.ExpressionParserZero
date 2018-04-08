@@ -65,9 +65,19 @@ namespace FunctionZero.ExpressionParserZero.Variables
             RegisterVariable(variableName, OperandType.Long, initialValue);
         }
 
+	    public void RegisterNullableLong(string variableName, long? initialValue)
+        {
+            RegisterVariable(variableName, OperandType.NullableLong, initialValue);
+        }
+
         public void RegisterDouble(string variableName, double initialValue)
         {
             RegisterVariable(variableName, OperandType.Double, initialValue);
+        }
+
+	    public void RegisterNullableDouble(string variableName, double initialValue)
+        {
+            RegisterVariable(variableName, OperandType.NullableDouble, initialValue);
         }
 
         public void RegisterString(string variableName, string initialValue)
@@ -107,10 +117,26 @@ namespace FunctionZero.ExpressionParserZero.Variables
                 AllVariables[variableName].Value = newValue;
         }
 
+	    public void CreateOrUpdateNullableLong(string variableName, long? newValue)
+        {
+            if (!AllVariables.ContainsKey(variableName))
+                RegisterVariable(variableName, OperandType.NullableLong, newValue);
+            else
+                AllVariables[variableName].Value = newValue;
+        }
+
         public void CreateOrUpdateDouble(string variableName, double newValue)
         {
             if (!AllVariables.ContainsKey(variableName))
                 RegisterVariable(variableName, OperandType.Double, newValue);
+            else
+                AllVariables[variableName].Value = newValue;
+        }
+
+        public void CreateOrUpdateNullableDouble(string variableName, double? newValue)
+        {
+            if (!AllVariables.ContainsKey(variableName))
+                RegisterVariable(variableName, OperandType.NullableDouble, newValue);
             else
                 AllVariables[variableName].Value = newValue;
         }
