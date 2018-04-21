@@ -30,8 +30,9 @@ namespace FunctionZero.ExpressionParserZero.Variables
 {
     public class DefaultVariableFactory : IVariableFactory
     {
-        public Variable CreateVariable(string name, OperandType type, object defaultValue)
+        public Variable CreateVariable(string name, OperandType type, object defaultValue, object state)
         {
+			// state object can be used by non-default factories, e.g. a factory that manufactures serializable variables where the object holds a serialization key.
             return new Variable(name, type, defaultValue);
         }
     }

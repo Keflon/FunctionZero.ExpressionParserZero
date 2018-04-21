@@ -48,11 +48,11 @@ namespace FunctionZero.ExpressionParserZero.Variables
             NotifyChanges = true;
         }
 
-        private void RegisterVariable(string qualifiedVariableName, OperandType type, object initialValue)
+        private void RegisterVariable(string qualifiedVariableName, OperandType type, object initialValue, object state)
         {
             ProcessVariableName(qualifiedVariableName, out var targetVariableSet, out var unqualifiedVariableName);
 
-            var variable = VariableFactory.CreateVariable(unqualifiedVariableName, type, initialValue);
+            var variable = VariableFactory.CreateVariable(unqualifiedVariableName, type, initialValue, state);
             VariableAdded?.Invoke(this, new VariableAddedEventArgs(variable));
             variable.VariableChanged += OnVariableChanged;
             targetVariableSet.AllVariables.Add(unqualifiedVariableName, variable);
@@ -60,123 +60,123 @@ namespace FunctionZero.ExpressionParserZero.Variables
 
         #region Register
 
-        public void RegisterLong(string variableName, long initialValue)
+        public void RegisterLong(string variableName, long initialValue, object state = null)
         {
-            RegisterVariable(variableName, OperandType.Long, initialValue);
+            RegisterVariable(variableName, OperandType.Long, initialValue, state);
         }
 
-	    public void RegisterNullableLong(string variableName, long? initialValue)
+	    public void RegisterNullableLong(string variableName, long? initialValue, object state = null)
         {
-            RegisterVariable(variableName, OperandType.NullableLong, initialValue);
+            RegisterVariable(variableName, OperandType.NullableLong, initialValue, state);
         }
 
-        public void RegisterDouble(string variableName, double initialValue)
+        public void RegisterDouble(string variableName, double initialValue, object state = null)
         {
-            RegisterVariable(variableName, OperandType.Double, initialValue);
+            RegisterVariable(variableName, OperandType.Double, initialValue, state);
         }
 
-	    public void RegisterNullableDouble(string variableName, double initialValue)
+	    public void RegisterNullableDouble(string variableName, double initialValue, object state = null)
         {
-            RegisterVariable(variableName, OperandType.NullableDouble, initialValue);
+            RegisterVariable(variableName, OperandType.NullableDouble, initialValue, state);
         }
 
-        public void RegisterString(string variableName, string initialValue)
+        public void RegisterString(string variableName, string initialValue, object state = null)
         {
-            RegisterVariable(variableName, OperandType.String, initialValue);
+            RegisterVariable(variableName, OperandType.String, initialValue, state);
         }
 
-        public void RegisterBool(string variableName, bool initialValue)
+        public void RegisterBool(string variableName, bool initialValue, object state = null)
         {
-            RegisterVariable(variableName, OperandType.Bool, initialValue);
+            RegisterVariable(variableName, OperandType.Bool, initialValue, state);
         }
 
-        public void RegisterNullableBool(string variableName, bool? initialValue)
+        public void RegisterNullableBool(string variableName, bool? initialValue, object state = null)
         {
-            RegisterVariable(variableName, OperandType.NullableBool, initialValue);
+            RegisterVariable(variableName, OperandType.NullableBool, initialValue, state);
         }
 
-        public void RegisterVSet(string variableName, object initialValue)
+        public void RegisterVSet(string variableName, object initialValue, object state = null)
         {
-            RegisterVariable(variableName, OperandType.VSet, initialValue);
+            RegisterVariable(variableName, OperandType.VSet, initialValue, state);
         }
 
-        public void RegisterObject(string variableName, object initialValue)
+        public void RegisterObject(string variableName, object initialValue, object state = null)
         {
-            RegisterVariable(variableName, OperandType.Object, initialValue);
+            RegisterVariable(variableName, OperandType.Object, initialValue, state);
         }
 
         #endregion
 
         #region UpdateOrCreate
 
-        public void CreateOrUpdateLong(string variableName, long newValue)
+        public void CreateOrUpdateLong(string variableName, long newValue, object state = null)
         {
             if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.Long, newValue);
+                RegisterVariable(variableName, OperandType.Long, newValue, state);
             else
                 AllVariables[variableName].Value = newValue;
         }
 
-	    public void CreateOrUpdateNullableLong(string variableName, long? newValue)
+	    public void CreateOrUpdateNullableLong(string variableName, long? newValue, object state = null)
         {
             if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.NullableLong, newValue);
+                RegisterVariable(variableName, OperandType.NullableLong, newValue, state);
             else
                 AllVariables[variableName].Value = newValue;
         }
 
-        public void CreateOrUpdateDouble(string variableName, double newValue)
+        public void CreateOrUpdateDouble(string variableName, double newValue, object state = null)
         {
             if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.Double, newValue);
+                RegisterVariable(variableName, OperandType.Double, newValue, state);
             else
                 AllVariables[variableName].Value = newValue;
         }
 
-        public void CreateOrUpdateNullableDouble(string variableName, double? newValue)
+        public void CreateOrUpdateNullableDouble(string variableName, double? newValue, object state = null)
         {
             if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.NullableDouble, newValue);
+                RegisterVariable(variableName, OperandType.NullableDouble, newValue, state);
             else
                 AllVariables[variableName].Value = newValue;
         }
 
-        public void CreateOrUpdateString(string variableName, string newValue)
+        public void CreateOrUpdateString(string variableName, string newValue, object state = null)
         {
             if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.String, newValue);
+                RegisterVariable(variableName, OperandType.String, newValue, state);
             else
                 AllVariables[variableName].Value = newValue;
         }
 
-        public void CreateOrUpdateBool(string variableName, bool newValue)
+        public void CreateOrUpdateBool(string variableName, bool newValue, object state = null)
         {
             if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.Bool, newValue);
+                RegisterVariable(variableName, OperandType.Bool, newValue, state);
             else
                 AllVariables[variableName].Value = newValue;
         }
 
-        public void CreateOrUpdateNullableBool(string variableName, bool? newValue)
+        public void CreateOrUpdateNullableBool(string variableName, bool? newValue, object state = null)
         {
             if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.NullableBool, newValue);
+                RegisterVariable(variableName, OperandType.NullableBool, newValue, state);
             else
                 AllVariables[variableName].Value = newValue;
         }
 
-        public void CreateOrUpdateVSet(string variableName, VariableSet newValue)
+        public void CreateOrUpdateVSet(string variableName, VariableSet newValue, object state = null)
         {
             if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.VSet, newValue);
+                RegisterVariable(variableName, OperandType.VSet, newValue, state);
             else
                 AllVariables[variableName].Value = newValue;
         }
 
-        public void CreateOrUpdateObject(string variableName, object newValue)
+        public void CreateOrUpdateObject(string variableName, object newValue, object state = null)
         {
             if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.Object, newValue);
+                RegisterVariable(variableName, OperandType.Object, newValue, state);
             else
                 AllVariables[variableName].Value = newValue;
         }

@@ -29,6 +29,6 @@ namespace FunctionZero.ExpressionParserZero.Variables
 {
     public interface IVariableFactory
     {
-        Variable CreateVariable(string name, OperandType type, object initialValue);
+        Variable CreateVariable(string name, OperandType type, object initialValue, object state);
     }
 }

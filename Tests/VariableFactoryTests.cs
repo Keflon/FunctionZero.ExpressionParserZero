@@ -45,7 +45,7 @@ namespace ExpressionParserUnitTests
 
     public class TestVariableFactory : IVariableFactory
     {
-        public Variable CreateVariable(string name, OperandType type, object defaultValue)
+        public Variable CreateVariable(string name, OperandType type, object defaultValue, object state)
         {
             if (type == OperandType.Bool)
                 return new CrazyBool(name, defaultValue);

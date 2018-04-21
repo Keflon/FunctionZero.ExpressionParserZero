@@ -15,108 +15,108 @@ namespace ExpressionParserUnitTests
 	public class ExpressionEvaluatorTests
 	{
 
-	    [TestMethod]
-	    public void TestTypeFail()
-	    {
-	        ExpressionParser e = new ExpressionParser();
-	        ExpressionEvaluator ev = new ExpressionEvaluator();
-	        VariableSet variables = new VariableSet();
+		[TestMethod]
+		public void TestTypeFail()
+		{
+			ExpressionParser e = new ExpressionParser();
+			ExpressionEvaluator ev = new ExpressionEvaluator();
+			VariableSet variables = new VariableSet();
 
-	        variables.RegisterLong("Age", 42);
-	        variables.RegisterString("Name", "Brian");
+			variables.RegisterLong("Age", 42);
+			variables.RegisterString("Name", "Brian");
 
-	        var result = e.Parse("Age * Name");
+			var result = e.Parse("Age * Name");
 
-	        try
-	        {
-	            var evalResult = ev.Evaluate(result, variables);
-	        }
-            catch (ExpressionEvaluatorException ex)
-	        {
-	            Assert.AreEqual(ex.Cause, ExpressionEvaluatorException.ExceptionCause.BadOperand);
-	            Assert.AreEqual(ex.Offset, 4);
-	        }
-        }
+			try
+			{
+				var evalResult = ev.Evaluate(result, variables);
+			}
+			catch(ExpressionEvaluatorException ex)
+			{
+				Assert.AreEqual(ex.Cause, ExpressionEvaluatorException.ExceptionCause.BadOperand);
+				Assert.AreEqual(ex.Offset, 4);
+			}
+		}
 
-	    [TestMethod]
-	    public void TestUnaryTypeFail()
-	    {
-	        ExpressionParser e = new ExpressionParser();
-	        ExpressionEvaluator ev = new ExpressionEvaluator();
-	        VariableSet variables = new VariableSet();
+		[TestMethod]
+		public void TestUnaryTypeFail()
+		{
+			ExpressionParser e = new ExpressionParser();
+			ExpressionEvaluator ev = new ExpressionEvaluator();
+			VariableSet variables = new VariableSet();
 
-	        variables.RegisterString("Name", "Brian");
+			variables.RegisterString("Name", "Brian");
 
-	        var result = e.Parse("!Name");
+			var result = e.Parse("!Name");
 
-	        try
-	        {
-	            var evalResult = ev.Evaluate(result, variables);
-	        }
-            catch (ExpressionEvaluatorException ex)
-	        {
-	            Assert.AreEqual(ex.Cause, ExpressionEvaluatorException.ExceptionCause.BadUnaryOperand);
-	            Assert.AreEqual(ex.Offset, 0);
-	        }
-        }
+			try
+			{
+				var evalResult = ev.Evaluate(result, variables);
+			}
+			catch(ExpressionEvaluatorException ex)
+			{
+				Assert.AreEqual(ex.Cause, ExpressionEvaluatorException.ExceptionCause.BadUnaryOperand);
+				Assert.AreEqual(ex.Offset, 0);
+			}
+		}
 
-	    [TestMethod]
-	    public void TestTrueAsBool()
-	    {
-	        ExpressionParser e = new ExpressionParser();
-	        ExpressionEvaluator ev = new ExpressionEvaluator();
-	        VariableSet variables = new VariableSet();
+		[TestMethod]
+		public void TestTrueAsBool()
+		{
+			ExpressionParser e = new ExpressionParser();
+			ExpressionEvaluator ev = new ExpressionEvaluator();
+			VariableSet variables = new VariableSet();
 
-	        variables.RegisterString("Name", "Brian");
+			variables.RegisterString("Name", "Brian");
 
-	        var result = e.Parse("true");
+			var result = e.Parse("true");
 			bool expectedResult = true;
-	        var evalResult = ev.Evaluate(result, variables);
+			var evalResult = ev.Evaluate(result, variables);
 
-            Assert.AreEqual(1, evalResult.Count);
-	        var actualResult = (bool)evalResult.Pop().GetValue();
-	        Assert.AreEqual(expectedResult, actualResult);
-        }
+			Assert.AreEqual(1, evalResult.Count);
+			var actualResult = (bool)evalResult.Pop().GetValue();
+			Assert.AreEqual(expectedResult, actualResult);
+		}
 
-	    [TestMethod]
-	    public void TestCompareToNull()
-	    {
-	        ExpressionParser e = new ExpressionParser();
-	        ExpressionEvaluator ev = new ExpressionEvaluator();
-	        VariableSet variables = new VariableSet();
+		[TestMethod]
+		public void TestCompareToNull()
+		{
+			ExpressionParser e = new ExpressionParser();
+			ExpressionEvaluator ev = new ExpressionEvaluator();
+			VariableSet variables = new VariableSet();
 
-	        variables.RegisterString("Name", "Brian");
+			variables.RegisterString("Name", "Brian");
 
-	        var result = e.Parse("Name != null");
-	        bool expectedResult = true;
-	        var evalResult = ev.Evaluate(result, variables);
+			var result = e.Parse("Name != null");
+			bool expectedResult = true;
+			var evalResult = ev.Evaluate(result, variables);
 
-	        Assert.AreEqual(1, evalResult.Count);
-	        var actualResult = (bool)evalResult.Pop().GetValue();
-	        Assert.AreEqual(expectedResult, actualResult);
-	    }
+			Assert.AreEqual(1, evalResult.Count);
+			var actualResult = (bool)evalResult.Pop().GetValue();
+			Assert.AreEqual(expectedResult, actualResult);
+		}
 
-        [TestMethod]
-	    public void TestUnknownVariable()
-	    {
-	        ExpressionParser e = new ExpressionParser();
-	        ExpressionEvaluator ev = new ExpressionEvaluator();
-	        VariableSet variables = new VariableSet();
+		[TestMethod]
+		public void TestUnknownVariable()
+		{
+			ExpressionParser e = new ExpressionParser();
+			ExpressionEvaluator ev = new ExpressionEvaluator();
+			VariableSet variables = new VariableSet();
 
-	        variables.RegisterString("Name", "Brian");
+			variables.RegisterString("Name", "Brian");
 
-	        var result = e.Parse("Banana");
+			var result = e.Parse("Banana");
 			string expectedResult = "Banana";
-	        var evalResult = ev.Evaluate(result, variables);
+			var evalResult = ev.Evaluate(result, variables);
 			// TODO: THINK: Should this throw an 'unknown variable exception'. Nothing is trying to resolve the variable, therefore
 			// TODO: it is probably correct to return the actual variable rather than attempting to resolve it. 
 			Assert.AreEqual(1, evalResult.Count);
-	        var actualResult = (string)evalResult.Pop().GetValue();
-	        Assert.AreEqual(expectedResult, actualResult);
-        }
+			var actualResult = (string)evalResult.Pop().GetValue();
+			Assert.AreEqual(expectedResult, actualResult);
+		}
 
 
-        [TestMethod]
+		[TestMethod]
 		public void TestComplexExpression()
 		{
 			ExpressionParser e = new ExpressionParser();
@@ -256,7 +256,7 @@ namespace ExpressionParserUnitTests
 			{
 				Assert.AreEqual(shortedOut, false);
 				Assert.AreEqual(actualResult1, null);
-				
+
 				var actualResult2 = OperatorActions.PopAndResolve(evalResult, variables).GetValue();
 				Assert.AreEqual((string)actualResult2, "Hello Banana!");
 				Assert.AreEqual(ex.Cause, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable);
@@ -524,7 +524,7 @@ namespace ExpressionParserUnitTests
 
 
 #if false
-        #region Registered alphanumeric operators
+		#region Registered alphanumeric operators
 
         [TestMethod]
 		public void SimpleTestRegisteredAlphanumericOperators()
@@ -708,16 +708,39 @@ namespace ExpressionParserUnitTests
 			Assert.Fail("Did not throw correct exception");
 		}
 
-        #endregion
+		#endregion
 #endif
 
 
 
-        private void DoStringContains(Stack<IOperand> operands, VariableSet variables, long parserPosition)
+		private void DoStringContains(Stack<IOperand> operands, VariableSet variables, long parserPosition)
 		{
 			IOperand second = OperatorActions.PopAndResolve(operands, variables);
 			IOperand first = OperatorActions.PopAndResolve(operands, variables);
 			operands.Push(new Operand(-1, OperandType.Bool, ((string)first.GetValue()).Contains((string)second.GetValue())));
 		}
+
+
+		public enum Borg
+		{ A, B, C, D, E }
+
+		public enum Berg
+		{ A, B, C, D, E }
+
+		public void EnumTest0(Borg b)
+		{
+			EnumTest1(b);
+			EnumTest1(Borg.B);
+			EnumTest1(Berg.B);
+		}
+
+
+		public void EnumTest1(Enum b)
+		{
+			var r = b.HasFlag(Borg.C);
+		}
+
+
+
 	}
 }
