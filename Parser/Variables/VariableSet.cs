@@ -30,14 +30,15 @@ using FunctionZero.ExpressionParserZero.Operands;
 
 namespace FunctionZero.ExpressionParserZero.Variables
 {
-    public class VariableSet
+    public class VariableSet : IVariableSet
     {
         public Dictionary<string, Variable> AllVariables { get; }
         public IVariableFactory VariableFactory { get; }
 
         public bool NotifyChanges { get; set; }
 
-        public EventHandler<VariableAddedEventArgs> VariableAdded;
+        public event EventHandler<VariableAddedEventArgs> VariableAdded;
+        public event EventHandler<VariableRemovedEventArgs> VariableRemoved;
 
         public VariableSet(IVariableFactory variableFactory = null)
         {
@@ -58,9 +59,38 @@ namespace FunctionZero.ExpressionParserZero.Variables
             targetVariableSet.AllVariables.Add(unqualifiedVariableName, variable);
         }
 
-        #region Register
+	    /// <summary>
+	    /// 
+	    /// </summary>
+	    /// <param name="variable"></param>
+	    public void RegisterVariable(Variable variable)
+	    {
+		    variable.VariableChanged += OnVariableChanged;
+		    this.AllVariables.Add(variable.VariableName, variable);
+		    VariableAdded?.Invoke(this, new VariableAddedEventArgs(variable));
+	    }
 
-        public void RegisterLong(string variableName, long initialValue, object state = null)
+	    public bool UnregisterVariable(string qualifiedVariableName)
+	    {
+		    ProcessVariableName(qualifiedVariableName, out var targetVariableSet, out var unqualifiedVariableName);
+
+		    Variable targetVariable = targetVariableSet.GetVariable(unqualifiedVariableName);
+
+		    if(targetVariable != null)
+		    {
+				// TODO: Is this safe? Write a unit test to confirm.
+			    targetVariable.VariableChanged -= OnVariableChanged;
+			    targetVariableSet.AllVariables.Remove(unqualifiedVariableName);
+			    targetVariableSet.VariableRemoved?.Invoke(this, new VariableRemovedEventArgs(targetVariable));
+			    return true;
+		    }
+		    return false;
+	    }
+
+		
+		#region Register
+
+		public void RegisterLong(string variableName, long initialValue, object state = null)
         {
             RegisterVariable(variableName, OperandType.Long, initialValue, state);
         }
