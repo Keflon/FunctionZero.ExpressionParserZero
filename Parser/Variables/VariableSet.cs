@@ -54,9 +54,8 @@ namespace FunctionZero.ExpressionParserZero.Variables
             ProcessVariableName(qualifiedVariableName, out var targetVariableSet, out var unqualifiedVariableName);
 
             var variable = VariableFactory.CreateVariable(unqualifiedVariableName, type, initialValue, state);
-            VariableAdded?.Invoke(this, new VariableAddedEventArgs(variable));
-            variable.VariableChanged += OnVariableChanged;
-            targetVariableSet.AllVariables.Add(unqualifiedVariableName, variable);
+
+	        targetVariableSet.RegisterVariable(variable);
         }
 
 	    /// <summary>
@@ -74,20 +73,24 @@ namespace FunctionZero.ExpressionParserZero.Variables
 	    {
 		    ProcessVariableName(qualifiedVariableName, out var targetVariableSet, out var unqualifiedVariableName);
 
-		    Variable targetVariable = targetVariableSet.GetVariable(unqualifiedVariableName);
+			Variable targetVariable = targetVariableSet.GetVariable(unqualifiedVariableName);
 
-		    if(targetVariable != null)
+		    if (targetVariable != null)
 		    {
-				// TODO: Is this safe? Write a unit test to confirm.
-			    targetVariable.VariableChanged -= OnVariableChanged;
-			    targetVariableSet.AllVariables.Remove(unqualifiedVariableName);
-			    targetVariableSet.VariableRemoved?.Invoke(this, new VariableRemovedEventArgs(targetVariable));
+			    targetVariableSet.UnregisterVariable(targetVariable);
 			    return true;
 		    }
 		    return false;
 	    }
 
-		
+	    public void UnregisterVariable(Variable variable)
+	    {
+		    variable.VariableChanged -= OnVariableChanged;
+		    this.AllVariables.Remove(variable.VariableName);
+		    this.VariableRemoved?.Invoke(this, new VariableRemovedEventArgs(variable));
+	    }
+
+
 		#region Register
 
 		public void RegisterLong(string variableName, long initialValue, object state = null)
@@ -224,13 +227,13 @@ namespace FunctionZero.ExpressionParserZero.Variables
             return null;
         }
 
-        void ProcessVariableName(string qualifiedVariableName, out VariableSet vSet, out string variableName)
+        void ProcessVariableName(string qualifiedVariableName, out IVariableSet vSet, out string variableName)
         {
-            VariableSet currentVSet = this;
+            IVariableSet currentVSet = this;
             var bits = qualifiedVariableName.Split(_dot);
             for (int c = 0; c < bits.Length - 1; c++)
             {
-                currentVSet = (VariableSet)currentVSet.AllVariables[bits[c]].Value;
+                currentVSet = (IVariableSet)currentVSet.AllVariables[bits[c]].Value;
             }
             vSet = currentVSet;
             variableName = bits[bits.Length - 1];

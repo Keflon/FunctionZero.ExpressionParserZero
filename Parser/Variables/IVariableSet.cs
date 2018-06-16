@@ -12,6 +12,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
 		event EventHandler<VariableRemovedEventArgs> VariableRemoved;
 
 		void RegisterVariable(Variable variable);
+		void UnregisterVariable(Variable variable);
 		bool UnregisterVariable(string qualifiedVariableName);
 
 		void RegisterLong(string variableName, long initialValue, object state = null);
