@@ -109,7 +109,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
         /// <summary>
         /// This event is raised when the value of this variable changes.
         /// </summary>
-        public EventHandler<VariableChangedEventArgs> VariableChanged;
+        public event EventHandler<VariableChangedEventArgs> VariableChanged;
 
         /// <summary>
         /// Can be overidden. Simply raises the VariableChanged event.

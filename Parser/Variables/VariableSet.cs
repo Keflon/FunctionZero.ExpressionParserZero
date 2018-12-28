@@ -239,7 +239,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
             variableName = bits[bits.Length - 1];
         }
 
-        public EventHandler<VariableChangedEventArgs> VariableChanged;
+        public event EventHandler<VariableChangedEventArgs> VariableChanged;
 
         public void SetVariable(string qualifiedVariableName, object newValue)
         {
