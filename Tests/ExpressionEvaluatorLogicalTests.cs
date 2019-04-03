@@ -16,7 +16,7 @@ namespace ExpressionParserUnitTests
 
 		//[TestMethod]
 		//public void TestSimpleLogicalExpression()
-		//{
+		//{ 
 		//	Parser e = new Parser();
 		//	ExpressionEvaluator ev = new ExpressionEvaluator();
 		//	VariableSet variables = new VariableSet();
