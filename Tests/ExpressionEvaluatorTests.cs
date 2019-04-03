@@ -34,7 +34,7 @@ namespace ExpressionParserUnitTests
 			catch(ExpressionEvaluatorException ex)
 			{
 				Assert.AreEqual(ex.Cause, ExpressionEvaluatorException.ExceptionCause.BadOperand);
-				Assert.AreEqual(ex.Offset, 4);
+				Assert.AreEqual(ex.Offset, 4); 
 			}
 		}
 
