@@ -22,7 +22,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
 		void RegisterString(string variableName, string initialValue, object state = null);
 		void RegisterBool(string variableName, bool initialValue, object state = null);
 		void RegisterNullableBool(string variableName, bool? initialValue, object state = null);
-		void RegisterVSet(string variableName, object initialValue, object state = null);
+		void RegisterVSet(string variableName, IVariableSet initialValue, object state = null);
 		void RegisterObject(string variableName, object initialValue, object state = null);
 		void CreateOrUpdateLong(string variableName, long newValue, object state = null);
 		void CreateOrUpdateNullableLong(string variableName, long? newValue, object state = null);

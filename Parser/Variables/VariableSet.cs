@@ -128,7 +128,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
             RegisterVariable(variableName, OperandType.NullableBool, initialValue, state);
         }
 
-        public void RegisterVSet(string variableName, object initialValue, object state = null)
+        public void RegisterVSet(string variableName, IVariableSet initialValue, object state = null)
         {
             RegisterVariable(variableName, OperandType.VSet, initialValue, state);
         }
