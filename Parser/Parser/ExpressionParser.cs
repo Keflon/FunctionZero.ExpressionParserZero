@@ -180,7 +180,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
 			return op;
 		}
 
-		public IFunctionOperator RegisterFunction(string text, Action<Stack<IOperand>, VariableSet, long> doOperation,
+		public IFunctionOperator RegisterFunction(string text, Action<Stack<IOperand>, IVariableSet, long> doOperation,
 			int parameterCount, int maxParameterCount = 0)
 		{
 			var op = new FunctionOperator(OperatorType.Function, doOperation, text, parameterCount, maxParameterCount);

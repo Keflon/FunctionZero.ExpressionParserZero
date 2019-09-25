@@ -44,7 +44,7 @@ namespace FunctionZero.ExpressionParserZero
 		/// <param name="stack"></param>
 		/// <param name="variables"></param>
 		/// <returns></returns>
-		public static IOperand PopAndResolve(Stack<IOperand> stack, VariableSet variables)
+		public static IOperand PopAndResolve(Stack<IOperand> stack, IVariableSet variables)
 		{
 			IOperand retVal = stack.Pop();
 			
@@ -60,7 +60,7 @@ namespace FunctionZero.ExpressionParserZero
 		}
 
 		[Obsolete("Used by a test-case call to RegisterFunction.")]
-		internal static void DoMultiply(Stack<IOperand> stack, VariableSet variables, long parserPosition)
+		internal static void DoMultiply(Stack<IOperand> stack, IVariableSet variables, long parserPosition)
 		{
 			IOperand second = PopAndResolve(stack, variables);
 			IOperand first = PopAndResolve(stack, variables);
@@ -84,7 +84,7 @@ namespace FunctionZero.ExpressionParserZero
 			}
 		}
 
-	    internal static Tuple<OperandType> DoUnaryOperation(SingleOperandFunctionVector matrix, Stack<IOperand> stack, VariableSet variables)
+	    internal static Tuple<OperandType> DoUnaryOperation(SingleOperandFunctionVector matrix, Stack<IOperand> stack, IVariableSet variables)
 	    {
 	        IOperand first = PopAndResolve(stack, variables);
 
@@ -102,7 +102,7 @@ namespace FunctionZero.ExpressionParserZero
 	        }
 	    }
 
-	    internal static Tuple<OperandType, OperandType> DoOperation(DoubleOperandFunctionMatrix matrix, Stack<IOperand> stack, VariableSet variables)
+	    internal static Tuple<OperandType, OperandType> DoOperation(DoubleOperandFunctionMatrix matrix, Stack<IOperand> stack, IVariableSet variables)
 	    {
 	        IOperand second = PopAndResolve(stack, variables);
 	        IOperand first = PopAndResolve(stack, variables);
@@ -123,7 +123,7 @@ namespace FunctionZero.ExpressionParserZero
 		
 		#region =
 
-		internal static void DoSetEquals(Stack<IOperand> stack, VariableSet variables, long parserPosition)
+		internal static void DoSetEquals(Stack<IOperand> stack, IVariableSet variables, long parserPosition)
 		{
 			IOperand second = PopAndResolve(stack, variables);
 			IOperand first = stack.Pop();       // Not PopAndResolve. LHS must be a variable.

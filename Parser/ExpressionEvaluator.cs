@@ -33,7 +33,7 @@ namespace FunctionZero.ExpressionParserZero
 {
 	public class ExpressionEvaluator
 	{
-		public Stack<IOperand> Evaluate(IEnumerable<IToken> rpnTokens, VariableSet variables)
+		public Stack<IOperand> Evaluate(IEnumerable<IToken> rpnTokens, IVariableSet variables)
 		{
 			Stack<IOperand> operandStack = new Stack<IOperand>();
 			foreach(IToken token in rpnTokens)

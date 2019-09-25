@@ -43,7 +43,7 @@ namespace FunctionZero.ExpressionParserZero.Operators
         /// <summary>
         /// Performs the operator action on the stack.
         /// </summary>
-        Action<Stack<IOperand>, VariableSet, long> DoOperation { get; }
+        Action<Stack<IOperand>, IVariableSet, long> DoOperation { get; }
 
         OperatorType Type { get; }
     }

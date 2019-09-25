@@ -39,7 +39,7 @@ namespace FunctionZero.ExpressionParserZero.Operators
 		public bool IsOperator => true;
 		public bool IsOperand => false;
 
-		public Operator(OperatorType operatorType, int precedence, Action<Stack<IOperand>, VariableSet, long> doOperation, string asString)
+		public Operator(OperatorType operatorType, int precedence, Action<Stack<IOperand>, IVariableSet, long> doOperation, string asString)
 		{
 			Precedence = precedence;
 			DoOperation = doOperation;
@@ -60,7 +60,7 @@ namespace FunctionZero.ExpressionParserZero.Operators
 	        }
 	    }
 
-	    public Action<Stack<IOperand>, VariableSet, long> DoOperation { get; }
+	    public Action<Stack<IOperand>, IVariableSet, long> DoOperation { get; }
 	    public OperatorType Type { get; }
 
 	    public long ParserPosition { get {throw new NotImplementedException("This should never be accessed!");} }
