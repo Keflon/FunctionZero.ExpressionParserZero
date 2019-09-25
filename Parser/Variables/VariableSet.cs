@@ -198,7 +198,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
                 AllVariables[variableName].Value = newValue;
         }
 
-        public void CreateOrUpdateVSet(string variableName, VariableSet newValue, object state = null)
+        public void CreateOrUpdateVSet(string variableName, IVariableSet newValue, object state = null)
         {
             if (!AllVariables.ContainsKey(variableName))
                 RegisterVariable(variableName, OperandType.VSet, newValue, state);

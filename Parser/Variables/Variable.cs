@@ -67,7 +67,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
                         _value = (bool?)value;
                         break;
                     case OperandType.VSet:
-                        _value = (VariableSet)value;
+                        _value = (IVariableSet)value;
                         break;
                     case OperandType.Object:
                         _value = value;

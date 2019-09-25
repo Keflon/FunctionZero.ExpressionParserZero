@@ -31,7 +31,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
 		void CreateOrUpdateString(string variableName, string newValue, object state = null);
 		void CreateOrUpdateBool(string variableName, bool newValue, object state = null);
 		void CreateOrUpdateNullableBool(string variableName, bool? newValue, object state = null);
-		void CreateOrUpdateVSet(string variableName, VariableSet newValue, object state = null);
+		void CreateOrUpdateVSet(string variableName, IVariableSet newValue, object state = null);
 		void CreateOrUpdateObject(string variableName, object newValue, object state = null);
 		Variable GetVariable(string qualifiedVariableName);
 		void SetVariable(string qualifiedVariableName, object newValue);
