@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <PackageId>FunctionZero.ExpressionParserZero</PackageId>
-    <Version>2.0.3.6</Version>
+    <Version>2.0.3.7</Version>
     <Description>RPN Expression Parser and Evaluator</Description>
     <Copyright>Copyright 2017-2019 (c) Function Zero Ltd. All rights reserved.</Copyright>
     <PackageTags>RPN postfix expression parser evaluator infix reverse polish</PackageTags>
-    <PackageReleaseNotes>Added IVariableSet.</PackageReleaseNotes>
+    <PackageReleaseNotes>Made setter for Variable Value public.</PackageReleaseNotes>
     <Authors>Keith Pickford</Authors>
     <Company>Function Zero Ltd</Company>
     <RootNamespace>FunctionZero.ExpressionParserZero</RootNamespace>

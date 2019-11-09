@@ -39,7 +39,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
 		public object Value
         {
             get { return _value; }
-            internal set
+            set
             {
                 if (Equals(value, _value)) return;
                 OnVariableChanging();
