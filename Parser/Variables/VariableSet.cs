@@ -39,6 +39,8 @@ namespace FunctionZero.ExpressionParserZero.Variables
 
         public event EventHandler<VariableAddedEventArgs> VariableAdded;
         public event EventHandler<VariableRemovedEventArgs> VariableRemoved;
+        public event EventHandler<VariableChangingEventArgs> VariableChanging;
+        public event EventHandler<VariableChangedEventArgs> VariableChanged;
 
         public VariableSet(IVariableFactory variableFactory = null)
         {
@@ -64,6 +66,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
 	    /// <param name="variable"></param>
 	    public void RegisterVariable(Variable variable)
 	    {
+		    variable.VariableChanging += OnVariableChanging;
 		    variable.VariableChanged += OnVariableChanged;
 		    this.AllVariables.Add(variable.VariableName, variable);
 		    VariableAdded?.Invoke(this, new VariableAddedEventArgs(variable));
@@ -86,6 +89,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
 	    public void UnregisterVariable(Variable variable)
 	    {
 		    variable.VariableChanged -= OnVariableChanged;
+		    variable.VariableChanging -= OnVariableChanging;
 		    this.AllVariables.Remove(variable.VariableName);
 		    this.VariableRemoved?.Invoke(this, new VariableRemovedEventArgs(variable));
 	    }
@@ -239,8 +243,6 @@ namespace FunctionZero.ExpressionParserZero.Variables
             variableName = bits[bits.Length - 1];
         }
 
-        public event EventHandler<VariableChangedEventArgs> VariableChanged;
-
         public void SetVariable(string qualifiedVariableName, object newValue)
         {
             // DOTTY: Parse dotted strings.
@@ -267,6 +269,11 @@ namespace FunctionZero.ExpressionParserZero.Variables
             }
         }
 
+        private void OnVariableChanging(object sender, VariableChangingEventArgs e)
+        {
+            if (NotifyChanges)
+                this.VariableChanging?.Invoke(this, e);
+        }
         private void OnVariableChanged(object sender, VariableChangedEventArgs e)
         {
             if (NotifyChanges)

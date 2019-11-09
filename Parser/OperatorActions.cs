@@ -84,11 +84,11 @@ namespace FunctionZero.ExpressionParserZero
 			}
 		}
 
-	    internal static Tuple<OperandType> DoUnaryOperation(SingleOperandFunctionVector matrix, Stack<IOperand> stack, IVariableSet variables)
+	    internal static Tuple<OperandType> DoUnaryOperation(SingleOperandFunctionVector vector, Stack<IOperand> stack, IVariableSet variables)
 	    {
 	        IOperand first = PopAndResolve(stack, variables);
 
-	        IOperand result = matrix.PerformDelegate(first);
+	        IOperand result = vector.PerformDelegate(first);
 
 	        if (result != null)
 	        {

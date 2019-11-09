@@ -52,7 +52,7 @@ namespace FunctionZero.ExpressionParserZero.Operands
 		public OperandType Type { get; }
 		private object OperandValue { get; }
 
-		public bool IsNumber => (Type == Operands.OperandType.Double) || (Type == OperandType.Long);
+		public bool IsNumber => (Type == OperandType.Double) || (Type == OperandType.Long);
 
         public TokenType TokenType => TokenType.Operand;
 

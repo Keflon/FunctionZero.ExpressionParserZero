@@ -80,8 +80,8 @@ namespace FunctionZero.ExpressionParserZero.Parser.FunctionMatrices
 
 			matrix.RegisterDelegate(OperandType.String, OperandType.String, (leftOperand, rightOperand) => new Operand(OperandType.String, (string)leftOperand.GetValue() + (string)rightOperand.GetValue()));
 
-            // HACK: TODO: Expose ability to register this from outside the library.
-            matrix.RegisterDelegate(OperandType.String, OperandType.Long, (leftOperand, rightOperand) => new Operand(OperandType.String, (string)leftOperand.GetValue() + (long)rightOperand.GetValue()));
+            //// HACK: TODO: Expose ability to register this from outside the library.
+            //matrix.RegisterDelegate(OperandType.String, OperandType.Long, (leftOperand, rightOperand) => new Operand(OperandType.String, (string)leftOperand.GetValue() + (long)rightOperand.GetValue()));
             return matrix;
         }
     }

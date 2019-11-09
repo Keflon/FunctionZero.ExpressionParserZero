@@ -27,10 +27,10 @@ namespace ExpressionParserUnitTests
 			variables.RegisterDouble("Opacity", 0.23);
 			variables.RegisterString("Name", "Valerie");
 
-			e.RegisterOverload("+", OperandType.Long, OperandType.String, 
-				(leftOperand, rightOperand) => new Operand(OperandType.String, (string)leftOperand.GetValue() + (long)rightOperand.GetValue()));
+            e.RegisterOverload("+", OperandType.String, OperandType.Long,
+    (leftOperand, rightOperand) => new Operand(OperandType.String, (string)leftOperand.GetValue() + (long)rightOperand.GetValue()));
 
-			string expectedResult = "Valerie42";
+            string expectedResult = "Valerie42";
 
 			var result = e.Parse("Name + Age");
 

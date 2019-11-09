@@ -42,19 +42,19 @@ namespace FunctionZero.ExpressionParserZero.Variables
             internal set
             {
                 if (Equals(value, _value)) return;
-
+                OnVariableChanging();
                 switch (VariableType)
                 {
                     case OperandType.Long:
                         _value = (long)value;
                         break;
-	                case OperandType.NullableLong:
+                    case OperandType.NullableLong:
                         _value = (long?)value;
                         break;
                     case OperandType.Double:
                         _value = (double)value;
                         break;
-	                case OperandType.NullableDouble:
+                    case OperandType.NullableDouble:
                         _value = (double?)value;
                         break;
                     case OperandType.String:
@@ -98,7 +98,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
         /// <param name="startingValue">The initial value of the variable</param>
 		public Variable(string variableName, OperandType variableType, object startingValue)
         {
-            if(variableType == OperandType.Null)
+            if (variableType == OperandType.Null)
                 throw new Exception("Attempt to create a variable of type Null.");
 
             this.VariableName = variableName;
@@ -107,10 +107,22 @@ namespace FunctionZero.ExpressionParserZero.Variables
         }
 
         /// <summary>
+        /// This event is raised when the value of this variable is about to change.
+        /// </summary>
+        public event EventHandler<VariableChangingEventArgs> VariableChanging;
+
+        /// <summary>
         /// This event is raised when the value of this variable changes.
         /// </summary>
         public event EventHandler<VariableChangedEventArgs> VariableChanged;
 
+        /// <summary>
+        /// Can be overidden. Simply raises the VariableChanging event.
+        /// </summary>
+        protected virtual void OnVariableChanging()
+        {
+            VariableChanging?.Invoke(this, new VariableChangingEventArgs(this));
+        }
         /// <summary>
         /// Can be overidden. Simply raises the VariableChanged event.
         /// </summary>
