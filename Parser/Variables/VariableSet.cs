@@ -25,14 +25,16 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using FunctionZero.ExpressionParserZero.Operands;
 
 namespace FunctionZero.ExpressionParserZero.Variables
 {
-    public class VariableSet : IVariableSet
+    public class VariableSet : IVariableStore
     {
-        public Dictionary<string, Variable> AllVariables { get; }
+        private IDictionary<string, Variable> _allVariables;
+        public IReadOnlyDictionary<string, Variable> AllVariables { get; }
         public IVariableFactory VariableFactory { get; }
 
         public bool NotifyChanges { get; set; }
@@ -46,7 +48,9 @@ namespace FunctionZero.ExpressionParserZero.Variables
         {
             VariableFactory = variableFactory ?? new DefaultVariableFactory();
 
-            AllVariables = new Dictionary<string, Variable>();
+            _allVariables = new Dictionary<string, Variable>();
+
+            AllVariables = new ReadOnlyDictionary<string, Variable>(_allVariables);
 
             NotifyChanges = true;
         }
@@ -68,29 +72,29 @@ namespace FunctionZero.ExpressionParserZero.Variables
 	    {
 		    variable.VariableChanging += OnVariableChanging;
 		    variable.VariableChanged += OnVariableChanged;
-		    this.AllVariables.Add(variable.VariableName, variable);
+		    this._allVariables.Add(variable.VariableName, variable);
 		    VariableAdded?.Invoke(this, new VariableAddedEventArgs(variable));
 	    }
 
-	    public bool UnregisterVariable(string qualifiedVariableName)
-	    {
-		    ProcessVariableName(qualifiedVariableName, out var targetVariableSet, out var unqualifiedVariableName);
+	  //  public bool UnregisterVariable(string qualifiedVariableName)
+	  //  {
+		 //   ProcessVariableName(qualifiedVariableName, out var targetVariableSet, out var unqualifiedVariableName);
 
-			Variable targetVariable = targetVariableSet.GetVariable(unqualifiedVariableName);
+			//Variable targetVariable = targetVariableSet.GetVariable(unqualifiedVariableName);
 
-		    if (targetVariable != null)
-		    {
-			    targetVariableSet.UnregisterVariable(targetVariable);
-			    return true;
-		    }
-		    return false;
-	    }
+		 //   if (targetVariable != null)
+		 //   {
+			//    targetVariableSet.UnregisterVariable(targetVariable);
+			//    return true;
+		 //   }
+		 //   return false;
+	  //  }
 
 	    public void UnregisterVariable(Variable variable)
 	    {
 		    variable.VariableChanged -= OnVariableChanged;
 		    variable.VariableChanging -= OnVariableChanging;
-		    this.AllVariables.Remove(variable.VariableName);
+		    this._allVariables.Remove(variable.VariableName);
 		    this.VariableRemoved?.Invoke(this, new VariableRemovedEventArgs(variable));
 	    }
 
@@ -132,7 +136,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
             RegisterVariable(variableName, OperandType.NullableBool, initialValue, state);
         }
 
-        public void RegisterVSet(string variableName, IVariableSet initialValue, object state = null)
+        public void RegisterVSet(string variableName, IVariableStore initialValue, object state = null)
         {
             RegisterVariable(variableName, OperandType.VSet, initialValue, state);
         }
@@ -144,81 +148,81 @@ namespace FunctionZero.ExpressionParserZero.Variables
 
         #endregion
 
-        #region UpdateOrCreate
+     //   #region UpdateOrCreate
 
-        public void CreateOrUpdateLong(string variableName, long newValue, object state = null)
-        {
-            if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.Long, newValue, state);
-            else
-                AllVariables[variableName].Value = newValue;
-        }
+     //   public void CreateOrUpdateLong(string variableName, long newValue, object state = null)
+     //   {
+     //       if (!AllVariables.ContainsKey(variableName))
+     //           RegisterVariable(variableName, OperandType.Long, newValue, state);
+     //       else
+     //           AllVariables[variableName].Value = newValue;
+     //   }
 
-	    public void CreateOrUpdateNullableLong(string variableName, long? newValue, object state = null)
-        {
-            if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.NullableLong, newValue, state);
-            else
-                AllVariables[variableName].Value = newValue;
-        }
+	    //public void CreateOrUpdateNullableLong(string variableName, long? newValue, object state = null)
+     //   {
+     //       if (!AllVariables.ContainsKey(variableName))
+     //           RegisterVariable(variableName, OperandType.NullableLong, newValue, state);
+     //       else
+     //           AllVariables[variableName].Value = newValue;
+     //   }
 
-        public void CreateOrUpdateDouble(string variableName, double newValue, object state = null)
-        {
-            if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.Double, newValue, state);
-            else
-                AllVariables[variableName].Value = newValue;
-        }
+     //   public void CreateOrUpdateDouble(string variableName, double newValue, object state = null)
+     //   {
+     //       if (!AllVariables.ContainsKey(variableName))
+     //           RegisterVariable(variableName, OperandType.Double, newValue, state);
+     //       else
+     //           AllVariables[variableName].Value = newValue;
+     //   }
 
-        public void CreateOrUpdateNullableDouble(string variableName, double? newValue, object state = null)
-        {
-            if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.NullableDouble, newValue, state);
-            else
-                AllVariables[variableName].Value = newValue;
-        }
+     //   public void CreateOrUpdateNullableDouble(string variableName, double? newValue, object state = null)
+     //   {
+     //       if (!AllVariables.ContainsKey(variableName))
+     //           RegisterVariable(variableName, OperandType.NullableDouble, newValue, state);
+     //       else
+     //           AllVariables[variableName].Value = newValue;
+     //   }
 
-        public void CreateOrUpdateString(string variableName, string newValue, object state = null)
-        {
-            if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.String, newValue, state);
-            else
-                AllVariables[variableName].Value = newValue;
-        }
+     //   public void CreateOrUpdateString(string variableName, string newValue, object state = null)
+     //   {
+     //       if (!AllVariables.ContainsKey(variableName))
+     //           RegisterVariable(variableName, OperandType.String, newValue, state);
+     //       else
+     //           AllVariables[variableName].Value = newValue;
+     //   }
 
-        public void CreateOrUpdateBool(string variableName, bool newValue, object state = null)
-        {
-            if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.Bool, newValue, state);
-            else
-                AllVariables[variableName].Value = newValue;
-        }
+     //   public void CreateOrUpdateBool(string variableName, bool newValue, object state = null)
+     //   {
+     //       if (!AllVariables.ContainsKey(variableName))
+     //           RegisterVariable(variableName, OperandType.Bool, newValue, state);
+     //       else
+     //           AllVariables[variableName].Value = newValue;
+     //   }
 
-        public void CreateOrUpdateNullableBool(string variableName, bool? newValue, object state = null)
-        {
-            if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.NullableBool, newValue, state);
-            else
-                AllVariables[variableName].Value = newValue;
-        }
+     //   public void CreateOrUpdateNullableBool(string variableName, bool? newValue, object state = null)
+     //   {
+     //       if (!AllVariables.ContainsKey(variableName))
+     //           RegisterVariable(variableName, OperandType.NullableBool, newValue, state);
+     //       else
+     //           AllVariables[variableName].Value = newValue;
+     //   }
 
-        public void CreateOrUpdateVSet(string variableName, IVariableSet newValue, object state = null)
-        {
-            if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.VSet, newValue, state);
-            else
-                AllVariables[variableName].Value = newValue;
-        }
+     //   public void CreateOrUpdateVSet(string variableName, IVariableSet newValue, object state = null)
+     //   {
+     //       if (!AllVariables.ContainsKey(variableName))
+     //           RegisterVariable(variableName, OperandType.VSet, newValue, state);
+     //       else
+     //           AllVariables[variableName].Value = newValue;
+     //   }
 
-        public void CreateOrUpdateObject(string variableName, object newValue, object state = null)
-        {
-            if (!AllVariables.ContainsKey(variableName))
-                RegisterVariable(variableName, OperandType.Object, newValue, state);
-            else
-                AllVariables[variableName].Value = newValue;
-        }
+     //   public void CreateOrUpdateObject(string variableName, object newValue, object state = null)
+     //   {
+     //       if (!AllVariables.ContainsKey(variableName))
+     //           RegisterVariable(variableName, OperandType.Object, newValue, state);
+     //       else
+     //           AllVariables[variableName].Value = newValue;
+     //   }
 
-        #endregion
+     //   #endregion
 
         private char[] _dot = new[] { '.' };
 
@@ -226,18 +230,18 @@ namespace FunctionZero.ExpressionParserZero.Variables
         {
             ProcessVariableName(qualifiedVariableName, out var targetVariableSet, out var unqualifiedVariableName);
 
-            if (targetVariableSet.AllVariables.ContainsKey(unqualifiedVariableName))
+            //if (targetVariableSet.AllVariables.ContainsKey(unqualifiedVariableName))
                 return targetVariableSet.AllVariables[unqualifiedVariableName];
-            return null;
+            //return null;
         }
 
-        void ProcessVariableName(string qualifiedVariableName, out IVariableSet vSet, out string variableName)
+        void ProcessVariableName(string qualifiedVariableName, out IVariableStore vSet, out string variableName)
         {
-            IVariableSet currentVSet = this;
+            IVariableStore currentVSet = this;
             var bits = qualifiedVariableName.Split(_dot);
             for (int c = 0; c < bits.Length - 1; c++)
             {
-                currentVSet = (IVariableSet)currentVSet.AllVariables[bits[c]].Value;
+                currentVSet = (IVariableStore)currentVSet.AllVariables[bits[c]].Value;
             }
             vSet = currentVSet;
             variableName = bits[bits.Length - 1];

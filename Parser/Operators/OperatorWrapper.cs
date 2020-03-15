@@ -55,7 +55,7 @@ namespace FunctionZero.ExpressionParserZero.Operators
 
         public string AsString => WrappedOperator.AsString;
         public int Precedence => WrappedOperator.Precedence;
-        public Action<Stack<IOperand>, IVariableSet, long> DoOperation => WrappedOperator.DoOperation;
+        public Action<Stack<IOperand>, IVariableStore, long> DoOperation => WrappedOperator.DoOperation;
         public OperatorType Type => WrappedOperator.Type;
     }
 }

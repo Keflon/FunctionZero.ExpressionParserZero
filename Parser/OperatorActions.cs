@@ -44,23 +44,27 @@ namespace FunctionZero.ExpressionParserZero
 		/// <param name="stack"></param>
 		/// <param name="variables"></param>
 		/// <returns></returns>
-		public static IOperand PopAndResolve(Stack<IOperand> stack, IVariableSet variables)
+		public static IOperand PopAndResolve(Stack<IOperand> stack, IVariableStore variables)
 		{
 			IOperand retVal = stack.Pop();
 			
 			if(retVal.Type == OperandType.Variable)
 			{
-				Variable v = variables.GetVariable((string)retVal.GetValue());
-				if(v == null)
+				try
+				{
+					Variable v = variables.GetVariable((string)retVal.GetValue());
+					retVal = new Operand(retVal.ParserPosition, v.VariableType, v.Value);
+				}
+				catch(KeyNotFoundException kex)
+				{
 					throw new ExpressionEvaluatorException(retVal.ParserPosition, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, retVal.GetValue().ToString());
-
-				retVal = new Operand(retVal.ParserPosition, v.VariableType, v.Value);
+				}
 			}
 			return retVal;
 		}
 
 		[Obsolete("Used by a test-case call to RegisterFunction.")]
-		internal static void DoMultiply(Stack<IOperand> stack, IVariableSet variables, long parserPosition)
+		internal static void DoMultiply(Stack<IOperand> stack, IVariableStore variables, long parserPosition)
 		{
 			IOperand second = PopAndResolve(stack, variables);
 			IOperand first = PopAndResolve(stack, variables);
@@ -84,7 +88,7 @@ namespace FunctionZero.ExpressionParserZero
 			}
 		}
 
-	    internal static Tuple<OperandType> DoUnaryOperation(SingleOperandFunctionVector vector, Stack<IOperand> stack, IVariableSet variables)
+	    internal static Tuple<OperandType> DoUnaryOperation(SingleOperandFunctionVector vector, Stack<IOperand> stack, IVariableStore variables)
 	    {
 	        IOperand first = PopAndResolve(stack, variables);
 
@@ -102,7 +106,7 @@ namespace FunctionZero.ExpressionParserZero
 	        }
 	    }
 
-	    internal static Tuple<OperandType, OperandType> DoOperation(DoubleOperandFunctionMatrix matrix, Stack<IOperand> stack, IVariableSet variables)
+	    internal static Tuple<OperandType, OperandType> DoOperation(DoubleOperandFunctionMatrix matrix, Stack<IOperand> stack, IVariableStore variables)
 	    {
 	        IOperand second = PopAndResolve(stack, variables);
 	        IOperand first = PopAndResolve(stack, variables);
@@ -123,7 +127,7 @@ namespace FunctionZero.ExpressionParserZero
 		
 		#region =
 
-		internal static void DoSetEquals(Stack<IOperand> stack, IVariableSet variables, long parserPosition)
+		internal static void DoSetEquals(Stack<IOperand> stack, IVariableStore variables, long parserPosition)
 		{
 			IOperand second = PopAndResolve(stack, variables);
 			IOperand first = stack.Pop();       // Not PopAndResolve. LHS must be a variable.
@@ -135,11 +139,10 @@ namespace FunctionZero.ExpressionParserZero
 			else
 			{
 				string varName = (string)first.GetValue();
-                // TODO: Support dotted notation.
+                // Supports dotted notation.
 				Variable v = variables.GetVariable(varName);
-				// TODO: Use the setter on v. Can't yet because SetVariable raises an event.
-				variables.SetVariable(v, second.GetValue());
-				// Put the result on the stack. Is that right?
+				v.Value = second.GetValue();
+				// Put the result on the stack. Is that right? Should the result be the variable or it's value?
 				stack.Push(new Operand(Bogey, v.VariableType, v.Value));
 			}
 		}

@@ -92,7 +92,7 @@ namespace FunctionZero.ExpressionParserZero.Operands
                     return tokenValue == null || tokenValue is bool;
 
                 case OperandType.VSet:
-                    return tokenValue is IVariableSet;
+                    return tokenValue is IVariableStore;
 
 				case OperandType.Object:
 					return true;

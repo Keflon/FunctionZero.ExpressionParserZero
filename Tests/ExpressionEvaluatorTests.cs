@@ -713,7 +713,7 @@ namespace ExpressionParserUnitTests
 
 
 
-		private void DoStringContains(Stack<IOperand> operands, IVariableSet variables, long parserPosition)
+		private void DoStringContains(Stack<IOperand> operands, IVariableStore variables, long parserPosition)
 		{
 			IOperand second = OperatorActions.PopAndResolve(operands, variables);
 			IOperand first = OperatorActions.PopAndResolve(operands, variables);
