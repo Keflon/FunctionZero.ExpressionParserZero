@@ -72,7 +72,7 @@ namespace ExpressionParserUnitTests
             childVarbs.RegisterLong("childLong", 6);
             childVarbs.RegisterVSet("daddy", daddyVarbs);
 
-            childVarbs.SetVariable("daddy.daddyLong", (long)42);
+            childVarbs.SetVariableValue("daddy.daddyLong", (long)42);
             var actualResult = (long)childVarbs.GetVariable("daddy.daddyLong").Value;
             var actualResult2 = (long)daddyVarbs.GetVariable("daddyLong").Value;
 

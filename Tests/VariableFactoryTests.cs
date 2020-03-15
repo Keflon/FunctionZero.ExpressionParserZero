@@ -24,9 +24,9 @@ namespace ExpressionParserUnitTests
             variables.RegisterNullableBool("Left", true);
             variables.RegisterBool("Right", true);
 
-            variables.SetVariable("Right", false);
-            variables.SetVariable("Right", true);
-            variables.SetVariable("Right", false);
+            variables.SetVariableValue("Right", false);
+            variables.SetVariableValue("Right", true);
+            variables.SetVariableValue("Right", false);
 
             bool? left = true;
             bool right = false;
