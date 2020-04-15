@@ -50,7 +50,7 @@ namespace ExpressionParserUnitTests
             if (type == OperandType.Bool)
                 return new CrazyBool(name, defaultValue);
             else
-                return new Variable(name, type, defaultValue);
+                return new Variable(name, type, defaultValue, state);
         }
     }
 

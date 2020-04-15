@@ -91,12 +91,17 @@ namespace FunctionZero.ExpressionParserZero.Variables
 		public OperandType VariableType { get; }
 
         /// <summary>
+        /// A state object that can be used for anything
+        /// </summary>
+        public object State { get; }
+
+        /// <summary>
         /// Returns a new variable with the provided name, type and initial value.
         /// </summary>
         /// <param name="variableName">The name of the variable</param>
         /// <param name="variableType">The type of the variable</param>
         /// <param name="startingValue">The initial value of the variable</param>
-		public Variable(string variableName, OperandType variableType, object startingValue)
+		public Variable(string variableName, OperandType variableType, object startingValue, object state)
         {
             if (variableType == OperandType.Null)
                 throw new Exception("Attempt to create a variable of type Null.");
@@ -104,6 +109,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
             this.VariableName = variableName;
             this.VariableType = variableType;
             this.Value = startingValue;
+            this.State = state;
         }
 
         /// <summary>

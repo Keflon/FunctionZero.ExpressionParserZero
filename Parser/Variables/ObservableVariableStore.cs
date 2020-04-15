@@ -21,7 +21,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
         {
             variable.VariableChanging += OnVariableChanging;
             variable.VariableChanged += OnVariableChanged;
-            base._allVariables.Add(variable.VariableName, variable);
+            base.RegisterVariable(variable);
             VariableAdded?.Invoke(this, new VariableAddedEventArgs(variable));
         }
 
@@ -29,7 +29,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
         {
             variable.VariableChanged -= OnVariableChanged;
             variable.VariableChanging -= OnVariableChanging;
-            base._allVariables.Remove(variable.VariableName);
+            base.UnregisterVariable(variable);
             this.VariableRemoved?.Invoke(this, new VariableRemovedEventArgs(variable));
         }
 
