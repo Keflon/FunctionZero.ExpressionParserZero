@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FunctionZero.ExpressionParserZero;
+using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Parser;
 using FunctionZero.ExpressionParserZero.Variables;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,8 +21,8 @@ namespace ExpressionParserUnitTests
             ExpressionEvaluator ev = new ExpressionEvaluator();
             VariableSet variables = new VariableSet();
 
-            variables.RegisterNullableBool("Left", true);
-            variables.RegisterBool("Right", false);
+            variables.RegisterVariable(OperandType.NullableBool, "Left", true);
+            variables.RegisterVariable(OperandType.Bool, "Right", false);
 
             bool? left = true;
             bool right = false;
@@ -43,8 +44,8 @@ namespace ExpressionParserUnitTests
             ExpressionEvaluator ev = new ExpressionEvaluator();
             VariableSet variables = new VariableSet();
 
-            variables.RegisterBool("Left", true);
-            variables.RegisterNullableBool("Right", false);
+            variables.RegisterVariable(OperandType.Bool, "Left", true);
+            variables.RegisterVariable(OperandType.NullableBool, "Right", false);
 
             bool left = true;
             bool? right = false;
@@ -66,8 +67,8 @@ namespace ExpressionParserUnitTests
             ExpressionEvaluator ev = new ExpressionEvaluator();
             VariableSet variables = new VariableSet();
 
-            variables.RegisterNullableBool("Left", true);
-            variables.RegisterNullableBool("Right", null);
+            variables.RegisterVariable(OperandType.NullableBool, "Left", true);
+            variables.RegisterVariable(OperandType.NullableBool, "Right", null);
 
             bool? left = true;
             bool? right = false;
@@ -89,8 +90,9 @@ namespace ExpressionParserUnitTests
 		    ExpressionEvaluator ev = new ExpressionEvaluator();
 		    VariableSet variables = new VariableSet();
 
-		    variables.RegisterLong("Left", 4);
-		    variables.RegisterNullableLong("Right", -5);
+		    variables.RegisterVariable(OperandType.Long, "Left", 4);
+		    //variables.RegisterVariable(OperandType.NullableLong, "Right", -5);
+		    variables.RegisterVariable(OperandType.NullableLong, "Right", -5);
 
 		    long left = 4;
 		    long? right = -5;
@@ -112,8 +114,8 @@ namespace ExpressionParserUnitTests
 		    ExpressionEvaluator ev = new ExpressionEvaluator();
 		    VariableSet variables = new VariableSet();
 
-		    variables.RegisterLong("Left", 4);
-		    variables.RegisterNullableLong("Right", null);
+		    variables.RegisterVariable(OperandType.Long, "Left", 4);
+		    variables.RegisterVariable(OperandType.NullableLong, "Right", null);
 
 		    long left = 4;
 		    long? right = null;
@@ -135,8 +137,8 @@ namespace ExpressionParserUnitTests
 		    ExpressionEvaluator ev = new ExpressionEvaluator();
 		    VariableSet variables = new VariableSet();
 
-		    variables.RegisterNullableLong("Left", 4);
-		    variables.RegisterLong("Right", -5);
+		    variables.RegisterVariable(OperandType.NullableLong, "Left", 4);
+		    variables.RegisterVariable(OperandType.Long, "Right", -5);
 
 		    long? left = 4;
 		    long right = -5;
@@ -158,8 +160,8 @@ namespace ExpressionParserUnitTests
 		    ExpressionEvaluator ev = new ExpressionEvaluator();
 		    VariableSet variables = new VariableSet();
 
-		    variables.RegisterNullableLong("Left", null);
-		    variables.RegisterLong("Right", 5);
+		    variables.RegisterVariable(OperandType.NullableLong, "Left", null);
+		    variables.RegisterVariable(OperandType.Long, "Right", 5);
 
 		    long? left = null;
 		    long right = 5;

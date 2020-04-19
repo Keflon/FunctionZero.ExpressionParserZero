@@ -1,4 +1,5 @@
 ﻿using FunctionZero.ExpressionParserZero;
+using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Parser;
 using FunctionZero.ExpressionParserZero.Variables;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,7 +14,7 @@ namespace ExpressionParserUnitTests
         {
             VariableSet childVarbs = new VariableSet();
 
-            childVarbs.RegisterLong("childLong", 6);
+            childVarbs.RegisterVariable(OperandType.Long, "childLong", 6);
 
             var actualResult = (long)childVarbs.GetVariable("childLong").Value;
 
@@ -28,9 +29,9 @@ namespace ExpressionParserUnitTests
             VariableSet daddyVarbs = new VariableSet();
             VariableSet childVarbs = new VariableSet();
 
-            daddyVarbs.RegisterLong("daddyLong", 5);
-            childVarbs.RegisterLong("childLong", 6);
-            childVarbs.RegisterVSet("daddy", daddyVarbs);
+            daddyVarbs.RegisterVariable(OperandType.Long, "daddyLong", 5);
+            childVarbs.RegisterVariable(OperandType.Long, "childLong", 6);
+            childVarbs.RegisterVariable(OperandType.VSet, "daddy", daddyVarbs);
 
             var actualResult = (long)childVarbs.GetVariable("daddy.daddyLong").Value;
 
@@ -47,9 +48,9 @@ namespace ExpressionParserUnitTests
             VariableSet daddyVarbs = new VariableSet();
             VariableSet childVarbs = new VariableSet();
 
-            daddyVarbs.RegisterLong("daddyLong", 5);
-            childVarbs.RegisterLong("childLong", 6);
-            childVarbs.RegisterVSet("daddy", daddyVarbs);
+            daddyVarbs.RegisterVariable(OperandType.Long, "daddyLong", 5);
+            childVarbs.RegisterVariable(OperandType.Long, "childLong", 6);
+            childVarbs.RegisterVariable(OperandType.VSet, "daddy", daddyVarbs);
 
             long expectedResult = 5 + 6;
 
@@ -68,9 +69,9 @@ namespace ExpressionParserUnitTests
             VariableSet daddyVarbs = new VariableSet();
             VariableSet childVarbs = new VariableSet();
 
-            daddyVarbs.RegisterLong("daddyLong", 5);
-            childVarbs.RegisterLong("childLong", 6);
-            childVarbs.RegisterVSet("daddy", daddyVarbs);
+            daddyVarbs.RegisterVariable(OperandType.Long, "daddyLong", 5);
+            childVarbs.RegisterVariable(OperandType.Long, "childLong", 6);
+            childVarbs.RegisterVariable(OperandType.VSet, "daddy", daddyVarbs);
 
             childVarbs.SetVariableValue("daddy.daddyLong", (long)42);
             var actualResult = (long)childVarbs.GetVariable("daddy.daddyLong").Value;
@@ -91,10 +92,10 @@ namespace ExpressionParserUnitTests
             VariableSet daddyVarbs = new VariableSet();
             VariableSet childVarbs = new VariableSet();
 
-            daddyVarbs.RegisterLong("daddyLong", 5);
-            childVarbs.RegisterLong("childLongA", 6);
-            childVarbs.RegisterLong("childLongB", 7);
-            childVarbs.RegisterVSet("daddy", daddyVarbs);
+            daddyVarbs.RegisterVariable(OperandType.Long, "daddyLong", 5);
+            childVarbs.RegisterVariable(OperandType.Long, "childLongA", 6);
+            childVarbs.RegisterVariable(OperandType.Long, "childLongB", 7);
+            childVarbs.RegisterVariable(OperandType.VSet, "daddy", daddyVarbs);
 
             long expectedResult = 6 + 7;
 

@@ -21,9 +21,9 @@ namespace ExpressionParserUnitTests
 		//	ExpressionEvaluator ev = new ExpressionEvaluator();
 		//	VariableSet variables = new VariableSet();
 
-		//	variables.RegisterLong("Age", 42);
-		//	variables.RegisterDouble("Opacity", 0.23);
-		//	variables.RegisterString("Name", "Brian");
+		//	variables.RegisterVariable(OperandType.Long, "Age", 42);
+		//	variables.RegisterVariable(OperandType.Double, "Opacity", 0.23);
+		//	variables.RegisterVariable(OperandType.String, "Name", "Brian");
 
 		//	double expectedResult = ((42 + 3) * (7 - 4) / 12 + -5) / 0.23;
 
@@ -46,8 +46,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterBool("IsVisible", true);
-			variables.RegisterBool("IsEnabled", false);
+			variables.RegisterVariable(OperandType.Bool, "IsVisible", true);
+			variables.RegisterVariable(OperandType.Bool, "IsEnabled", false);
 
 			bool expectedResult = true | false;
 
@@ -66,8 +66,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterBool("IsVisible", false);
-			variables.RegisterBool("IsEnabled", false);
+			variables.RegisterVariable(OperandType.Bool, "IsVisible", false);
+			variables.RegisterVariable(OperandType.Bool, "IsEnabled", false);
 
 			bool expectedResult = false;
 
@@ -86,9 +86,9 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterBool("IsVisible", false);
-			variables.RegisterBool("IsEnabled", false);
-			variables.RegisterBool("Result", false);
+			variables.RegisterVariable(OperandType.Bool, "IsVisible", false);
+			variables.RegisterVariable(OperandType.Bool, "IsEnabled", false);
+			variables.RegisterVariable(OperandType.Bool, "Result", false);
 
 			bool expectedResult = false;
 
@@ -113,8 +113,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Var0", 42);
-			variables.RegisterLong("Var1", -402);
+			variables.RegisterVariable(OperandType.Long, "Var0", 42);
+			variables.RegisterVariable(OperandType.Long, "Var1", -402);
 
 			long expectedResult = 42 | -402;
 
@@ -133,8 +133,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Var0", 42);
-			variables.RegisterLong("Var1", -402);
+			variables.RegisterVariable(OperandType.Long, "Var0", 42);
+			variables.RegisterVariable(OperandType.Long, "Var1", -402);
 
 			long expectedResult = 42 | -402 | 9;
 
@@ -153,9 +153,9 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Var0", 42);
-			variables.RegisterLong("Var1", -112);
-			variables.RegisterLong("Result", -999);
+			variables.RegisterVariable(OperandType.Long, "Var0", 42);
+			variables.RegisterVariable(OperandType.Long, "Var1", -112);
+			variables.RegisterVariable(OperandType.Long, "Result", -999);
 
 			long expectedResult = 42 | -112 | 9;
 
@@ -178,8 +178,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterBool("IsVisible", true);
-			variables.RegisterBool("IsEnabled", false);
+			variables.RegisterVariable(OperandType.Bool, "IsVisible", true);
+			variables.RegisterVariable(OperandType.Bool, "IsEnabled", false);
 
 			bool expectedResult = true & false;
 
@@ -198,8 +198,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterBool("IsVisible", false);
-			variables.RegisterBool("IsEnabled", false);
+			variables.RegisterVariable(OperandType.Bool, "IsVisible", false);
+			variables.RegisterVariable(OperandType.Bool, "IsEnabled", false);
 
 			bool expectedResult = false;
 
@@ -218,9 +218,9 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterBool("IsVisible", false);
-			variables.RegisterBool("IsEnabled", false);
-			variables.RegisterBool("Result", false);
+			variables.RegisterVariable(OperandType.Bool, "IsVisible", false);
+			variables.RegisterVariable(OperandType.Bool, "IsEnabled", false);
+			variables.RegisterVariable(OperandType.Bool, "Result", false);
 
 			bool expectedResult = false;
 
@@ -245,8 +245,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Var0", 42);
-			variables.RegisterLong("Var1", -402);
+			variables.RegisterVariable(OperandType.Long, "Var0", 42);
+			variables.RegisterVariable(OperandType.Long, "Var1", -402);
 
 			long expectedResult = 42 & -402;
 
@@ -265,8 +265,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Var0", 42);
-			variables.RegisterLong("Var1", -402);
+			variables.RegisterVariable(OperandType.Long, "Var0", 42);
+			variables.RegisterVariable(OperandType.Long, "Var1", -402);
 
 			long expectedResult = 42 & -402 & 9;
 
@@ -285,9 +285,9 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Var0", 42);
-			variables.RegisterLong("Var1", -129);
-			variables.RegisterLong("Result", -999);
+			variables.RegisterVariable(OperandType.Long, "Var0", 42);
+			variables.RegisterVariable(OperandType.Long, "Var1", -129);
+			variables.RegisterVariable(OperandType.Long, "Result", -999);
 
 			long expectedResult = 42 & -129 & 9;
 
@@ -309,13 +309,13 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("L0", 42);
-			variables.RegisterLong("L1", -129);
-			variables.RegisterLong("L2", -475);
-			variables.RegisterBool("B0", false);
-			variables.RegisterBool("B1", true);
-			variables.RegisterBool("B2", true);
-			variables.RegisterBool("Result", false);
+			variables.RegisterVariable(OperandType.Long, "L0", 42);
+			variables.RegisterVariable(OperandType.Long, "L1", -129);
+			variables.RegisterVariable(OperandType.Long, "L2", -475);
+			variables.RegisterVariable(OperandType.Bool, "B0", false);
+			variables.RegisterVariable(OperandType.Bool, "B1", true);
+			variables.RegisterVariable(OperandType.Bool, "B2", true);
+			variables.RegisterVariable(OperandType.Bool, "Result", false);
 
 			long l0 = 42, l1 = -129, l2 = -475;
 			bool b0 = false, b1 = true, b2 = true;
@@ -350,8 +350,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Var0", 42);
-			variables.RegisterLong("Var1", -402);
+			variables.RegisterVariable(OperandType.Long, "Var0", 42);
+			variables.RegisterVariable(OperandType.Long, "Var1", -402);
 
 			long expectedResult = 42 + ~-402;
 
@@ -370,8 +370,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Var0", 42);
-			variables.RegisterLong("Var1", -402);
+			variables.RegisterVariable(OperandType.Long, "Var0", 42);
+			variables.RegisterVariable(OperandType.Long, "Var1", -402);
 
 			long expectedResult = ~42 + ~-402 - ~9;
 
@@ -390,9 +390,9 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Var0", 42);
-			variables.RegisterLong("Var1", -129);
-			variables.RegisterLong("Result", -999);
+			variables.RegisterVariable(OperandType.Long, "Var0", 42);
+			variables.RegisterVariable(OperandType.Long, "Var1", -129);
+			variables.RegisterVariable(OperandType.Long, "Result", -999);
 
 			long expectedResult = 42 ^ ~-129 ^ ~9;
 
@@ -416,8 +416,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterBool("IsVisible", true);
-			variables.RegisterBool("IsEnabled", false);
+			variables.RegisterVariable(OperandType.Bool, "IsVisible", true);
+			variables.RegisterVariable(OperandType.Bool, "IsEnabled", false);
 
 			bool expectedResult = true ^ false;
 
@@ -436,8 +436,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterBool("IsVisible", false);
-			variables.RegisterBool("IsEnabled", false);
+			variables.RegisterVariable(OperandType.Bool, "IsVisible", false);
+			variables.RegisterVariable(OperandType.Bool, "IsEnabled", false);
 
 			bool expectedResult = false ^ false;
 
@@ -456,8 +456,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterBool("IsVisible", true);
-			variables.RegisterBool("IsEnabled", true);
+			variables.RegisterVariable(OperandType.Bool, "IsVisible", true);
+			variables.RegisterVariable(OperandType.Bool, "IsEnabled", true);
 
 			bool expectedResult = true ^ true;
 
@@ -481,8 +481,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Var0", 42);
-			variables.RegisterLong("Var1", -402);
+			variables.RegisterVariable(OperandType.Long, "Var0", 42);
+			variables.RegisterVariable(OperandType.Long, "Var1", -402);
 
 			long expectedResult = 42 ^ -402;
 
@@ -501,8 +501,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Var0", 42);
-			variables.RegisterLong("Var1", -402);
+			variables.RegisterVariable(OperandType.Long, "Var0", 42);
+			variables.RegisterVariable(OperandType.Long, "Var1", -402);
 
 			long expectedResult = 42 ^ -402 ^ 9;
 
@@ -521,9 +521,9 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Var0", 42);
-			variables.RegisterLong("Var1", -129);
-			variables.RegisterLong("Result", -999);
+			variables.RegisterVariable(OperandType.Long, "Var0", 42);
+			variables.RegisterVariable(OperandType.Long, "Var1", -129);
+			variables.RegisterVariable(OperandType.Long, "Result", -999);
 
 			long expectedResult = 42 ^ -129 ^ 9;
 
@@ -547,8 +547,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterBool("IsVisible", true);
-			variables.RegisterBool("IsEnabled", false);
+			variables.RegisterVariable(OperandType.Bool, "IsVisible", true);
+			variables.RegisterVariable(OperandType.Bool, "IsEnabled", false);
 
 			bool expectedResult = true | !false;
 
@@ -567,8 +567,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterBool("IsVisible", false);
-			variables.RegisterBool("IsEnabled", false);
+			variables.RegisterVariable(OperandType.Bool, "IsVisible", false);
+			variables.RegisterVariable(OperandType.Bool, "IsEnabled", false);
 
 			bool expectedResult = false | !false;
 
@@ -587,9 +587,9 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterBool("IsVisible", false);
-			variables.RegisterBool("IsEnabled", false);
-			variables.RegisterBool("Result", false);
+			variables.RegisterVariable(OperandType.Bool, "IsVisible", false);
+			variables.RegisterVariable(OperandType.Bool, "IsEnabled", false);
+			variables.RegisterVariable(OperandType.Bool, "Result", false);
 
 			bool expectedResult = false | !false;
 
@@ -614,8 +614,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Var0", 42);
-			variables.RegisterLong("Var1", -402);
+			variables.RegisterVariable(OperandType.Long, "Var0", 42);
+			variables.RegisterVariable(OperandType.Long, "Var1", -402);
 
 			try
 			{
@@ -642,8 +642,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Var0", 42);
-			variables.RegisterLong("Var1", -402);
+			variables.RegisterVariable(OperandType.Long, "Var0", 42);
+			variables.RegisterVariable(OperandType.Long, "Var1", -402);
 
 			long expectedResult = 42 % -402;
 
@@ -662,8 +662,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Var0", 42);
-			variables.RegisterLong("Var1", -402);
+			variables.RegisterVariable(OperandType.Long, "Var0", 42);
+			variables.RegisterVariable(OperandType.Long, "Var1", -402);
 
 			long expectedResult = ~42 % -402 % ~9;
 
@@ -682,9 +682,9 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Var0", 42);
-			variables.RegisterLong("Var1", -129);
-			variables.RegisterLong("Result", -999);
+			variables.RegisterVariable(OperandType.Long, "Var0", 42);
+			variables.RegisterVariable(OperandType.Long, "Var1", -129);
+			variables.RegisterVariable(OperandType.Long, "Result", -999);
 
 			long expectedResult = 42 % ~-129 % ~9;
 

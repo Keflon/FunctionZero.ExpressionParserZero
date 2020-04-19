@@ -21,8 +21,8 @@ namespace ExpressionParserUnitTests
             ExpressionEvaluator ev = new ExpressionEvaluator();
             VariableSet variables = new VariableSet(new TestVariableFactory());
 
-            variables.RegisterNullableBool("Left", true);
-            variables.RegisterBool("Right", true);
+            variables.RegisterVariable(OperandType.NullableBool, "Left", true);
+            variables.RegisterVariable(OperandType.Bool, "Right", true);
 
             variables.SetVariableValue("Right", false);
             variables.SetVariableValue("Right", true);
@@ -58,7 +58,7 @@ namespace ExpressionParserUnitTests
     {
         internal long ChangeCount { get; private set; }
 
-        public CrazyBool(string name, object defaultValue) : base(name, OperandType.Bool, defaultValue)
+        public CrazyBool(string name, object defaultValue) : base(name, OperandType.Bool, defaultValue, null)
         {
             this.VariableChanged += BoolChanged;
         }

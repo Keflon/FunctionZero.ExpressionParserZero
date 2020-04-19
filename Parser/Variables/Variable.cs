@@ -46,11 +46,22 @@ namespace FunctionZero.ExpressionParserZero.Variables
                 switch (VariableType)
                 {
                     case OperandType.Long:
-                        _value = (long)value;
-                        break;
+                        {    //_value = (long)Convert.ChangeType(value, typeof(long));
+                            if (value is int intVal)
+                                _value = (long)intVal;
+                            else
+                                _value = (long)value;
+                            break;
+                        }
                     case OperandType.NullableLong:
-                        _value = (long?)value;
-                        break;
+                        {
+                            if (value == null)
+                                _value = null;
+                            else if (value is int intVal)
+                                _value = (long)intVal;
+                            _value = (long)value;
+                            break;
+                        }
                     case OperandType.Double:
                         _value = (double)value;
                         break;
@@ -67,7 +78,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
                         _value = (bool?)value;
                         break;
                     case OperandType.VSet:
-                        _value = (IVariableStore)value;
+                        _value = (VariableSet)value;
                         break;
                     case OperandType.Object:
                         _value = value;
@@ -75,7 +86,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
                     default:
                         throw new ArgumentOutOfRangeException("Variable.Value setter OperandType unhandled.");
                 }
-                _value = value;
+                //_value = value;
                 OnVariableChanged();
             }
         }

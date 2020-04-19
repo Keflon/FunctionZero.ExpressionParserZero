@@ -22,8 +22,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Age", 42);
-			variables.RegisterString("Name", "Brian");
+			variables.RegisterVariable(OperandType.Long, "Age", 42);
+			variables.RegisterVariable(OperandType.String, "Name", "Brian");
 
 			var result = e.Parse("Age * Name");
 
@@ -45,7 +45,7 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterString("Name", "Brian");
+			variables.RegisterVariable(OperandType.String, "Name", "Brian");
 
 			var result = e.Parse("!Name");
 
@@ -67,7 +67,7 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterString("Name", "Brian");
+			variables.RegisterVariable(OperandType.String, "Name", "Brian");
 
 			var result = e.Parse("true");
 			bool expectedResult = true;
@@ -85,7 +85,7 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterString("Name", "Brian");
+			variables.RegisterVariable(OperandType.String, "Name", "Brian");
 
 			var result = e.Parse("Name != null");
 			bool expectedResult = true;
@@ -103,7 +103,7 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterString("Name", "Brian");
+			variables.RegisterVariable(OperandType.String, "Name", "Brian");
 
 			var result = e.Parse("Banana");
 			string expectedResult = "Banana";
@@ -123,9 +123,9 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Age", 42);
-			variables.RegisterDouble("Opacity", 0.23);
-			variables.RegisterString("Name", "Brian");
+			variables.RegisterVariable(OperandType.Long, "Age", 42);
+			variables.RegisterVariable(OperandType.Double, "Opacity", 0.23);
+			variables.RegisterVariable(OperandType.String, "Name", "Brian");
 
 			double expectedResult = ((42 + 3) * (7 - 4) / 12 + -5) / 0.23;
 
@@ -145,9 +145,9 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Age", 42);
-			variables.RegisterDouble("Opacity", 0.23);
-			variables.RegisterString("Name", "Brian");
+			variables.RegisterVariable(OperandType.Long, "Age", 42);
+			variables.RegisterVariable(OperandType.Double, "Opacity", 0.23);
+			variables.RegisterVariable(OperandType.String, "Name", "Brian");
 
 			double expectedResult = (mul(42 + 3, mul(9, 6)) * mul(7 - 4, mul(5, 6)) / 12 + -5) / 0.23;
 
@@ -170,7 +170,7 @@ namespace ExpressionParserUnitTests
 			ExpressionParser e = new ExpressionParser();
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
-			variables.RegisterString("Banana", "Hello Banana");
+			variables.RegisterVariable(OperandType.String, "Banana", "Hello Banana");
 
 			IList<IToken> result = e.Parse("Banana");
 			var evalResult = ev.Evaluate(result, variables);
@@ -210,7 +210,7 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterString("Banana", "Hello Banana!");
+			variables.RegisterVariable(OperandType.String, "Banana", "Hello Banana!");
 
 			var result = e.Parse("Banana + Feet");
 			try
@@ -237,7 +237,7 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterString("Banana", "Hello Banana!");
+			variables.RegisterVariable(OperandType.String, "Banana", "Hello Banana!");
 
 			IOperand actualResult1 = null;
 			Stack<IOperand> evalResult = null;
@@ -272,7 +272,7 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Age", 42);
+			variables.RegisterVariable(OperandType.Long, "Age", 42);
 			var result = e.Parse("Age=9");
 			var evalResult = ev.Evaluate(result, variables);
 			Assert.AreEqual(1, evalResult.Count);
@@ -292,9 +292,9 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Age", 42);
-			variables.RegisterDouble("Opacity", 4.2);
-			variables.RegisterDouble("Answer", 4.2);
+			variables.RegisterVariable(OperandType.Long, "Age", 42);
+			variables.RegisterVariable(OperandType.Double, "Opacity", 4.2);
+			variables.RegisterVariable(OperandType.Double, "Answer", 4.2);
 
 			var result = e.Parse("Answer=5+(((Age*Opacity)+6)*9.771)-2");
 
@@ -316,8 +316,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterDouble("Answer1", 4.2);
-			variables.RegisterDouble("Answer2", 4.2);
+			variables.RegisterVariable(OperandType.Double, "Answer1", 4.2);
+			variables.RegisterVariable(OperandType.Double, "Answer2", 4.2);
 
 			var result = e.Parse("Answer1=5.1,Answer2=6.2");
 
@@ -347,8 +347,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterDouble("Answer1", 4.2);
-			variables.RegisterDouble("Answer2", 4.2);
+			variables.RegisterVariable(OperandType.Double, "Answer1", 4.2);
+			variables.RegisterVariable(OperandType.Double, "Answer2", 4.2);
 
 			var result = e.Parse("Answer1=5.1,Answer2=Answer1");
 
@@ -377,9 +377,9 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Age", 42);
-			variables.RegisterDouble("Opacity", 4.2);
-			variables.RegisterDouble("Answer", 4.2);
+			variables.RegisterVariable(OperandType.Long, "Age", 42);
+			variables.RegisterVariable(OperandType.Double, "Opacity", 4.2);
+			variables.RegisterVariable(OperandType.Double, "Answer", 4.2);
 
 			var result = e.Parse("Answer=5.1,Answer=Answer");
 
@@ -428,8 +428,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterString("Name", "This is a test");
-			variables.RegisterString("SubString", "is");
+			variables.RegisterVariable(OperandType.String, "Name", "This is a test");
+			variables.RegisterVariable(OperandType.String, "SubString", "is");
 
 			var result = e.Parse("StringContains(Name, SubString)");
 			var evalResult = ev.Evaluate(result, variables);
@@ -446,8 +446,8 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterString("Name", "This is a test");
-			variables.RegisterString("SubString", "pis");
+			variables.RegisterVariable(OperandType.String, "Name", "This is a test");
+			variables.RegisterVariable(OperandType.String, "SubString", "pis");
 
 			var result = e.Parse("StringContains(Name, SubString)");
 

@@ -39,7 +39,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
             NotifyChanges = true;
         }
 
-        private void RegisterVariable(string qualifiedVariableName, OperandType type, object initialValue, object state)
+        public void RegisterVariable(OperandType type, string qualifiedVariableName, object initialValue, object state = null)
         {
             ProcessVariableName(qualifiedVariableName, out var targetVariableSet, out var unqualifiedVariableName);
             var variable = VariableFactory.CreateVariable(unqualifiedVariableName, type, initialValue, state);
@@ -53,54 +53,54 @@ namespace FunctionZero.ExpressionParserZero.Variables
             targetVariableSet.UnregisterVariable(targetVariable);
         }
 
-        #region Register
+        //#region Register
 
-        public void RegisterLong(string variableName, long initialValue, object state = null)
-        {
-            RegisterVariable(variableName, OperandType.Long, initialValue, state);
-        }
+        //public void RegisterLong(string variableName, long initialValue, object state = null)
+        //{
+        //    RegisterVariable(variableName, OperandType.Long, initialValue, state);
+        //}
 
-        public void RegisterNullableLong(string variableName, long? initialValue, object state = null)
-        {
-            RegisterVariable(variableName, OperandType.NullableLong, initialValue, state);
-        }
+        //public void RegisterNullableLong(string variableName, long? initialValue, object state = null)
+        //{
+        //    RegisterVariable(variableName, OperandType.NullableLong, initialValue, state);
+        //}
 
-        public void RegisterDouble(string variableName, double initialValue, object state = null)
-        {
-            RegisterVariable(variableName, OperandType.Double, initialValue, state);
-        }
+        //public void RegisterDouble(string variableName, double initialValue, object state = null)
+        //{
+        //    RegisterVariable(variableName, OperandType.Double, initialValue, state);
+        //}
 
-        public void RegisterNullableDouble(string variableName, double initialValue, object state = null)
-        {
-            RegisterVariable(variableName, OperandType.NullableDouble, initialValue, state);
-        }
+        //public void RegisterNullableDouble(string variableName, double initialValue, object state = null)
+        //{
+        //    RegisterVariable(variableName, OperandType.NullableDouble, initialValue, state);
+        //}
 
-        public void RegisterString(string variableName, string initialValue, object state = null)
-        {
-            RegisterVariable(variableName, OperandType.String, initialValue, state);
-        }
+        //public void RegisterString(string variableName, string initialValue, object state = null)
+        //{
+        //    RegisterVariable(variableName, OperandType.String, initialValue, state);
+        //}
 
-        public void RegisterBool(string variableName, bool initialValue, object state = null)
-        {
-            RegisterVariable(variableName, OperandType.Bool, initialValue, state);
-        }
+        //public void RegisterBool(string variableName, bool initialValue, object state = null)
+        //{
+        //    RegisterVariable(variableName, OperandType.Bool, initialValue, state);
+        //}
 
-        public void RegisterNullableBool(string variableName, bool? initialValue, object state = null)
-        {
-            RegisterVariable(variableName, OperandType.NullableBool, initialValue, state);
-        }
+        //public void RegisterNullableBool(string variableName, bool? initialValue, object state = null)
+        //{
+        //    RegisterVariable(variableName, OperandType.NullableBool, initialValue, state);
+        //}
 
-        public void RegisterVSet(string variableName, IVariableStore initialValue, object state = null)
-        {
-            RegisterVariable(variableName, OperandType.VSet, initialValue, state);
-        }
+        //public void RegisterVSet(string variableName, IVariableStore initialValue, object state = null)
+        //{
+        //    RegisterVariable(variableName, OperandType.VSet, initialValue, state);
+        //}
 
-        public void RegisterObject(string variableName, object initialValue, object state = null)
-        {
-            RegisterVariable(variableName, OperandType.Object, initialValue, state);
-        }
+        //public void RegisterObject(string variableName, object initialValue, object state = null)
+        //{
+        //    RegisterVariable(variableName, OperandType.Object, initialValue, state);
+        //}
 
-        #endregion
+        //#endregion
 
         //   #region UpdateOrCreate
 

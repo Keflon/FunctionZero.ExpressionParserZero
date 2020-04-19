@@ -23,9 +23,9 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Age", 42);
-			variables.RegisterDouble("Opacity", 0.23);
-			variables.RegisterString("Name", "Valerie");
+			variables.RegisterVariable(OperandType.Long, "Age", 42);
+			variables.RegisterVariable(OperandType.Double, "Opacity", 0.23);
+			variables.RegisterVariable(OperandType.String, "Name", "Valerie");
 
             e.RegisterOverload("+", OperandType.String, OperandType.Long,
     (leftOperand, rightOperand) => new Operand(OperandType.String, (string)leftOperand.GetValue() + (long)rightOperand.GetValue()));
@@ -47,9 +47,9 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Age", 42);
-			variables.RegisterDouble("Opacity", 0.23);
-			variables.RegisterString("Name", "Valerie");
+			variables.RegisterVariable(OperandType.Long, "Age", 42);
+			variables.RegisterVariable(OperandType.Double, "Opacity", 0.23);
+			variables.RegisterVariable(OperandType.String, "Name", "Valerie");
 
 			try
 			{
@@ -70,9 +70,9 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Age", 42);
-			variables.RegisterDouble("Opacity", 0.23);
-			variables.RegisterString("Name", "Valerie");
+			variables.RegisterVariable(OperandType.Long, "Age", 42);
+			variables.RegisterVariable(OperandType.Double, "Opacity", 0.23);
+			variables.RegisterVariable(OperandType.String, "Name", "Valerie");
 
 			e.RegisterOverload("!", OperandType.String,
 				(operand) => new Operand(OperandType.String, (string)"!"+(string)operand.GetValue()));
@@ -94,9 +94,9 @@ namespace ExpressionParserUnitTests
 			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			variables.RegisterLong("Age", 42);
-			variables.RegisterDouble("Opacity", 0.23);
-			variables.RegisterString("Name", "Valerie");
+			variables.RegisterVariable(OperandType.Long, "Age", 42);
+			variables.RegisterVariable(OperandType.Double, "Opacity", 0.23);
+			variables.RegisterVariable(OperandType.String, "Name", "Valerie");
 
 			try
 			{
