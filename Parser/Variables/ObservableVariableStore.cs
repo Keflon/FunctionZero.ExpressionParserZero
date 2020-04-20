@@ -6,7 +6,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
 {
     public class ObservableVariableStore : VariableStore, IObservableVariableStore
     {
-        public ObservableVariableStore(IDictionary<string, Variable> allVariables = null) : base(allVariables)
+        public ObservableVariableStore(IDictionary<string, Variable> allVariables = null, IVariableFactory variableFactory = null) : base(allVariables, variableFactory)
         {
         }
 

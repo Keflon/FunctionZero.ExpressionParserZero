@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FunctionZero.ExpressionParserZero.Operands;
+using System.Collections.Generic;
 
 namespace FunctionZero.ExpressionParserZero.Variables
 {
@@ -9,5 +10,8 @@ namespace FunctionZero.ExpressionParserZero.Variables
 
 		void RegisterVariable(Variable variable);
 		void UnregisterVariable(Variable variable);
+
+		void RegisterVariable(OperandType type, string qualifiedVariableName, object initialValue, object state);
+		void UnregisterVariable(string qualifiedVariableName);
 	}
 }

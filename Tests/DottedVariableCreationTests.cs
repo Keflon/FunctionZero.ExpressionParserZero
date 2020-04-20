@@ -21,7 +21,7 @@ namespace ExpressionParserUnitTests
 
             vars.RegisterVariable(OperandType.VSet, "Child", childVars);
 
-            vars.RegisterVariable(OperandType.Long, "Child.childLong", "6");
+            vars.RegisterVariable(OperandType.Long, "Child.childLong", 6);
 
             var actualResultTemp = vars.GetVariable("Child.childLong").Value;
             var actualResult = (long)vars.GetVariable("Child.childLong").Value;

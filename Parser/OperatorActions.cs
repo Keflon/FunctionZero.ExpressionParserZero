@@ -53,9 +53,10 @@ namespace FunctionZero.ExpressionParserZero
 				try
 				{
 					Variable v = variables.GetVariable((string)retVal.GetValue());
+					// TODO: What if 'v.Value' is a Variable'? 
 					retVal = new Operand(retVal.ParserPosition, v.VariableType, v.Value);
 				}
-				catch(KeyNotFoundException kex)
+				catch(KeyNotFoundException)
 				{
 					throw new ExpressionEvaluatorException(retVal.ParserPosition, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, retVal.GetValue().ToString());
 				}

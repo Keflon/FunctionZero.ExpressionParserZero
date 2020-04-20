@@ -28,6 +28,8 @@ using FunctionZero.ExpressionParserZero.Operands;
 
 namespace FunctionZero.ExpressionParserZero.Variables
 {
+    // TODO: IVariable<T> ... Will lose the need for casting (including in FunctionMatrix etc), increasing performance.
+
     // TODO: Use an operand of type 'Variable'?
     public class Variable
     {
@@ -46,7 +48,8 @@ namespace FunctionZero.ExpressionParserZero.Variables
                 switch (VariableType)
                 {
                     case OperandType.Long:
-                        {    //_value = (long)Convert.ChangeType(value, typeof(long));
+                        {
+                            // If value is a boxed int we must first unbox it before casting to long
                             if (value is int intVal)
                                 _value = (long)intVal;
                             else
@@ -55,17 +58,19 @@ namespace FunctionZero.ExpressionParserZero.Variables
                         }
                     case OperandType.NullableLong:
                         {
-                            if (value == null)
-                                _value = null;
-                            else if (value is int intVal)
-                                _value = (long)intVal;
-                            _value = (long)value;
+                            // If value is a boxed int we must first unbox it before casting to NullableLong
+                            if (value is int intVal)
+                                _value = (long?)intVal;
+                            else
+                                _value = (long?)value;
                             break;
                         }
                     case OperandType.Double:
+                        // TODO: Should we deal with boxed floats?
                         _value = (double)value;
                         break;
                     case OperandType.NullableDouble:
+                        // TODO: Should we deal with boxed floats?
                         _value = (double?)value;
                         break;
                     case OperandType.String:
@@ -112,7 +117,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
         /// <param name="variableName">The name of the variable</param>
         /// <param name="variableType">The type of the variable</param>
         /// <param name="startingValue">The initial value of the variable</param>
-		public Variable(string variableName, OperandType variableType, object startingValue, object state)
+		public Variable(string variableName, OperandType variableType, object startingValue, object state = null)
         {
             if (variableType == OperandType.Null)
                 throw new Exception("Attempt to create a variable of type Null.");
