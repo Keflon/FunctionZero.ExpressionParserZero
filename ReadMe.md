@@ -2,6 +2,31 @@
 A fast and very flexible Infix to Postfix (Reverse Polish) parser, validator and evaluator.
 
 
+## Quickstart
+
+`ExpressionParserZero` uses three primary class instances
+
+### To evaluate (5+2)
+
+```csharp
+        public void AddTwoLongs()
+        {
+            ExpressionParser parser = new ExpressionParser();
+            ExpressionEvaluator evaluator = new ExpressionEvaluator();
+
+            var compiledExpression = parser.Parse("5+2");
+            Debug.WriteLine("Compiled expression: "+TokenService.TokensAsString(compiledExpression));
+
+            var evaluatedResult = evaluator.Evaluate(compiledExpression, null);
+            Debug.WriteLine("Results Stack: "+TokenService.TokensAsString(evaluatedResult));
+
+            long answer = (long)evaluatedResult.Pop().GetValue();
+            Debug.WriteLine(answer);
+        }
+        // Output: [Operand:5][Operand:2][Operator:+]
+        // Output: [Operand:7]
+```
+
 
 dzfgd
 - Rich syntax checking
@@ -25,4 +50,3 @@ Supports the following operand types:
 
 
 
-## Quickstart

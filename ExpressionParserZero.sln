@@ -12,6 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionParserZero", "Parser\ExpressionParserZero.csproj", "{F71FC8A4-5952-4D47-99E2-14EDA90F36C2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{C100780A-934E-49A5-AF52-0FAF6D914D7E}"
+	ProjectSection(SolutionItems) = preProject
+		Images\BasicFlowchart.png = Images\BasicFlowchart.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +34,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C100780A-934E-49A5-AF52-0FAF6D914D7E} = {0C4FC1D4-5306-4FF8-A8E9-5B5C01843288}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {042BBC39-6478-41CD-915D-176E58FB5819}

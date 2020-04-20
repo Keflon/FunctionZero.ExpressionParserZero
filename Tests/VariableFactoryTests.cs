@@ -19,7 +19,7 @@ namespace ExpressionParserUnitTests
         {
             ExpressionParser e = new ExpressionParser();
             ExpressionEvaluator ev = new ExpressionEvaluator();
-            VariableSet variables = new VariableSet(new TestVariableFactory());
+            VariableSet variables = new VariableSet(null, new TestVariableFactory());
 
             variables.RegisterVariable(OperandType.NullableBool, "Left", true);
             variables.RegisterVariable(OperandType.Bool, "Right", true);
