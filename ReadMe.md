@@ -1,6 +1,9 @@
+# *** DOCUMENTATION WORK IN PROGRESS ***
+
 # FunctionZero.ExpressionParserZero
 A fast and very flexible Infix to Postfix (Reverse Polish) parser, validator and evaluator.
 
+![Image of a basic flowchart for parsing and evaluating an expression](https://raw.githubusercontent.com/Keflon/FunctionZero.ExpressionParserZero/master/Images/BasicFlowchart.png "ExpressionParserZero usage flowchart")
 
 ## Quickstart
 
