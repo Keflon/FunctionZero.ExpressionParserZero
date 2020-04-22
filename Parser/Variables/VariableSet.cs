@@ -30,9 +30,14 @@ namespace FunctionZero.ExpressionParserZero.Variables
 {
     public class VariableSet : VariableStore, IObservableVariableStore
     {
-        public VariableSet(IDictionary<string, Variable> allVariables = null, IVariableFactory variableFactory = null) : base(allVariables, variableFactory)
+        public VariableSet(IVariableFactory variableFactory = null) : base(null, variableFactory)
         {
-             NotifyChanges = true;
+            NotifyChanges = true;
+        }
+
+        public VariableSet(IDictionary<string, Variable> allVariables, IVariableFactory variableFactory = null) : base(allVariables, variableFactory)
+        {
+            NotifyChanges = true;
         }
 
         public bool NotifyChanges { get; set; }
@@ -42,20 +47,22 @@ namespace FunctionZero.ExpressionParserZero.Variables
         public event EventHandler<VariableChangingEventArgs> VariableChanging;
         public event EventHandler<VariableChangedEventArgs> VariableChanged;
 
-        public override void RegisterVariable(Variable variable)
+        public override Variable RegisterVariable(Variable variable)
         {
             variable.VariableChanging += OnVariableChanging;
             variable.VariableChanged += OnVariableChanged;
             base.RegisterVariable(variable);
             VariableAdded?.Invoke(this, new VariableAddedEventArgs(variable));
+            return variable;
         }
 
-        public override void UnregisterVariable(Variable variable)
+        public override Variable UnregisterVariable(Variable variable)
         {
             variable.VariableChanged -= OnVariableChanged;
             variable.VariableChanging -= OnVariableChanging;
             base.UnregisterVariable(variable);
             this.VariableRemoved?.Invoke(this, new VariableRemovedEventArgs(variable));
+            return variable;
         }
 
         protected void OnVariableChanging(object sender, VariableChangingEventArgs e)

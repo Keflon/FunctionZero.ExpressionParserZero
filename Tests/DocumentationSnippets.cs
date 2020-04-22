@@ -71,33 +71,73 @@ namespace ExpressionParserUnitTests
             ExpressionParser parser = new ExpressionParser();
             ExpressionEvaluator evaluator = new ExpressionEvaluator();
 
-            var compiledExpression = parser.Parse("5+2");
-            Debug.WriteLine("Compiled expression: "+TokenService.TokensAsString(compiledExpression));
+            IList<IToken> compiledExpression = parser.Parse("5+2");
+            Debug.WriteLine("Compiled expression: " + TokenService.TokensAsString(compiledExpression));
 
             var evaluatedResult = evaluator.Evaluate(compiledExpression, null);
-            Debug.WriteLine("Results Stack: "+TokenService.TokensAsString(evaluatedResult));
+            Debug.WriteLine("Results Stack: " + TokenService.TokensAsString(evaluatedResult));
 
             long answer = (long)evaluatedResult.Pop().GetValue();
             Debug.WriteLine(answer);
         }
-        // Output: [Operand:5][Operand:2][Operator:+]
-        // Output: [Operand:7]
 
-        private void ShowTokens(IEnumerable<IToken> rpnResult, bool terse = false)
+        [TestMethod]
+        public void DocTest0()
         {
-            StringBuilder sb = new StringBuilder();
+            ExpressionParser parser = new ExpressionParser();
+            ExpressionEvaluator evaluator = new ExpressionEvaluator();
 
-            foreach (var token in rpnResult)
-            {
-                if (terse)
-                    sb.Append($"[{token.ToString()}]");
-                else
-                    sb.Append($"[{token.TokenType}:{token.ToString()}]");
-            }
+            IList<IToken> postfix = parser.Parse("(6+2)*5");
+            Debug.WriteLine("Compiled expression: " + TokenService.TokensAsString(postfix, terse: true));
 
-            Debug.WriteLine(sb.ToString());
+            var resultStack = evaluator.Evaluate(postfix, null);
+            Debug.WriteLine(TokenService.TokensAsString(resultStack));
+            IOperand result = resultStack.Pop();
+            Debug.WriteLine($"{result.Type}, {result.GetValue()}");
+            long answer = (long)result.GetValue();
+            Debug.WriteLine(answer);
         }
 
+        [TestMethod]
+        public void DocTest1()
+        {
+            ExpressionParser parser = new ExpressionParser();
+            ExpressionEvaluator evaluator = new ExpressionEvaluator();
+            VariableSet vSet = new VariableSet();
+
+            vSet.RegisterVariable(OperandType.Double, "a", 6);
+            vSet.RegisterVariable(OperandType.Long, "b", 2);
+            vSet.RegisterVariable(OperandType.Long, "c", 5);
+
+            IList<IToken> postfix = parser.Parse("(a+b)*c");
+            Debug.WriteLine("Compiled expression: " + TokenService.TokensAsString(postfix, terse: true));
+
+            var resultStack = evaluator.Evaluate(postfix, vSet);
+            Debug.WriteLine(TokenService.TokensAsString(resultStack));
+            IOperand result = resultStack.Pop();
+            Debug.WriteLine($"{result.Type}, {result.GetValue()}");
+            double answer = (double)result.GetValue();
+            Debug.WriteLine(answer);
+        }
+
+#if false
+    public enum OperandType
+    {
+        Long = 0,
+		NullableLong,
+        Double,
+		NullableDouble,
+		String,
+		Variable,
+        Bool,
+        NullableBool,
+        VSet,
+        Object, 
+        
+        Null
+    }
+
+#endif
 
         [TestMethod]
         public void AddTwoVariables()

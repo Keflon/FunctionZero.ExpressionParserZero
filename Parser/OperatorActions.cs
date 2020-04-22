@@ -50,18 +50,25 @@ namespace FunctionZero.ExpressionParserZero
 			
 			if(retVal.Type == OperandType.Variable)
 			{
-				try
-				{
-					Variable v = variables.GetVariable((string)retVal.GetValue());
-					// TODO: What if 'v.Value' is a Variable'? 
-					retVal = new Operand(retVal.ParserPosition, v.VariableType, v.Value);
-				}
-				catch(KeyNotFoundException)
-				{
-					throw new ExpressionEvaluatorException(retVal.ParserPosition, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, retVal.GetValue().ToString());
-				}
+				var variable = ResolveVariable(variables, retVal);
+				return new Operand(retVal.ParserPosition, variable.VariableType, variable.Value);
 			}
 			return retVal;
+		}
+
+		private static Variable ResolveVariable(IVariableStore variables, IOperand variable)
+		{
+			try
+			{
+				// Supports dotted notation
+				Variable v = variables.GetVariable((string)variable.GetValue());
+				// TODO: What if 'v.Value' is a Variable'? 
+				return v;
+			}
+			catch (KeyNotFoundException)
+			{
+				throw new ExpressionEvaluatorException(variable.ParserPosition, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, variable.GetValue().ToString());
+			}
 		}
 
 		[Obsolete("Used by a test-case call to RegisterFunction.")]
@@ -128,7 +135,11 @@ namespace FunctionZero.ExpressionParserZero
 		
 		#region =
 
-		internal static void DoSetEquals(Stack<IOperand> stack, IVariableStore variables, long parserPosition)
+		/// <summary>
+		/// This ought to be implemented with a FunctionMartix but it would be huge.
+		/// This way is easier!
+		/// </summary>
+		internal static Tuple<OperandType, OperandType> DoSetEquals(DoubleOperandFunctionMatrix matrix, Stack<IOperand> stack, IVariableStore variables, long parserPosition)
 		{
 			IOperand second = PopAndResolve(stack, variables);
 			IOperand first = stack.Pop();       // Not PopAndResolve. LHS must be a variable.
@@ -140,14 +151,34 @@ namespace FunctionZero.ExpressionParserZero
 			else
 			{
 				string varName = (string)first.GetValue();
-                // Supports dotted notation.
+				Variable targetVariable = ResolveVariable(variables, first);
+
+				var firstOperand = new Operand(first.ParserPosition, targetVariable.VariableType, targetVariable.Value);
+
+				IOperand result = matrix.PerformDelegate(firstOperand, second);
+
+				if (result != null)
+				{
+					Debug.Assert(targetVariable.VariableType == result.Type);
+					targetVariable.Value = result.GetValue();
+					stack.Push(result);
+					return null;
+				}
+				else
+				{
+					// Signal an error ...
+					return new Tuple<OperandType, OperandType>(first.Type, second.Type);
+				}
+#if false
+				// Supports dotted notation.
 				Variable v = variables.GetVariable(varName);
 				v.Value = second.GetValue();
 				// Put the result on the stack. Is that right? Should the result be the variable or it's value?
 				stack.Push(new Operand(Bogey, v.VariableType, v.Value));
+#endif
 			}
 		}
 
-		#endregion
+#endregion
 	}
 }

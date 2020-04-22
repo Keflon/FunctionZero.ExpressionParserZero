@@ -60,6 +60,7 @@
     <Compile Include="FunctionMatrixOverloads.cs" />
     <Compile Include="NullableTypesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegisterVariableCastTests.cs" />
     <Compile Include="VariableCollisionTests.cs" />
     <Compile Include="VariableFactoryTests.cs" />
   </ItemGroup>

@@ -8,10 +8,10 @@ namespace FunctionZero.ExpressionParserZero.Variables
 		IReadOnlyDictionary<string, Variable> AllVariables { get; }
 		Variable GetVariable(string qualifiedVariableName);
 
-		void RegisterVariable(Variable variable);
-		void UnregisterVariable(Variable variable);
+		Variable RegisterVariable(Variable variable);
+		Variable UnregisterVariable(Variable variable);
 
-		void RegisterVariable(OperandType type, string qualifiedVariableName, object initialValue, object state);
-		void UnregisterVariable(string qualifiedVariableName);
+		Variable RegisterVariable(OperandType type, string qualifiedVariableName, object initialValue, object state);
+		Variable UnregisterVariable(string qualifiedVariableName);
 	}
 }
