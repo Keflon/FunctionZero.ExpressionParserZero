@@ -51,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AdvancedDocumentationExample.cs" />
     <Compile Include="DocumentationSnippets.cs" />
     <Compile Include="DottedVariableCreationTests.cs" />
     <Compile Include="ExpressionEvaluatorDottedNotation.cs" />

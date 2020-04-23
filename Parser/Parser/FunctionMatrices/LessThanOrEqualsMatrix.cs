@@ -31,7 +31,7 @@ using FunctionZero.ExpressionParserZero.Operands;
 
 namespace FunctionZero.ExpressionParserZero.Parser.FunctionMatrices
 {
-    public static class LessThanOrEqualsMatrix
+    public static class LessThanOrEqualMatrix
     {
 	    /*
 Long			Long

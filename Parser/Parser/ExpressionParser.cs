@@ -89,7 +89,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
             RegisterOperator("<", 9, LessThanMatrix.Create());
             RegisterOperator(">", 9, GreaterThanMatrix.Create());
             RegisterOperator(">=", 9, GreaterThanOrEqualMatrix.Create());
-            RegisterOperator("<=", 9, LessThanOrEqualsMatrix.Create());
+            RegisterOperator("<=", 9, LessThanOrEqualMatrix.Create());
             RegisterOperator("!=", 8, NotEqualMatrix.Create());
             RegisterOperator("==", 8, EqualityMatrix.Create());
             RegisterOperator("&", 7, BitwiseAndMatrix.Create());

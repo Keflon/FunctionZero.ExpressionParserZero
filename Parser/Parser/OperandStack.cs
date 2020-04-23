@@ -7,12 +7,12 @@ namespace FunctionZero.ExpressionParserZero.Parser
     {
         public override string ToString()
         {
-            return TokenService.TokensAsString(this, false);
+            return TokenService.TokensAsString(this);
         }
 
         public string ToShortString()
         {
-            return TokenService.TokensAsString(this, true);
+            return TokenService.TokensAsString(this);
         }
     }
 }

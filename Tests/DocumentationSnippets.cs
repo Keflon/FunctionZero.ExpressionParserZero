@@ -22,69 +22,93 @@ namespace ExpressionParserUnitTests
         [TestMethod]
         public void DocTest0()
         {
-            ExpressionParser parser = new ExpressionParser();
-
-            var compiledExpression = parser.Parse("(6+2)*5");
+            var ep = new ExpressionParser();
+            var compiledExpression = ep.Parse("(6+2)*5");
             Debug.WriteLine(compiledExpression.ToString());
-
-            var resultStack = compiledExpression.Evaluate(null);
-
-            Debug.WriteLine(TokenService.TokensAsString(resultStack));
-            IOperand result = resultStack.Pop();
-            Debug.WriteLine($"{result.Type}, {result.GetValue()}");
-            long answer = (long)result.GetValue();
-            Debug.WriteLine(answer);
         }
+        /*
+        Output:
+        [Operand:6][Operand:2][Operator:+][Operand:5][Operator:*]
+        */
 
         [TestMethod]
         public void DocTest1()
         {
             ExpressionParser parser = new ExpressionParser();
+
+            // Parse ...
+            var compiledExpression = parser.Parse("(6+2)*5");
+            Debug.WriteLine(compiledExpression.ToString());
+
+            // Evaluate ...
+            var resultStack = compiledExpression.Evaluate(null);
+            Debug.WriteLine(resultStack.ToString());
+
+            // Pop the result from the stack...
+            IOperand result = resultStack.Pop();
+            Debug.WriteLine($"{result.Type}, {result.GetValue()}");
+            long answer = (long)result.GetValue();
+            Debug.WriteLine(answer);
+        }
+        /*
+        Output:
+        [Operand:6][Operand:2][Operator:+][Operand:5][Operator:*]
+        [Operand:40]
+        Long, 40
+        40
+        */
+
+        [TestMethod]
+        public void DocTest2()
+        {
+            ExpressionParser parser = new ExpressionParser();
+
+            // Parse ...
+            var compiledExpression = parser.Parse("(6+2)*5");
+            Debug.WriteLine(compiledExpression.ToString());
+
+            // Evaluate ...
+            var resultStack = compiledExpression.Evaluate(null);
+            Debug.WriteLine(resultStack.ToString());
+
+            // Pop the result from the stack...
+            IOperand result = resultStack.Pop();
+            Debug.WriteLine($"{result.Type}, {result.GetValue()}");
+            long answer = (long)result.GetValue();
+            Debug.WriteLine(answer);
+        }
+        /*
+        Output:
+        [Operand:6][Operand:2][Operator:+][Operand:5][Operator:*]
+        [Operand:40]
+        Long, 40
+        40
+        */
+
+
+        [TestMethod]
+        public void DocTest3()
+        {
+            // Parse ...
+            ExpressionParser parser = new ExpressionParser();
+            var compiledExpression = parser.Parse("(cabbages+onions)*bananas");
+            Debug.WriteLine(compiledExpression.ToString());
+
+            // Variables ...
             VariableSet vSet = new VariableSet();
+            vSet.RegisterVariable(OperandType.Double, "cabbages", 6);
+            vSet.RegisterVariable(OperandType.Long, "onions", 2);
+            vSet.RegisterVariable(OperandType.Long, "bananas", 5);
 
-            vSet.RegisterVariable(OperandType.Double, "a", 6);
-            vSet.RegisterVariable(OperandType.Long, "b", 2);
-            vSet.RegisterVariable(OperandType.Long, "c", 5);
-
-            var compiledExpression = parser.Parse("(a+b)*c");
-            Debug.WriteLine("Compiled expression: " + TokenService.TokensAsString(compiledExpression, terse: true));
-
+            // Evaluate ...
             var resultStack = compiledExpression.Evaluate(vSet);
             Debug.WriteLine(TokenService.TokensAsString(resultStack));
+
+            // Result ...
             IOperand result = resultStack.Pop();
             Debug.WriteLine($"{result.Type}, {result.GetValue()}");
             double answer = (double)result.GetValue();
             Debug.WriteLine(answer);
-        }
-
-#if false
-    public enum OperandType
-    {
-        Long = 0,
-		NullableLong,
-        Double,
-		NullableDouble,
-		String,
-		Variable,
-        Bool,
-        NullableBool,
-        VSet,
-        Object, 
-        
-        Null
-    }
-
-#endif
-
-        [TestMethod]
-        public void AddTwoVariables()
-        {
-            ExpressionParser ep = new ExpressionParser();
-            VariableSet vSet = new VariableSet();
-
-            var rpnResult = ep.Parse("5+2");
-
-            //var evaluatedResult = ee.Evaluate()
         }
     }
 }
