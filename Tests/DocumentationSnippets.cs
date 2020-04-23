@@ -18,67 +18,6 @@ namespace ExpressionParserUnitTests
     [TestClass]
     public class DocumentationSnippets
     {
-        public DocumentationSnippets()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
-
-        [TestMethod]
-        public void AddTwoLongs()
-        {
-            ExpressionParser parser = new ExpressionParser();
-
-            var compiledExpression = parser.Parse("5+2");
-            Debug.WriteLine("Compiled expression: " + TokenService.TokensAsString(compiledExpression));
-
-            var evaluatedResult = compiledExpression.Evaluate(null);
-            Debug.WriteLine("Results Stack: " + TokenService.TokensAsString(evaluatedResult));
-
-            long answer = (long)evaluatedResult.Pop().GetValue();
-            Debug.WriteLine(answer);
-        }
 
         [TestMethod]
         public void DocTest0()
@@ -86,9 +25,10 @@ namespace ExpressionParserUnitTests
             ExpressionParser parser = new ExpressionParser();
 
             var compiledExpression = parser.Parse("(6+2)*5");
-            Debug.WriteLine("Compiled expression: " + TokenService.TokensAsString(compiledExpression, terse: true));
+            Debug.WriteLine(compiledExpression.ToString());
 
             var resultStack = compiledExpression.Evaluate(null);
+
             Debug.WriteLine(TokenService.TokensAsString(resultStack));
             IOperand result = resultStack.Pop();
             Debug.WriteLine($"{result.Type}, {result.GetValue()}");

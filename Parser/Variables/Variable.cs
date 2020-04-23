@@ -49,20 +49,28 @@ namespace FunctionZero.ExpressionParserZero.Variables
                 {
                     case OperandType.Long:
                         {
+#if false
                             // If value is a boxed int we must first unbox it before casting to long
                             if (value is int intVal)
                                 _value = (long)intVal;
                             else
                                 _value = (long)value;
+#else
+                            _value = (long)value;
+#endif
                             break;
                         }
                     case OperandType.NullableLong:
                         {
+#if false
                             // If value is a boxed int we must first unbox it before casting to NullableLong
                             if (value is int intVal)
                                 _value = (long?)intVal;
                             else
                                 _value = (long?)value;
+#else
+                            _value = (long)value;
+#endif
                             break;
                         }
                     case OperandType.Double:

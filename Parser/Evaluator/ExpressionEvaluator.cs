@@ -26,6 +26,7 @@
 using System.Collections.Generic;
 using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Operators;
+using FunctionZero.ExpressionParserZero.Parser;
 using FunctionZero.ExpressionParserZero.Tokens;
 using FunctionZero.ExpressionParserZero.Variables;
 
@@ -33,9 +34,10 @@ namespace FunctionZero.ExpressionParserZero
 {
 	public static class ExpressionEvaluator
 	{
-		public static Stack<IOperand> Evaluate(IEnumerable<IToken> rpnTokens, IVariableStore variables)
+		public static OperandStack Evaluate(IEnumerable<IToken> rpnTokens, IVariableStore variables)
 		{
-			Stack<IOperand> operandStack = new Stack<IOperand>();
+			var operandStack = new OperandStack();
+
 			foreach(IToken token in rpnTokens)
 			{
 				if(token.TokenType == TokenType.Operand)
