@@ -401,11 +401,10 @@ namespace ExpressionParserUnitTests
 		public void SimpleTestMissingCloseBraceInput()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 
 			try
 			{
-				var result = e.Parse("(5+(3*4)");
+				var compiledExpression = e.Parse("(5+(3*4)");
 			}
 			catch(ExpressionParserException ex)
 			{
@@ -424,11 +423,10 @@ namespace ExpressionParserUnitTests
 		public void SimpleTestLiteralStringApostrophe()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 
-			var result = e.Parse("'hello there'");
+			var compiledExpression = e.Parse("'hello there'");
 
-			var evalResult = ev.Evaluate(result, null);
+			var evalResult = compiledExpression.Evaluate(null);
 			Assert.AreEqual(1, evalResult.Count);
 			var actualResult = (string)evalResult.Pop().GetValue();
 			Assert.AreEqual("hello there", actualResult);
@@ -439,11 +437,10 @@ namespace ExpressionParserUnitTests
 		public void SimpleTestLiteralStringsApostrophe()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 
-			var result = e.Parse("'hello there', 'keith'");
+			var compiledExpression = e.Parse("'hello there', 'keith'");
 
-			var evalResult = ev.Evaluate(result, null);
+			var evalResult = compiledExpression.Evaluate(null);
 			Assert.AreEqual(2, evalResult.Count);
 			var actualResult1 = (string)evalResult.Pop().GetValue();
 			var actualResult2 = (string)evalResult.Pop().GetValue();
@@ -456,11 +453,10 @@ namespace ExpressionParserUnitTests
 		public void SimpleTestLiteralStringByQuote()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 
-			var result = e.Parse("\"hello there\"");
+			var compiledExpression = e.Parse("\"hello there\"");
 
-			var evalResult = ev.Evaluate(result, null);
+			var evalResult = compiledExpression.Evaluate(null);
 			Assert.AreEqual(1, evalResult.Count);
 			var actualResult = (string)evalResult.Pop().GetValue();
 			Assert.AreEqual("hello there", actualResult);
@@ -470,11 +466,10 @@ namespace ExpressionParserUnitTests
 		public void SimpleTestLiteralStringsByQuote()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 
-			var result = e.Parse("\"hello there\", \"keith\"");
+			var compiledExpression = e.Parse("\"hello there\", \"keith\"");
 
-			var evalResult = ev.Evaluate(result, null);
+			var evalResult = compiledExpression.Evaluate(null);
 			Assert.AreEqual(2, evalResult.Count);
 			var actualResult1 = (string)evalResult.Pop().GetValue();
 			var actualResult2 = (string)evalResult.Pop().GetValue();
@@ -486,11 +481,10 @@ namespace ExpressionParserUnitTests
 		public void SimpleTestLiteralStringsMixed()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 
-			var result = e.Parse("\"hello there\", 'keith'");
+			var compiledExpression = e.Parse("\"hello there\", 'keith'");
 
-			var evalResult = ev.Evaluate(result, null);
+			var evalResult = compiledExpression.Evaluate(null);
 			Assert.AreEqual(2, evalResult.Count);
 			var actualResult1 = (string)evalResult.Pop().GetValue();
 			var actualResult2 = (string)evalResult.Pop().GetValue();
@@ -502,11 +496,10 @@ namespace ExpressionParserUnitTests
 		public void SimpleTestLiteralStringMismatchLeadingQuote()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 
 			try
 			{
-				var result = e.Parse("\"hello there'");
+				var compiledExpression = e.Parse("\"hello there'");
 			}
 			catch(ExpressionParserException ex)
 			{
@@ -520,11 +513,10 @@ namespace ExpressionParserUnitTests
 		public void SimpleTestLiteralStringMismatchLeadingApostrophe()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 
 			try
 			{
-				var result = e.Parse("'hello there\"");
+				var compiledExpression = e.Parse("'hello there\"");
 			}
 			catch(ExpressionParserException ex)
 			{

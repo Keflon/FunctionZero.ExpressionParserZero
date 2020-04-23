@@ -198,7 +198,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
             return op;
         }
 
-        public IList<IToken> Parse(string expression)
+        public TokenList Parse(string expression)
         {
             return Parse(new MemoryStream(Encoding.UTF8.GetBytes(expression ?? "")));
         }
@@ -225,13 +225,13 @@ namespace FunctionZero.ExpressionParserZero.Parser
         //}
 
 
-        public IList<IToken> Parse(Stream inputStream)
+        public TokenList Parse(Stream inputStream)
         {
             _parenthesisDepth = 0;
             var tokenizer = new Tokenizer(inputStream, Operators, Functions);
 
             var operatorStack = new Stack<OperatorWrapper>();
-            IList<IToken> tokenList = new List<IToken>();
+            var tokenList = new TokenList();
             _state = State.None;
 
             var parserPosition = tokenizer.ParserPosition;

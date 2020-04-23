@@ -31,9 +31,9 @@ using FunctionZero.ExpressionParserZero.Variables;
 
 namespace FunctionZero.ExpressionParserZero
 {
-	public class ExpressionEvaluator
+	public static class ExpressionEvaluator
 	{
-		public Stack<IOperand> Evaluate(IEnumerable<IToken> rpnTokens, IVariableStore variables)
+		public static Stack<IOperand> Evaluate(IEnumerable<IToken> rpnTokens, IVariableStore variables)
 		{
 			Stack<IOperand> operandStack = new Stack<IOperand>();
 			foreach(IToken token in rpnTokens)

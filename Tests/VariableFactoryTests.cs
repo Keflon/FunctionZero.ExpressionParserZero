@@ -18,7 +18,6 @@ namespace ExpressionParserUnitTests
         public void TestSpecializedBools()
         {
             ExpressionParser e = new ExpressionParser();
-            ExpressionEvaluator ev = new ExpressionEvaluator();
             VariableSet variables = new VariableSet(null, new TestVariableFactory());
 
             variables.RegisterVariable(OperandType.NullableBool, "Left", true);
@@ -33,9 +32,9 @@ namespace ExpressionParserUnitTests
 
             bool expectedResult = left == right;
 
-            var result = e.Parse("Left == Right");
+            var compiledExpression = e.Parse("Left == Right");
 
-            var evalResult = ev.Evaluate(result, variables);
+            var evalResult = compiledExpression.Evaluate(variables);
             Assert.AreEqual(1, evalResult.Count);
             bool actualResult = (bool)evalResult.Pop().GetValue();
             Assert.AreEqual(expectedResult, actualResult);

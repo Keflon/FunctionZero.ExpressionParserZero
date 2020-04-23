@@ -69,12 +69,11 @@ namespace ExpressionParserUnitTests
         public void AddTwoLongs()
         {
             ExpressionParser parser = new ExpressionParser();
-            ExpressionEvaluator evaluator = new ExpressionEvaluator();
 
-            IList<IToken> compiledExpression = parser.Parse("5+2");
+            var compiledExpression = parser.Parse("5+2");
             Debug.WriteLine("Compiled expression: " + TokenService.TokensAsString(compiledExpression));
 
-            var evaluatedResult = evaluator.Evaluate(compiledExpression, null);
+            var evaluatedResult = compiledExpression.Evaluate(null);
             Debug.WriteLine("Results Stack: " + TokenService.TokensAsString(evaluatedResult));
 
             long answer = (long)evaluatedResult.Pop().GetValue();
@@ -85,12 +84,11 @@ namespace ExpressionParserUnitTests
         public void DocTest0()
         {
             ExpressionParser parser = new ExpressionParser();
-            ExpressionEvaluator evaluator = new ExpressionEvaluator();
 
-            IList<IToken> postfix = parser.Parse("(6+2)*5");
-            Debug.WriteLine("Compiled expression: " + TokenService.TokensAsString(postfix, terse: true));
+            var compiledExpression = parser.Parse("(6+2)*5");
+            Debug.WriteLine("Compiled expression: " + TokenService.TokensAsString(compiledExpression, terse: true));
 
-            var resultStack = evaluator.Evaluate(postfix, null);
+            var resultStack = compiledExpression.Evaluate(null);
             Debug.WriteLine(TokenService.TokensAsString(resultStack));
             IOperand result = resultStack.Pop();
             Debug.WriteLine($"{result.Type}, {result.GetValue()}");
@@ -102,17 +100,16 @@ namespace ExpressionParserUnitTests
         public void DocTest1()
         {
             ExpressionParser parser = new ExpressionParser();
-            ExpressionEvaluator evaluator = new ExpressionEvaluator();
             VariableSet vSet = new VariableSet();
 
             vSet.RegisterVariable(OperandType.Double, "a", 6);
             vSet.RegisterVariable(OperandType.Long, "b", 2);
             vSet.RegisterVariable(OperandType.Long, "c", 5);
 
-            IList<IToken> postfix = parser.Parse("(a+b)*c");
-            Debug.WriteLine("Compiled expression: " + TokenService.TokensAsString(postfix, terse: true));
+            var compiledExpression = parser.Parse("(a+b)*c");
+            Debug.WriteLine("Compiled expression: " + TokenService.TokensAsString(compiledExpression, terse: true));
 
-            var resultStack = evaluator.Evaluate(postfix, vSet);
+            var resultStack = compiledExpression.Evaluate(vSet);
             Debug.WriteLine(TokenService.TokensAsString(resultStack));
             IOperand result = resultStack.Pop();
             Debug.WriteLine($"{result.Type}, {result.GetValue()}");
@@ -143,7 +140,6 @@ namespace ExpressionParserUnitTests
         public void AddTwoVariables()
         {
             ExpressionParser ep = new ExpressionParser();
-            ExpressionEvaluator ee = new ExpressionEvaluator();
             VariableSet vSet = new VariableSet();
 
             var rpnResult = ep.Parse("5+2");

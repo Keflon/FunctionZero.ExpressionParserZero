@@ -20,7 +20,6 @@ namespace ExpressionParserUnitTests
 		public void TestOverloadAddLongToString()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Age", 42);
@@ -32,9 +31,9 @@ namespace ExpressionParserUnitTests
 
             string expectedResult = "Valerie42";
 
-			var result = e.Parse("Name + Age");
+			var compiledExpression = e.Parse("Name + Age");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			var actualResult = (string)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -44,7 +43,6 @@ namespace ExpressionParserUnitTests
 		public void TestRegisterUnaryOverloadToDoubleOperand()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Age", 42);
@@ -67,7 +65,6 @@ namespace ExpressionParserUnitTests
 		public void TestOverloadNotString()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Age", 42);
@@ -79,9 +76,9 @@ namespace ExpressionParserUnitTests
 
 			string expectedResult = "!Valerie";
 
-			var result = e.Parse("!Name");
+			var compiledExpression = e.Parse("!Name");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			var actualResult = (string)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -91,7 +88,6 @@ namespace ExpressionParserUnitTests
 		public void TestRegisterMultiOverloadToUnaryOperand()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Age", 42);

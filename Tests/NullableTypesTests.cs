@@ -18,7 +18,6 @@ namespace ExpressionParserUnitTests
         public void TestSimpleNullableBoolToBoolEquality()
         {
             ExpressionParser e = new ExpressionParser();
-            ExpressionEvaluator ev = new ExpressionEvaluator();
             VariableSet variables = new VariableSet();
 
             variables.RegisterVariable(OperandType.NullableBool, "Left", true);
@@ -29,9 +28,9 @@ namespace ExpressionParserUnitTests
 
             bool expectedResult = left == right;
 
-            var result = e.Parse("Left == Right");
+            var compiledExpression = e.Parse("Left == Right");
 
-            var evalResult = ev.Evaluate(result, variables);
+            var evalResult = compiledExpression.Evaluate(variables);
             Assert.AreEqual(1, evalResult.Count);
             bool actualResult = (bool)evalResult.Pop().GetValue();
             Assert.AreEqual(expectedResult, actualResult);
@@ -41,7 +40,6 @@ namespace ExpressionParserUnitTests
         public void TestSimpleBoolToNullableBoolEquality()
         {
             ExpressionParser e = new ExpressionParser();
-            ExpressionEvaluator ev = new ExpressionEvaluator();
             VariableSet variables = new VariableSet();
 
             variables.RegisterVariable(OperandType.Bool, "Left", true);
@@ -52,9 +50,9 @@ namespace ExpressionParserUnitTests
 
             bool expectedResult = left == right;
 
-            var result = e.Parse("Left == Right");
+            var compiledExpression = e.Parse("Left == Right");
 
-            var evalResult = ev.Evaluate(result, variables);
+            var evalResult = compiledExpression.Evaluate(variables);
             Assert.AreEqual(1, evalResult.Count);
             bool actualResult = (bool)evalResult.Pop().GetValue();
             Assert.AreEqual(expectedResult, actualResult);
@@ -64,7 +62,6 @@ namespace ExpressionParserUnitTests
         public void TestSimpleNullableBoolToNullableBoolEquality()
         {
             ExpressionParser e = new ExpressionParser();
-            ExpressionEvaluator ev = new ExpressionEvaluator();
             VariableSet variables = new VariableSet();
 
             variables.RegisterVariable(OperandType.NullableBool, "Left", true);
@@ -75,9 +72,9 @@ namespace ExpressionParserUnitTests
 
             bool expectedResult = left == right;
 
-            var result = e.Parse("Left == Right");
+            var compiledExpression = e.Parse("Left == Right");
 
-            var evalResult = ev.Evaluate(result, variables);
+            var evalResult = compiledExpression.Evaluate( variables);
             Assert.AreEqual(1, evalResult.Count);
             bool actualResult = (bool)evalResult.Pop().GetValue();
             Assert.AreEqual(expectedResult, actualResult);
@@ -87,7 +84,6 @@ namespace ExpressionParserUnitTests
 	    public void TestLongAddNullableLong()
 	    {
 		    ExpressionParser e = new ExpressionParser();
-		    ExpressionEvaluator ev = new ExpressionEvaluator();
 		    VariableSet variables = new VariableSet();
 
 		    variables.RegisterVariable(OperandType.Long, "Left", 4);
@@ -99,9 +95,9 @@ namespace ExpressionParserUnitTests
 
 		    long? expectedResult = left + right;
 
-		    var result = e.Parse("Left + Right");
+		    var compiledExpression = e.Parse("Left + Right");
 
-		    var evalResult = ev.Evaluate(result, variables);
+		    var evalResult = compiledExpression.Evaluate(variables);
 		    Assert.AreEqual(1, evalResult.Count);
 		    long? actualResult = (long?)evalResult.Pop().GetValue();
 		    Assert.AreEqual(expectedResult, actualResult);
@@ -111,7 +107,6 @@ namespace ExpressionParserUnitTests
 	    public void TestLongAddNullableLongNull()
 	    {
 		    ExpressionParser e = new ExpressionParser();
-		    ExpressionEvaluator ev = new ExpressionEvaluator();
 		    VariableSet variables = new VariableSet();
 
 		    variables.RegisterVariable(OperandType.Long, "Left", 4);
@@ -122,9 +117,9 @@ namespace ExpressionParserUnitTests
 
 		    long? expectedResult = left + right;
 
-		    var result = e.Parse("Left + Right");
+		    var compiledExpression = e.Parse("Left + Right");
 
-		    var evalResult = ev.Evaluate(result, variables);
+		    var evalResult = compiledExpression.Evaluate(variables);
 		    Assert.AreEqual(1, evalResult.Count);
 		    long? actualResult = (long?)evalResult.Pop().GetValue();
 		    Assert.AreEqual(expectedResult, actualResult);
@@ -134,7 +129,6 @@ namespace ExpressionParserUnitTests
 	    public void TestNullableLongAddLong()
 	    {
 		    ExpressionParser e = new ExpressionParser();
-		    ExpressionEvaluator ev = new ExpressionEvaluator();
 		    VariableSet variables = new VariableSet();
 
 		    variables.RegisterVariable(OperandType.NullableLong, "Left", 4);
@@ -145,9 +139,9 @@ namespace ExpressionParserUnitTests
 
 		    long? expectedResult = left + right;
 
-		    var result = e.Parse("Left + Right");
+		    var compiledExpression = e.Parse("Left + Right");
 
-		    var evalResult = ev.Evaluate(result, variables);
+		    var evalResult = compiledExpression.Evaluate(variables);
 		    Assert.AreEqual(1, evalResult.Count);
 		    long? actualResult = (long?)evalResult.Pop().GetValue();
 		    Assert.AreEqual(expectedResult, actualResult);
@@ -157,7 +151,6 @@ namespace ExpressionParserUnitTests
 	    public void TestNullableLongNullAddLong()
 	    {
 		    ExpressionParser e = new ExpressionParser();
-		    ExpressionEvaluator ev = new ExpressionEvaluator();
 		    VariableSet variables = new VariableSet();
 
 		    variables.RegisterVariable(OperandType.NullableLong, "Left", null);
@@ -168,9 +161,9 @@ namespace ExpressionParserUnitTests
 
 		    long? expectedResult = left + right;
 
-		    var result = e.Parse("Left + Right");
+		    var compiledExpression = e.Parse("Left + Right");
 
-		    var evalResult = ev.Evaluate(result, variables);
+		    var evalResult = compiledExpression.Evaluate(variables);
 		    Assert.AreEqual(1, evalResult.Count);
 		    long? actualResult = (long?)evalResult.Pop().GetValue();
 		    Assert.AreEqual(expectedResult, actualResult);

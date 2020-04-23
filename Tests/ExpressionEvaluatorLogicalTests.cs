@@ -43,7 +43,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalOrBool()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Bool, "IsVisible", true);
@@ -51,9 +50,11 @@ namespace ExpressionParserUnitTests
 
 			bool expectedResult = true | false;
 
-			var result = e.Parse("IsVisible | IsEnabled");
+			var compiledExpression = e.Parse("IsVisible | IsEnabled");
 
-			var evalResult = ev.Evaluate(result, variables);
+			compiledExpression.Evaluate(variables);
+
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			bool actualResult = (bool)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -63,7 +64,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalOrBool2()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Bool, "IsVisible", false);
@@ -71,9 +71,9 @@ namespace ExpressionParserUnitTests
 
 			bool expectedResult = false;
 
-			var result = e.Parse("IsVisible | IsEnabled");
+			var compiledExpression = e.Parse("IsVisible | IsEnabled");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			bool actualResult = (bool)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -83,7 +83,6 @@ namespace ExpressionParserUnitTests
 		public void TestLogicalOrBoolWithAssignment()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Bool, "IsVisible", false);
@@ -92,9 +91,9 @@ namespace ExpressionParserUnitTests
 
 			bool expectedResult = false;
 
-			var result = e.Parse("Result = IsVisible | IsEnabled");
+			var compiledExpression = e.Parse("Result = IsVisible | IsEnabled");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			bool actualResult = (bool)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, variables.GetVariable("Result").Value);
@@ -110,7 +109,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalOrLong()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Var0", 42);
@@ -118,9 +116,9 @@ namespace ExpressionParserUnitTests
 
 			long expectedResult = 42 | -402;
 
-			var result = e.Parse("Var0 | Var1");
+			var compiledExpression = e.Parse("Var0 | Var1");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			long actualResult = (long)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -130,7 +128,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalOrLong2()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Var0", 42);
@@ -138,9 +135,9 @@ namespace ExpressionParserUnitTests
 
 			long expectedResult = 42 | -402 | 9;
 
-			var result = e.Parse("Var0 | Var1 | 9");
+			var compiledExpression = e.Parse("Var0 | Var1 | 9");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			long actualResult = (long)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -150,7 +147,6 @@ namespace ExpressionParserUnitTests
 		public void TestLogicalOrLongWithAssignment()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Var0", 42);
@@ -159,9 +155,9 @@ namespace ExpressionParserUnitTests
 
 			long expectedResult = 42 | -112 | 9;
 
-			var result = e.Parse("Result = Var0 | Var1 | 9");
+			var compiledExpression = e.Parse("Result = Var0 | Var1 | 9");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			long actualResult = (long)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, variables.GetVariable("Result").Value);
@@ -175,7 +171,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalAndBool()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Bool, "IsVisible", true);
@@ -183,9 +178,9 @@ namespace ExpressionParserUnitTests
 
 			bool expectedResult = true & false;
 
-			var result = e.Parse("IsVisible & IsEnabled");
+			var compiledExpression = e.Parse("IsVisible & IsEnabled");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			bool actualResult = (bool)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -195,7 +190,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalAndBool2()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Bool, "IsVisible", false);
@@ -203,9 +197,9 @@ namespace ExpressionParserUnitTests
 
 			bool expectedResult = false;
 
-			var result = e.Parse("IsVisible & IsEnabled");
+			var compiledExpression = e.Parse("IsVisible & IsEnabled");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			bool actualResult = (bool)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -215,7 +209,6 @@ namespace ExpressionParserUnitTests
 		public void TestLogicalOrAndWithAssignment()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Bool, "IsVisible", false);
@@ -224,9 +217,9 @@ namespace ExpressionParserUnitTests
 
 			bool expectedResult = false;
 
-			var result = e.Parse("Result = IsVisible & IsEnabled");
+			var compiledExpression = e.Parse("Result = IsVisible & IsEnabled");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			bool actualResult = (bool)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, variables.GetVariable("Result").Value);
@@ -242,7 +235,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalAndLong()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Var0", 42);
@@ -250,9 +242,9 @@ namespace ExpressionParserUnitTests
 
 			long expectedResult = 42 & -402;
 
-			var result = e.Parse("Var0 & Var1");
+			var compiledExpression = e.Parse("Var0 & Var1");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			long actualResult = (long)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -262,7 +254,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalAndLong2()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Var0", 42);
@@ -270,9 +261,9 @@ namespace ExpressionParserUnitTests
 
 			long expectedResult = 42 & -402 & 9;
 
-			var result = e.Parse("Var0 & Var1 & 9");
+			var compiledExpression = e.Parse("Var0 & Var1 & 9");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			long actualResult = (long)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -282,7 +273,6 @@ namespace ExpressionParserUnitTests
 		public void TestLogicalAndLongWithAssignment()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Var0", 42);
@@ -291,9 +281,9 @@ namespace ExpressionParserUnitTests
 
 			long expectedResult = 42 & -129 & 9;
 
-			var result = e.Parse("Result = Var0 & Var1 & 9");
+			var compiledExpression = e.Parse("Result = Var0 & Var1 & 9");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			long actualResult = (long)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, variables.GetVariable("Result").Value);
@@ -306,7 +296,6 @@ namespace ExpressionParserUnitTests
 		public void TestComplexLogicalOperators()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "L0", 42);
@@ -322,9 +311,9 @@ namespace ExpressionParserUnitTests
 
 			bool expectedResult = b0 | (b1 & b2) == true & ((l0 & l1) > 11);
 
-			var result = e.Parse("Result = B0 | (B1 & B2) == True & ( (L0 & L1) > 11)");
+			var compiledExpression = e.Parse("Result = B0 | (B1 & B2) == True & ( (L0 & L1) > 11)");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			bool actualResult = (bool)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, variables.GetVariable("Result").Value);
@@ -347,7 +336,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalComplementLong()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Var0", 42);
@@ -355,9 +343,9 @@ namespace ExpressionParserUnitTests
 
 			long expectedResult = 42 + ~-402;
 
-			var result = e.Parse("Var0 +~ Var1");
+			var compiledExpression = e.Parse("Var0 +~ Var1");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			long actualResult = (long)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -367,7 +355,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalComplementLong2()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Var0", 42);
@@ -375,9 +362,9 @@ namespace ExpressionParserUnitTests
 
 			long expectedResult = ~42 + ~-402 - ~9;
 
-			var result = e.Parse("~Var0 + ~Var1 - ~9");
+			var compiledExpression = e.Parse("~Var0 + ~Var1 - ~9");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			long actualResult = (long)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -387,7 +374,6 @@ namespace ExpressionParserUnitTests
 		public void TestLogicalAndComplementWithAssignment()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Var0", 42);
@@ -396,9 +382,9 @@ namespace ExpressionParserUnitTests
 
 			long expectedResult = 42 ^ ~-129 ^ ~9;
 
-			var result = e.Parse("Result = Var0 ^~ Var1 ^~ 9");
+			var compiledExpression = e.Parse("Result = Var0 ^~ Var1 ^~ 9");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			long actualResult = (long)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, variables.GetVariable("Result").Value);
@@ -413,7 +399,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalXorBool()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Bool, "IsVisible", true);
@@ -421,9 +406,9 @@ namespace ExpressionParserUnitTests
 
 			bool expectedResult = true ^ false;
 
-			var result = e.Parse("IsVisible ^ IsEnabled");
+			var compiledExpression = e.Parse("IsVisible ^ IsEnabled");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			bool actualResult = (bool)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -433,7 +418,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalComplementBool2()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Bool, "IsVisible", false);
@@ -441,9 +425,9 @@ namespace ExpressionParserUnitTests
 
 			bool expectedResult = false ^ false;
 
-			var result = e.Parse("IsVisible ^ IsEnabled");
+			var compiledExpression = e.Parse("IsVisible ^ IsEnabled");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			bool actualResult = (bool)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -453,7 +437,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalComplementBool3()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Bool, "IsVisible", true);
@@ -461,9 +444,9 @@ namespace ExpressionParserUnitTests
 
 			bool expectedResult = true ^ true;
 
-			var result = e.Parse("IsVisible ^ IsEnabled");
+			var compiledExpression = e.Parse("IsVisible ^ IsEnabled");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			bool actualResult = (bool)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -478,7 +461,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalXorLong()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Var0", 42);
@@ -486,9 +468,9 @@ namespace ExpressionParserUnitTests
 
 			long expectedResult = 42 ^ -402;
 
-			var result = e.Parse("Var0 ^ Var1");
+			var compiledExpression = e.Parse("Var0 ^ Var1");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			long actualResult = (long)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -498,7 +480,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalXorLong2()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Var0", 42);
@@ -506,9 +487,9 @@ namespace ExpressionParserUnitTests
 
 			long expectedResult = 42 ^ -402 ^ 9;
 
-			var result = e.Parse("Var0 ^ Var1 ^ 9");
+			var compiledExpression = e.Parse("Var0 ^ Var1 ^ 9");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			long actualResult = (long)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -518,7 +499,6 @@ namespace ExpressionParserUnitTests
 		public void TestLogicalAndXorWithAssignment()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Var0", 42);
@@ -527,9 +507,9 @@ namespace ExpressionParserUnitTests
 
 			long expectedResult = 42 ^ -129 ^ 9;
 
-			var result = e.Parse("Result = Var0 ^ Var1 ^ 9");
+			var compiledExpression = e.Parse("Result = Var0 ^ Var1 ^ 9");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			long actualResult = (long)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, variables.GetVariable("Result").Value);
@@ -544,7 +524,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalNotBool()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Bool, "IsVisible", true);
@@ -552,9 +531,9 @@ namespace ExpressionParserUnitTests
 
 			bool expectedResult = true | !false;
 
-			var result = e.Parse("IsVisible |! IsEnabled");
+			var compiledExpression = e.Parse("IsVisible |! IsEnabled");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			bool actualResult = (bool)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -564,7 +543,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalNotBool2()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Bool, "IsVisible", false);
@@ -572,9 +550,9 @@ namespace ExpressionParserUnitTests
 
 			bool expectedResult = false | !false;
 
-			var result = e.Parse("IsVisible |! IsEnabled");
+			var compiledExpression = e.Parse("IsVisible |! IsEnabled");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			bool actualResult = (bool)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -584,7 +562,6 @@ namespace ExpressionParserUnitTests
 		public void TestLogicalNotBoolWithAssignment()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Bool, "IsVisible", false);
@@ -593,9 +570,9 @@ namespace ExpressionParserUnitTests
 
 			bool expectedResult = false | !false;
 
-			var result = e.Parse("Result = IsVisible |! IsEnabled");
+			var compiledExpression = e.Parse("Result = IsVisible |! IsEnabled");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			bool actualResult = (bool)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, variables.GetVariable("Result").Value);
@@ -611,7 +588,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleLogicalNotLong()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Var0", 42);
@@ -619,8 +595,8 @@ namespace ExpressionParserUnitTests
 
 			try
 			{
-				var result = e.Parse("Var0 |! Var1");
-				var evalResult = ev.Evaluate(result, variables);
+				var compiledExpression = e.Parse("Var0 |! Var1");
+				var evalResult = compiledExpression.Evaluate(variables);
 			}
 			catch(ExpressionEvaluatorException ex)
 			{
@@ -639,7 +615,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleModuloLong()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Var0", 42);
@@ -647,9 +622,9 @@ namespace ExpressionParserUnitTests
 
 			long expectedResult = 42 % -402;
 
-			var result = e.Parse("Var0 % Var1");
+			var compiledExpression = e.Parse("Var0 % Var1");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			long actualResult = (long)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -659,7 +634,6 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleModuloLong2()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Var0", 42);
@@ -667,9 +641,9 @@ namespace ExpressionParserUnitTests
 
 			long expectedResult = ~42 % -402 % ~9;
 
-			var result = e.Parse("~Var0 % ~Var1 % ~9");
+			var compiledExpression = e.Parse("~Var0 % ~Var1 % ~9");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			long actualResult = (long)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -679,7 +653,6 @@ namespace ExpressionParserUnitTests
 		public void TestModuloLongWithAssignment()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Var0", 42);
@@ -688,9 +661,9 @@ namespace ExpressionParserUnitTests
 
 			long expectedResult = 42 % ~-129 % ~9;
 
-			var result = e.Parse("Result = Var0 %~ Var1 %~ 9");
+			var compiledExpression = e.Parse("Result = Var0 %~ Var1 %~ 9");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			long actualResult = (long)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, variables.GetVariable("Result").Value);
@@ -703,12 +676,11 @@ namespace ExpressionParserUnitTests
 		public void SimpleTestUnmatchedBraceInput()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 
 			try
 			{
-				var result = e.Parse("55)");
-				var evalResult = ev.Evaluate(result, null);
+				var compiledExpression = e.Parse("55)");
+				var evalResult = compiledExpression.Evaluate(null);
 			}
 			catch(ExpressionParserException ex)
 			{

@@ -44,7 +44,6 @@ namespace ExpressionParserUnitTests
         public void TestDottedLookup()
         {
             ExpressionParser e = new ExpressionParser();
-            ExpressionEvaluator ev = new ExpressionEvaluator();
             VariableSet daddyVarbs = new VariableSet();
             VariableSet childVarbs = new VariableSet();
 
@@ -54,9 +53,9 @@ namespace ExpressionParserUnitTests
 
             long expectedResult = 5 + 6;
 
-            var result = e.Parse("childLong + daddy.daddyLong");
+            var compiledExpression = e.Parse("childLong + daddy.daddyLong");
 
-            var evalResult = ev.Evaluate(result, childVarbs);
+            var evalResult = compiledExpression.Evaluate(childVarbs);
 
             Assert.AreEqual(1, evalResult.Count);
             var actualResult = (long)evalResult.Pop().GetValue();
@@ -88,7 +87,6 @@ namespace ExpressionParserUnitTests
         public void TestDottedAssignment()
         {
             ExpressionParser e = new ExpressionParser();
-            ExpressionEvaluator ev = new ExpressionEvaluator();
             VariableSet daddyVarbs = new VariableSet();
             VariableSet childVarbs = new VariableSet();
 
@@ -99,9 +97,9 @@ namespace ExpressionParserUnitTests
 
             long expectedResult = 6 + 7;
 
-            var result = e.Parse("daddy.daddyLong = childLongA + childLongB");
+            var compiledExpression = e.Parse("daddy.daddyLong = childLongA + childLongB");
 
-            var evalResult = ev.Evaluate(result, childVarbs);
+            var evalResult = compiledExpression.Evaluate(childVarbs);
 
             Assert.AreEqual(1, evalResult.Count);
             long actualResult = (long)daddyVarbs.GetVariable("daddyLong").Value;

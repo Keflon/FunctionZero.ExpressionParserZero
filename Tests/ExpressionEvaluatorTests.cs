@@ -19,17 +19,16 @@ namespace ExpressionParserUnitTests
 		public void TestTypeFail()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Age", 42);
 			variables.RegisterVariable(OperandType.String, "Name", "Brian");
 
-			var result = e.Parse("Age * Name");
+			var compiledExpression = e.Parse("Age * Name");
 
 			try
 			{
-				var evalResult = ev.Evaluate(result, variables);
+				var evalResult = compiledExpression.Evaluate(variables);
 			}
 			catch(ExpressionEvaluatorException ex)
 			{
@@ -42,16 +41,16 @@ namespace ExpressionParserUnitTests
 		public void TestUnaryTypeFail()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.String, "Name", "Brian");
 
-			var result = e.Parse("!Name");
+			var compiledExpression = e.Parse("!Name");
 
 			try
 			{
-				var evalResult = ev.Evaluate(result, variables);
+				var evalResult = compiledExpression.Evaluate(variables);
+				Assert.Fail("Did not throw correct exception");
 			}
 			catch(ExpressionEvaluatorException ex)
 			{
@@ -64,14 +63,13 @@ namespace ExpressionParserUnitTests
 		public void TestTrueAsBool()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.String, "Name", "Brian");
 
-			var result = e.Parse("true");
+			var compiledExpression = e.Parse("true");
 			bool expectedResult = true;
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 
 			Assert.AreEqual(1, evalResult.Count);
 			var actualResult = (bool)evalResult.Pop().GetValue();
@@ -82,14 +80,13 @@ namespace ExpressionParserUnitTests
 		public void TestCompareToNull()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.String, "Name", "Brian");
 
-			var result = e.Parse("Name != null");
+			var compiledExpression = e.Parse("Name != null");
 			bool expectedResult = true;
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 
 			Assert.AreEqual(1, evalResult.Count);
 			var actualResult = (bool)evalResult.Pop().GetValue();
@@ -100,14 +97,13 @@ namespace ExpressionParserUnitTests
 		public void TestUnknownVariable()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.String, "Name", "Brian");
 
-			var result = e.Parse("Banana");
+			var compiledExpression = e.Parse("Banana");
 			string expectedResult = "Banana";
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			// TODO: THINK: Should this throw an 'unknown variable exception'. Nothing is trying to resolve the variable, therefore
 			// TODO: it is probably correct to return the actual variable rather than attempting to resolve it. 
 			Assert.AreEqual(1, evalResult.Count);
@@ -120,7 +116,6 @@ namespace ExpressionParserUnitTests
 		public void TestComplexExpression()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Age", 42);
@@ -129,9 +124,9 @@ namespace ExpressionParserUnitTests
 
 			double expectedResult = ((42 + 3) * (7 - 4) / 12 + -5) / 0.23;
 
-			var result = e.Parse("((Age + 3)*(7 - 4)/12 + -5)/Opacity");
+			var compiledExpression = e.Parse("((Age + 3)*(7 - 4)/12 + -5)/Opacity");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			var actualResult = (double)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -142,7 +137,6 @@ namespace ExpressionParserUnitTests
 		public void TestNestedFunctionCalls()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Age", 42);
@@ -151,9 +145,9 @@ namespace ExpressionParserUnitTests
 
 			double expectedResult = (mul(42 + 3, mul(9, 6)) * mul(7 - 4, mul(5, 6)) / 12 + -5) / 0.23;
 
-			var result = e.Parse("(_debug_mul(Age + 3, _debug_mul(9,6))*_debug_mul(7 - 4, _debug_mul(5,6))/12 + -5)/Opacity");
+			var compiledExpression = e.Parse("(_debug_mul(Age + 3, _debug_mul(9,6))*_debug_mul(7 - 4, _debug_mul(5,6))/12 + -5)/Opacity");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			var actualResult = (double)evalResult.Pop().GetValue();
 			Assert.AreEqual(expectedResult, actualResult);
@@ -168,12 +162,11 @@ namespace ExpressionParserUnitTests
 		public void TestVariableValue()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 			variables.RegisterVariable(OperandType.String, "Banana", "Hello Banana");
 
-			IList<IToken> result = e.Parse("Banana");
-			var evalResult = ev.Evaluate(result, variables);
+			var compiledExpression = e.Parse("Banana");
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			var actualResult = OperatorActions.PopAndResolve(evalResult, variables).GetValue();
 			Assert.AreEqual("Hello Banana", actualResult);
@@ -184,11 +177,10 @@ namespace ExpressionParserUnitTests
 		public void TestMissingVariable()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
-			var result = e.Parse("Banana");
-			var evalResult = ev.Evaluate(result, variables);
+			var compiledExpression = e.Parse("Banana");
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			try
 			{
@@ -207,15 +199,14 @@ namespace ExpressionParserUnitTests
 		public void TestMissingVariable2()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.String, "Banana", "Hello Banana!");
 
-			var result = e.Parse("Banana + Feet");
+			var compiledExpression = e.Parse("Banana + Feet");
 			try
 			{
-				var evalResult = ev.Evaluate(result, variables);
+				var evalResult = compiledExpression.Evaluate(variables);
 			}
 			catch(ExpressionEvaluatorException ex)
 			{
@@ -234,7 +225,6 @@ namespace ExpressionParserUnitTests
 		public void TestMissingVariable3()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.String, "Banana", "Hello Banana!");
@@ -243,11 +233,11 @@ namespace ExpressionParserUnitTests
 			Stack<IOperand> evalResult = null;
 
 			bool shortedOut = true;
-			var result = e.Parse("Banana , Melon");
+			var compiledExpression = e.Parse("Banana , Melon");
 
 			try
 			{
-				evalResult = ev.Evaluate(result, variables);
+				evalResult = compiledExpression.Evaluate(variables);
 				Assert.AreEqual(2, evalResult.Count);
 				shortedOut = false;
 				actualResult1 = OperatorActions.PopAndResolve(evalResult, variables);
@@ -269,12 +259,11 @@ namespace ExpressionParserUnitTests
 		public void TestSimpleAssignment()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Age", 42);
-			var result = e.Parse("Age=9");
-			var evalResult = ev.Evaluate(result, variables);
+			var compiledExpression = e.Parse("Age=9");
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			var actualResult = (long)evalResult.Pop().GetValue();
 			var variable = variables.GetVariable("Age");
@@ -289,16 +278,15 @@ namespace ExpressionParserUnitTests
 		public void TestAssignment()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Age", 42);
 			variables.RegisterVariable(OperandType.Double, "Opacity", 4.2);
 			variables.RegisterVariable(OperandType.Double, "Answer", 4.2);
 
-			var result = e.Parse("Answer=5+(((Age*Opacity)+6)*9.771)-2");
+			var compiledExpression = e.Parse("Answer=5+(((Age*Opacity)+6)*9.771)-2");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			var actualResult = (double)evalResult.Pop().GetValue();
 			var expectedResult = 5 + (((42 * 4.2) + 6) * 9.771) - 2;
@@ -313,15 +301,14 @@ namespace ExpressionParserUnitTests
 		public void TestDoubleAssignment()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Double, "Answer1", 4.2);
 			variables.RegisterVariable(OperandType.Double, "Answer2", 4.2);
 
-			var result = e.Parse("Answer1=5.1,Answer2=6.2");
+			var compiledExpression = e.Parse("Answer1=5.1,Answer2=6.2");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(2, evalResult.Count);
 			var actualResult2 = (double)evalResult.Pop().GetValue();
 			var actualResult1 = (double)evalResult.Pop().GetValue();
@@ -344,15 +331,14 @@ namespace ExpressionParserUnitTests
 		public void TestDoubleAssignmentSecondToFirst()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Double, "Answer1", 4.2);
 			variables.RegisterVariable(OperandType.Double, "Answer2", 4.2);
 
-			var result = e.Parse("Answer1=5.1,Answer2=Answer1");
+			var compiledExpression = e.Parse("Answer1=5.1,Answer2=Answer1");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(2, evalResult.Count);
 			var actualResult2 = (double)evalResult.Pop().GetValue();
 			var actualResult1 = (double)evalResult.Pop().GetValue();
@@ -374,16 +360,15 @@ namespace ExpressionParserUnitTests
 		public void TestDoubleAssignmentSecondToSelf()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.Long, "Age", 42);
 			variables.RegisterVariable(OperandType.Double, "Opacity", 4.2);
 			variables.RegisterVariable(OperandType.Double, "Answer", 4.2);
 
-			var result = e.Parse("Answer=5.1,Answer=Answer");
+			var compiledExpression = e.Parse("Answer=5.1,Answer=Answer");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(2, evalResult.Count);
 			var actualResult2 = evalResult.Pop();
 			var actualResult1 = evalResult.Pop();
@@ -403,13 +388,12 @@ namespace ExpressionParserUnitTests
 		public void TestNestedParenthesis()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 
 			double expectedResult = ((((2 + 3) * 3) + 4) * 5) + 5;
 
-			var result = e.Parse("((((2+3)*3)+4)*5)+5");
+			var compiledExpression = e.Parse("((((2+3)*3)+4)*5)+5");
 
-			var evalResult = ev.Evaluate(result, null);
+			var evalResult = compiledExpression.Evaluate(null);
 			Assert.AreEqual(1, evalResult.Count);
 
 			Assert.AreEqual(expectedResult, (long)evalResult.Pop().GetValue());
@@ -425,14 +409,13 @@ namespace ExpressionParserUnitTests
 		{
 			ExpressionParser e = new ExpressionParser();
 			e.RegisterFunction("StringContains", DoStringContains, 2);
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.String, "Name", "This is a test");
 			variables.RegisterVariable(OperandType.String, "SubString", "is");
 
-			var result = e.Parse("StringContains(Name, SubString)");
-			var evalResult = ev.Evaluate(result, variables);
+			var compiledExpression = e.Parse("StringContains(Name, SubString)");
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			Assert.AreEqual(true, (bool)evalResult.Pop().GetValue());
 
@@ -443,15 +426,14 @@ namespace ExpressionParserUnitTests
 		{
 			ExpressionParser e = new ExpressionParser();
 			e.RegisterFunction("StringContains", DoStringContains, 2);
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 			VariableSet variables = new VariableSet();
 
 			variables.RegisterVariable(OperandType.String, "Name", "This is a test");
 			variables.RegisterVariable(OperandType.String, "SubString", "pis");
 
-			var result = e.Parse("StringContains(Name, SubString)");
+			var compiledExpression = e.Parse("StringContains(Name, SubString)");
 
-			var evalResult = ev.Evaluate(result, variables);
+			var evalResult = compiledExpression.Evaluate(variables);
 			Assert.AreEqual(1, evalResult.Count);
 			Assert.AreEqual(false, (bool)evalResult.Pop().GetValue());
 
@@ -461,12 +443,10 @@ namespace ExpressionParserUnitTests
 		public void SimpleTestMissingOperatorInput()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 
 			try
 			{
-				var result = e.Parse("5(");
-				var evalResult = ev.Evaluate(result, null);
+				var compiledExpression = e.Parse("5(");
 			}
 			catch(ExpressionParserException ex)
 			{
@@ -483,12 +463,10 @@ namespace ExpressionParserUnitTests
 		public void SimpleTestUnmatchedBraceInput()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 
 			try
 			{
-				var result = e.Parse("55)");
-				var evalResult = ev.Evaluate(result, null);
+				var compiledExpression = e.Parse("55)");
 			}
 			catch(ExpressionParserException ex)
 			{
@@ -504,12 +482,10 @@ namespace ExpressionParserUnitTests
 		public void SimpleTestDoubleDotInput()
 		{
 			ExpressionParser e = new ExpressionParser();
-			ExpressionEvaluator ev = new ExpressionEvaluator();
 
 			try
 			{
 				var result = e.Parse("..");
-				var evalResult = ev.Evaluate(result, null);
 			}
 			catch(ExpressionParserException ex)
 			{
