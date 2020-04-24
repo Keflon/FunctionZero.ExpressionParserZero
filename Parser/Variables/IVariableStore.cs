@@ -3,10 +3,12 @@ using System.Collections.Generic;
 
 namespace FunctionZero.ExpressionParserZero.Variables
 {
-	public interface IVariableStore
+	public interface IVariableStore : IEnumerable<Variable>
 	{
-		IReadOnlyDictionary<string, Variable> AllVariables { get; }
+		//IReadOnlyDictionary<string, Variable> AllVariables { get; }
 		Variable GetVariable(string qualifiedVariableName);
+
+		Variable this[string unqualifiedVariableName] { get; }
 
 		Variable RegisterVariable(Variable variable);
 		Variable UnregisterVariable(Variable variable);

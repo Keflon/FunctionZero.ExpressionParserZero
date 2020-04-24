@@ -1,5 +1,6 @@
 ﻿using FunctionZero.ExpressionParserZero.Operands;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -9,19 +10,30 @@ namespace FunctionZero.ExpressionParserZero.Variables
     {
         private char[] _dot = new[] { '.' };
         protected IDictionary<string, Variable> _allVariables;
-        public IReadOnlyDictionary<string, Variable> AllVariables { get; }
 
-        public VariableStore(IDictionary<string, Variable> allVariables, IVariableFactory variableFactory)
+        public VariableStore(IEnumerable<Variable> seedVariables, IVariableFactory variableFactory)
         {
-            _allVariables = allVariables ?? new Dictionary<string, Variable>();
-            AllVariables = new ReadOnlyDictionary<string, Variable>(_allVariables);
+            _allVariables = new Dictionary<string, Variable>();
+
+            // Seed the dictionary
+            if (seedVariables != null)
+                foreach (var item in seedVariables)
+                    _allVariables.Add(item.VariableName, item);
+
             VariableFactory = variableFactory ?? new DefaultVariableFactory();
         }
+
+        public Variable this[string unqualifiedVariableName]
+        {
+            get => _allVariables[unqualifiedVariableName];
+        }
+
+
 
         public Variable GetVariable(string qualifiedVariableName)
         {
             ProcessVariableName(qualifiedVariableName, out var targetVariableSet, out var unqualifiedVariableName);
-            return targetVariableSet.AllVariables[unqualifiedVariableName];
+            return targetVariableSet[unqualifiedVariableName];
         }
 
         protected void ProcessVariableName(string qualifiedVariableName, out IVariableStore vSet, out string variableName)
@@ -30,8 +42,8 @@ namespace FunctionZero.ExpressionParserZero.Variables
             var bits = qualifiedVariableName.Split(_dot);
 
             for (int c = 0; c < bits.Length - 1; c++)
-                currentVSet = (IVariableStore)currentVSet.AllVariables[bits[c]].Value;
-            
+                currentVSet = (IVariableStore)currentVSet[bits[c]].Value;
+
             vSet = currentVSet;
             variableName = bits[bits.Length - 1];
         }
@@ -175,6 +187,16 @@ namespace FunctionZero.ExpressionParserZero.Variables
             {
                 throw new ArgumentException("Variable named " + qualifiedVariableName + "' not found.");
             }
+        }
+
+        public IEnumerator<Variable> GetEnumerator()
+        {
+            return _allVariables.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

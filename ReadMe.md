@@ -255,11 +255,11 @@ public class AdvancedDocumentationExample
 
     private void ShowCustomVariables(string prefix, VariableSet vSet)
     {
-        foreach (MyVariable item in vSet.AllVariables.Values)
+        foreach (MyVariable item in vSet)
         {
             Debug.WriteLine($"The variable '{prefix}{item.VariableName}' created at {item.Timestamp} was written to {item.WriteCount} time{(item.WriteCount == 1 ? "" : "s")}");
             if (item.VariableType == OperandType.VSet)
-                ShowCustomVariables(prefix+item.VariableName+".", (VariableSet)item.Value);
+                ShowCustomVariables(prefix + item.VariableName + ".", (VariableSet)item.Value);
         }
     }
 

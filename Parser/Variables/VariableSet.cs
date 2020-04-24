@@ -35,7 +35,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
             NotifyChanges = true;
         }
 
-        public VariableSet(IDictionary<string, Variable> allVariables, IVariableFactory variableFactory = null) : base(allVariables, variableFactory)
+        public VariableSet(IEnumerable<Variable> allVariables, IVariableFactory variableFactory = null) : base(allVariables, variableFactory)
         {
             NotifyChanges = true;
         }
