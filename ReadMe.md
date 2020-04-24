@@ -141,7 +141,7 @@ var resultStack = ExpressionEvaluator.Evaluate(compiledExpression, vSet);
 #### Events
 `VariableSet` instances support `VariableAdded`, `VariableRemoved`, `VariableChanging` and 'VariableChanged` events
 
-## Putting it all together ... (cabbages+onions)*bananas
+## Putting it all together
 The following code evaluates an expression against a VariableSet:
 ```csharp
 // parser can be a singleton ...
