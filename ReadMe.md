@@ -6,7 +6,7 @@ A fast and very flexible Infix to Postfix (Reverse Polish) parser, validator and
 
 ## Overview
 `ExpressionParserZero` is a `.NET Standard` library used to parse infix expressions to postfix and to evaluate the postfix output 
-against runtime variables.  
+against runtime variables  
 Expressions can contain constants and variables and can make use of custom overloads and user-defined functions:
 - **(5 + 6) * 11.3**
 - **( (a + b) * (limit.top + 5) ) / 6**
@@ -82,6 +82,9 @@ This outputs the following *postfix* expression
 A `TokenList` can be evaluated simply by calling it's `Evaluate` method. It produces an `OperandStack` containing all the results of evaluation  
 Typically this stack will contain a single `IOperand` that wraps the final result, though more complex results are possible
 ```csharp
+var ep = new ExpressionParser();
+var compiledExpression = ep.Parse("(6+2)*5");
+// Evaluate ...
 var resultStack = compiledExpression.Evaluate(null);
 Debug.WriteLine(resultStack.ToString());
 ```
@@ -93,18 +96,19 @@ Output:
 Each Operand wraps a result along with the result type. To get the 'answer' to our expression "(6+2)*5":
 ```csharp
 IOperand result = resultStack.Pop();
-Debug.WriteLine($"{result.Type}, {result.GetValue()}");
+Debug.WriteLine(result.Type);
 long answer = (long)result.GetValue();
 Debug.WriteLine(answer);
 ```
 Output:
 ```
-Long, 40  
+Long  
 40
 ```
-As there is a single result to our expression, the result stack will now be empty
+As there was a single result to our expression, the result stack will now be empty
+
 ### Variables
-Expressions can contain 'variables'. Compiling the expression `"(cabbages+onions)*bananas"` produces this `TokenList`
+Expressions can contain 'variables'. Compiling the expression `"(cabbages+onions)*bananas"` produces this RPN `TokenList`
 ```
 (Variable:cabbages) (Variable:onions) [+] (Variable:bananas) [*] 
 ```
@@ -117,7 +121,11 @@ vSet.RegisterVariable(OperandType.Long, "bananas", 5);
 ```
 We can then *evaluate* or `TokenList` *against* the `VariableSet` like this:
 ```csharp
-var resultStack = compiledExpression.Evaluate(*** vSet ***);
+var resultStack = compiledExpression.Evaluate(vSet);
+```
+Alternatively use the `static` implementation:
+```csharp
+var resultStack = ExpressionEvaluator.Evaluate(compiledExpression, vSet);
 ```
 `VariableSet` supports the following **operand** types:
 - Long
@@ -130,12 +138,15 @@ var resultStack = compiledExpression.Evaluate(*** vSet ***);
 - VSet - this is a nested VariableSet
 - Object    
 - Null
+#### Events
+`VariableSet` instances support `VariableAdded`, `VariableRemoved`, `VariableChanging` and 'VariableChanged` events
 
-## Putting it all together
+## Putting it all together ... (cabbages+onions)*bananas
 The following code evaluates an expression against a VariableSet:
 ```csharp
-// Parse ...
+// parser can be a singleton ...
 ExpressionParser parser = new ExpressionParser();
+// Parse ...
 var compiledExpression = parser.Parse("(cabbages+onions)*bananas");
 Debug.WriteLine(compiledExpression.ToString());
 
@@ -164,7 +175,14 @@ Double, 40
 ```
 As the evaluator is fully typesafe and follows the same rules as csharp,  the output *type* is `Double`, as expected.
 
-# Advanced
+## Tips
+You will likely need only one instance of `ExpressionParser` for all your parsing  
+Parsing an expression into a `TokenList`can be expensive, and parsing the same expression *always* yields the *same* result, so parse once and cache the result  
+A `TokenList` can be *evaluated* many times, either against different `VariableSet` objects or against the same `VariableSet` 
+- If you repeatedly evaluate "a=a+1" you will see the variable 'a' climb in value
+
+
+## Advanced
 
 - Register a custom ***overload*** and a custom ***function*** with the Parser
 - Use a custom `VariableFactory` to manufacture `MyVariable` instances
