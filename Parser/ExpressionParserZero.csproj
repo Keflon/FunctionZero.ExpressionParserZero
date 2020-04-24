@@ -13,7 +13,7 @@
     <RootNamespace>FunctionZero.ExpressionParserZero</RootNamespace>
     <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</RepositoryUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseExpression></PackageLicenseExpression>
   </PropertyGroup>
 
 </Project>

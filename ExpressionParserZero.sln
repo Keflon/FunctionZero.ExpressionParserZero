@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionParserUnitTests",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0C4FC1D4-5306-4FF8-A8E9-5B5C01843288}"
 	ProjectSection(SolutionItems) = preProject
+		License.txt = License.txt
 		ReadMe.md = ReadMe.md
 	EndProjectSection
 EndProject
