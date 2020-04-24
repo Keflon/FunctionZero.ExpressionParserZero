@@ -196,7 +196,7 @@ namespace FunctionZero.ExpressionParserZero.Variables
         public Variable UnregisterVariable(string qualifiedVariableName)
         {
             ProcessVariableName(qualifiedVariableName, out var targetVariableSet, out var unqualifiedVariableName);
-            Variable targetVariable = targetVariableSet.GetVariable(unqualifiedVariableName);
+            Variable targetVariable = targetVariableSet[unqualifiedVariableName];
             targetVariableSet.UnregisterVariable(targetVariable);
             return targetVariable;
         }

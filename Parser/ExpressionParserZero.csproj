@@ -3,17 +3,25 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>FunctionZero.ExpressionParserZero</PackageId>
-    <Version>3.0.0.0-pre-1</Version>
+    <Version>3.0.0.0-pre-2</Version>
     <Description>RPN Expression Parser and Evaluator</Description>
     <Copyright>Copyright 2017-2020 (c) Function Zero Ltd.</Copyright>
-    <PackageTags>RPN postfix expression parser evaluator infix reverse polish</PackageTags>
-    <PackageReleaseNotes>Simpler interfaces for variable handling.</PackageReleaseNotes>
+    <PackageTags>RPN postfix expression parser evaluator infix reverse polish overload typesafe variable variables</PackageTags>
+    <PackageReleaseNotes>Simplifying interfaces</PackageReleaseNotes>
     <Authors>Keith Pickford</Authors>
     <Company>Function Zero Ltd</Company>
     <RootNamespace>FunctionZero.ExpressionParserZero</RootNamespace>
-    <PackageProjectUrl></PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</RepositoryUrl>
     <PackageLicenseExpression></PackageLicenseExpression>
+    <PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\License.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>

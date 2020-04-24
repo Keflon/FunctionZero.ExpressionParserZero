@@ -20,14 +20,45 @@ namespace ExpressionParserUnitTests
 
             Assert.IsTrue(vSet.GetVariable("Horace") == inScope);
 
+            vSet.UnregisterVariable(inScope);
+
             try
             {
-                vSet.UnregisterVariable(inScope);
                 var variable = vSet.GetVariable("Horace");
-
+                Assert.Fail("Did not throw expected exception");
             }
             catch (KeyNotFoundException knfex)
             {
+            }
+            catch
+            {
+                Assert.Fail("Did not throw expected exception");
+            }
+        }
+
+        [TestMethod]
+        public void UnregisterVariableByName()
+        {
+            VariableSet vSet = new VariableSet();
+
+            Variable inScope = new Variable("Horace", OperandType.String, "I am hungry");
+
+            vSet.RegisterVariable(inScope);
+
+            Assert.IsTrue(vSet.GetVariable("Horace") == inScope);
+
+            try
+            {
+                vSet.UnregisterVariable("Horace");
+                var variable = vSet.GetVariable("Horace");
+                Assert.Fail("Did not throw expected exception");
+            }
+            catch (KeyNotFoundException knfex)
+            {
+            }
+            catch
+            {
+                Assert.Fail("Did not throw expected exception");
             }
         }
 
@@ -52,6 +83,34 @@ namespace ExpressionParserUnitTests
 
             }
         }
+        [TestMethod]
+        public void UnregisterNestedVariable()
+        {
+            VariableSet vSet = new VariableSet();
+            VariableSet childVset = new VariableSet();
+
+            Variable inScope = new Variable("Horace", OperandType.String, "I am hungry");
+
+            vSet.RegisterVariable(OperandType.VSet, "child", childVset);
+            childVset.RegisterVariable(inScope);
+
+            Assert.IsTrue(vSet.GetVariable("child.Horace") == inScope);
+
+            vSet.UnregisterVariable("child.Horace");
+
+            try
+            {
+                var variable = vSet.GetVariable("Horace");
+                Assert.Fail("Did not throw expected exception");
+            }
+            catch (KeyNotFoundException knfex)
+            {
+            }
+            catch
+            {
+                Assert.Fail("Did not throw expected exception");
+            }
+        }
 
         [TestMethod]
         public void UnregisterWrongVariable()
@@ -71,6 +130,10 @@ namespace ExpressionParserUnitTests
             catch (ValueNotFoundException vnfex)
             {
 
+            }
+            catch
+            {
+                Assert.Fail("Expected exception was not thrown");
             }
         }
     }
