@@ -23,12 +23,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
+using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Operands;
 using System.Collections.Generic;
 
 namespace FunctionZero.ExpressionParserZero.Variables
 {
-	public interface IVariableStore : IEnumerable<Variable>
+	public interface IVariableStore : IBackingStore, IEnumerable<Variable>
 	{
 		//IReadOnlyDictionary<string, Variable> AllVariables { get; }
 		Variable GetVariable(string qualifiedVariableName);

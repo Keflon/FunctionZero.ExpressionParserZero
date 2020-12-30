@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using FunctionZero.ExpressionParserZero;
+using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Exceptions;
 using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Parser;
@@ -689,7 +690,7 @@ namespace ExpressionParserUnitTests
 
 
 
-		private void DoStringContains(Stack<IOperand> operands, IVariableStore variables, long parserPosition)
+		private void DoStringContains(Stack<IOperand> operands, IBackingStore variables, long parserPosition)
 		{
 			IOperand second = OperatorActions.PopAndResolve(operands, variables);
 			IOperand first = OperatorActions.PopAndResolve(operands, variables);

@@ -223,5 +223,17 @@ namespace FunctionZero.ExpressionParserZero.Variables
         {
             return GetEnumerator();
         }
+
+        public (OperandType type, object value) GetValue(string qualifiedName)
+        {
+            var variable = GetVariable(qualifiedName);
+            return (variable.VariableType, variable.Value);
+        }
+
+        public void SetValue(string qualifiedName, object value)
+        {
+            var variable = GetVariable(qualifiedName);
+            variable.Value = value;
+        }
     }
 }
