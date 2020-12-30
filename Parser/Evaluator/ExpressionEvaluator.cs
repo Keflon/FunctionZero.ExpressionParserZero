@@ -24,17 +24,17 @@
 // SOFTWARE.
 #endregion
 using System.Collections.Generic;
+using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Operators;
 using FunctionZero.ExpressionParserZero.Parser;
 using FunctionZero.ExpressionParserZero.Tokens;
-using FunctionZero.ExpressionParserZero.Variables;
 
 namespace FunctionZero.ExpressionParserZero
 {
 	public static class ExpressionEvaluator
 	{
-		public static OperandStack Evaluate(IEnumerable<IToken> rpnTokens, IVariableStore variables)
+		public static OperandStack Evaluate(IEnumerable<IToken> rpnTokens, IBackingStore backingStore)
 		{
 			var operandStack = new OperandStack();
 
@@ -46,7 +46,7 @@ namespace FunctionZero.ExpressionParserZero
 				}
 				else
 				{
-					((OperatorWrapper)token).WrappedOperator.DoOperation(operandStack, variables, token.ParserPosition);
+					((OperatorWrapper)token).WrappedOperator.DoOperation(operandStack, backingStore, token.ParserPosition);
 				}
 			}
 			return operandStack;

@@ -25,8 +25,8 @@
 #endregion
 using System;
 using System.Diagnostics;
+using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Tokens;
-using FunctionZero.ExpressionParserZero.Variables;
 
 namespace FunctionZero.ExpressionParserZero.Operands
 {
@@ -92,7 +92,7 @@ namespace FunctionZero.ExpressionParserZero.Operands
                     return tokenValue == null || tokenValue is bool;
 
                 case OperandType.VSet:
-                    return tokenValue is IVariableStore;
+                    return tokenValue is IBackingStore;
 
 				case OperandType.Object:
 					return true;

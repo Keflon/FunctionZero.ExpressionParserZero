@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Exceptions;
 using FunctionZero.ExpressionParserZero.FunctionMatrices;
 using FunctionZero.ExpressionParserZero.Operands;
@@ -35,7 +36,6 @@ using FunctionZero.ExpressionParserZero.Operators;
 using FunctionZero.ExpressionParserZero.Parser.FunctionMatrices;
 using FunctionZero.ExpressionParserZero.Parser.FunctionVectors;
 using FunctionZero.ExpressionParserZero.Tokens;
-using FunctionZero.ExpressionParserZero.Variables;
 
 //using Windows.Storage.Streams;
 
@@ -190,7 +190,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
             return op;
         }
 
-        public IFunctionOperator RegisterFunction(string text, Action<Stack<IOperand>, IVariableStore, long> doOperation,
+        public IFunctionOperator RegisterFunction(string text, Action<Stack<IOperand>, IBackingStore, long> doOperation,
             int parameterCount, int maxParameterCount = 0)
         {
             var op = new FunctionOperator(OperatorType.Function, doOperation, text, parameterCount, maxParameterCount);

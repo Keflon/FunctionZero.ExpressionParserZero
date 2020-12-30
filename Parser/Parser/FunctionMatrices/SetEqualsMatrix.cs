@@ -23,9 +23,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
+using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.FunctionMatrices;
 using FunctionZero.ExpressionParserZero.Operands;
-using FunctionZero.ExpressionParserZero.Variables;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -166,8 +166,8 @@ namespace FunctionZero.ExpressionParserZero.Parser.FunctionMatrices
             //matrix.RegisterDelegate(OperandType.VSet, OperandType.Variable, (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, () leftOperand.GetValue() REPLACE_OPERATOR() rightOperand.GetValue()));
             //matrix.RegisterDelegate(OperandType.VSet, OperandType.Bool, (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, () leftOperand.GetValue() REPLACE_OPERATOR() rightOperand.GetValue()));
             //matrix.RegisterDelegate(OperandType.VSet, OperandType.NullableBool, (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, () leftOperand.GetValue() REPLACE_OPERATOR() rightOperand.GetValue()));
-            matrix.RegisterDelegate(OperandType.VSet, OperandType.VSet, (leftOperand, rightOperand) => new Operand(OperandType.VSet, (VariableSet)rightOperand.GetValue()));
-            matrix.RegisterDelegate(OperandType.VSet, OperandType.Object, (leftOperand, rightOperand) => new Operand(OperandType.VSet, (VariableSet)rightOperand.GetValue()));
+            matrix.RegisterDelegate(OperandType.VSet, OperandType.VSet, (leftOperand, rightOperand) => new Operand(OperandType.VSet, (IBackingStore)rightOperand.GetValue()));
+            matrix.RegisterDelegate(OperandType.VSet, OperandType.Object, (leftOperand, rightOperand) => new Operand(OperandType.VSet, (IBackingStore)rightOperand.GetValue()));
             //matrix.RegisterDelegate(OperandType.VSet, OperandType.Null, (leftOperand, rightOperand) => new Operand(OperandType.REPLACE_RESULT_TYPE, () leftOperand.GetValue() REPLACE_OPERATOR() rightOperand.GetValue()));
 
             matrix.RegisterDelegate(OperandType.Object, OperandType.Long, (leftOperand, rightOperand) => new Operand(OperandType.Object, rightOperand.GetValue()));

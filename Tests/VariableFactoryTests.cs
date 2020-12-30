@@ -1,5 +1,4 @@
 ﻿using FunctionZero.ExpressionParserZero;
-using FunctionZero.ExpressionParserZero.Variables;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Parser;
+using FunctionZero.ExpressionParserZero.Variables;
 
 namespace ExpressionParserUnitTests
 {

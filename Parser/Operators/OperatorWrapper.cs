@@ -25,9 +25,9 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Tokens;
-using FunctionZero.ExpressionParserZero.Variables;
 
 namespace FunctionZero.ExpressionParserZero.Operators
 {
@@ -55,7 +55,7 @@ namespace FunctionZero.ExpressionParserZero.Operators
 
         public string AsString => WrappedOperator.AsString;
         public int Precedence => WrappedOperator.Precedence;
-        public Action<Stack<IOperand>, IVariableStore, long> DoOperation => WrappedOperator.DoOperation;
+        public Action<Stack<IOperand>, IBackingStore, long> DoOperation => WrappedOperator.DoOperation;
         public OperatorType Type => WrappedOperator.Type;
     }
 }

@@ -70,6 +70,10 @@
       <Project>{f71fc8a4-5952-4d47-99e2-14eda90f36c2}</Project>
       <Name>ExpressionParserZero</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VariableStoreZero\VariableStoreZero.csproj">
+      <Project>{95937a11-204c-4150-bdfc-7c75167ea772}</Project>
+      <Name>VariableStoreZero</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

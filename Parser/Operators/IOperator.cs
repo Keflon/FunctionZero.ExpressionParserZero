@@ -25,9 +25,9 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Tokens;
-using FunctionZero.ExpressionParserZero.Variables;
 
 namespace FunctionZero.ExpressionParserZero.Operators
 {
@@ -43,7 +43,7 @@ namespace FunctionZero.ExpressionParserZero.Operators
         /// <summary>
         /// Performs the operator action on the stack.
         /// </summary>
-        Action<Stack<IOperand>, IVariableStore, long> DoOperation { get; }
+        Action<Stack<IOperand>, IBackingStore, long> DoOperation { get; }
 
         OperatorType Type { get; }
     }

@@ -25,14 +25,14 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Operands;
-using FunctionZero.ExpressionParserZero.Variables;
 
 namespace FunctionZero.ExpressionParserZero.Operators
 {
 	class FunctionOperator : Operator, IFunctionOperator
 	{
-		public FunctionOperator(OperatorType operatorType, Action<Stack<IOperand>, IVariableStore, long> doOperation, string asString, int parameterCount, int maxParameterCount)
+		public FunctionOperator(OperatorType operatorType, Action<Stack<IOperand>, IBackingStore, long> doOperation, string asString, int parameterCount, int maxParameterCount)
             : base(operatorType, Parser.ExpressionParser.FunctionPrecedence, doOperation, asString)
 		{
 			MinParameterCount = parameterCount;

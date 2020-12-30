@@ -26,11 +26,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Exceptions;
 using FunctionZero.ExpressionParserZero.FunctionMatrices;
 using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Tokens;
-using FunctionZero.ExpressionParserZero.Variables;
 
 namespace FunctionZero.ExpressionParserZero
 {
@@ -44,38 +44,41 @@ namespace FunctionZero.ExpressionParserZero
 		/// <param name="stack"></param>
 		/// <param name="variables"></param>
 		/// <returns></returns>
-		public static IOperand PopAndResolve(Stack<IOperand> stack, IVariableStore variables)
+		public static IOperand PopAndResolve(Stack<IOperand> stack, IBackingStore backingStore)
 		{
-			IOperand retVal = stack.Pop();
+			IOperand operand = stack.Pop();
 			
-			if(retVal.Type == OperandType.Variable)
+			if(operand.Type == OperandType.Variable)
 			{
-				var variable = ResolveVariable(variables, retVal);
-				return new Operand(retVal.ParserPosition, variable.VariableType, variable.Value);
+				//var variable = ResolveVariable(variables, retVal);
+
+				var valueAndType = backingStore.GetValue((string)operand.GetValue());
+
+				operand = new Operand(operand.ParserPosition, valueAndType.type, valueAndType.value);
 			}
-			return retVal;
+			return operand;
 		}
 
-		private static Variable ResolveVariable(IVariableStore variables, IOperand variable)
-		{
-			try
-			{
-				// Supports dotted notation
-				Variable v = variables.GetVariable((string)variable.GetValue());
-				// TODO: What if 'v.Value' is a Variable'? 
-				return v;
-			}
-			catch (KeyNotFoundException)
-			{
-				throw new ExpressionEvaluatorException(variable.ParserPosition, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, variable.GetValue().ToString());
-			}
-		}
+		//private static Variable ResolveVariable(IVariableStore variables, IOperand variable)
+		//{
+		//	try
+		//	{
+		//		// Supports dotted notation
+		//		Variable v = variables.GetVariable((string)variable.GetValue());
+		//		// TODO: What if 'v.Value' is a Variable'? 
+		//		return v;
+		//	}
+		//	catch (KeyNotFoundException)
+		//	{
+		//		throw new ExpressionEvaluatorException(variable.ParserPosition, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, variable.GetValue().ToString());
+		//	}
+		//}
 
 		[Obsolete("Used by a test-case call to RegisterFunction.")]
-		internal static void DoMultiply(Stack<IOperand> stack, IVariableStore variables, long parserPosition)
+		internal static void DoMultiply(Stack<IOperand> stack, IBackingStore backingStore, long parserPosition)
 		{
-			IOperand second = PopAndResolve(stack, variables);
-			IOperand first = PopAndResolve(stack, variables);
+			IOperand second = PopAndResolve(stack, backingStore);
+			IOperand first = PopAndResolve(stack, backingStore);
 
 			if(first.IsNumber && second.IsNumber)
 			{
@@ -96,9 +99,9 @@ namespace FunctionZero.ExpressionParserZero
 			}
 		}
 
-	    internal static Tuple<OperandType> DoUnaryOperation(SingleOperandFunctionVector vector, Stack<IOperand> stack, IVariableStore variables)
+	    internal static Tuple<OperandType> DoUnaryOperation(SingleOperandFunctionVector vector, Stack<IOperand> stack, IBackingStore backingStore)
 	    {
-	        IOperand first = PopAndResolve(stack, variables);
+	        IOperand first = PopAndResolve(stack, backingStore);
 
 	        IOperand result = vector.PerformDelegate(first);
 
@@ -114,10 +117,10 @@ namespace FunctionZero.ExpressionParserZero
 	        }
 	    }
 
-	    internal static Tuple<OperandType, OperandType> DoOperation(DoubleOperandFunctionMatrix matrix, Stack<IOperand> stack, IVariableStore variables)
+	    internal static Tuple<OperandType, OperandType> DoOperation(DoubleOperandFunctionMatrix matrix, Stack<IOperand> stack, IBackingStore backingStore)
 	    {
-	        IOperand second = PopAndResolve(stack, variables);
-	        IOperand first = PopAndResolve(stack, variables);
+	        IOperand second = PopAndResolve(stack, backingStore);
+	        IOperand first = PopAndResolve(stack, backingStore);
 
 	        IOperand result = matrix.PerformDelegate(first, second);
 
@@ -139,9 +142,9 @@ namespace FunctionZero.ExpressionParserZero
 		/// This ought to be implemented with a FunctionMartix but it would be huge.
 		/// This way is easier!
 		/// </summary>
-		internal static Tuple<OperandType, OperandType> DoSetEquals(DoubleOperandFunctionMatrix matrix, Stack<IOperand> stack, IVariableStore variables, long parserPosition)
+		internal static Tuple<OperandType, OperandType> DoSetEquals(DoubleOperandFunctionMatrix matrix, Stack<IOperand> stack, IBackingStore backingStore, long parserPosition)
 		{
-			IOperand second = PopAndResolve(stack, variables);
+			IOperand second = PopAndResolve(stack, backingStore);
 			IOperand first = stack.Pop();       // Not PopAndResolve. LHS must be a variable.
 
 			if(first.Type != OperandType.Variable)
@@ -151,16 +154,19 @@ namespace FunctionZero.ExpressionParserZero
 			else
 			{
 				string varName = (string)first.GetValue();
-				Variable targetVariable = ResolveVariable(variables, first);
 
-				var firstOperand = new Operand(first.ParserPosition, targetVariable.VariableType, targetVariable.Value);
+				//var targetVariable = ResolveVariable(variables, first);
+				var valueAndType = backingStore.GetValue(varName);
+
+				var firstOperand = new Operand(first.ParserPosition, valueAndType.type, valueAndType.value);
 
 				IOperand result = matrix.PerformDelegate(firstOperand, second);
 
 				if (result != null)
 				{
-					Debug.Assert(targetVariable.VariableType == result.Type);
-					targetVariable.Value = result.GetValue();
+					//Debug.Assert(targetVariable.VariableType == result.Type);
+					//targetVariable.Value = result.GetValue();
+					backingStore.SetValue(varName, result.GetValue());
 					stack.Push(result);
 					return null;
 				}
