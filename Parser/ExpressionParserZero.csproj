@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>FunctionZero.ExpressionParserZero</PackageId>
-    <Version>3.0.0.0-pre-2</Version>
+    <Version>3.1.0-pre-0</Version>
     <Description>RPN Expression Parser and Evaluator</Description>
     <Copyright>Copyright 2017-2020 (c) Function Zero Ltd.</Copyright>
     <PackageTags>RPN postfix expression parser evaluator infix reverse polish overload typesafe variable variables</PackageTags>
