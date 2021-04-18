@@ -25,12 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Generated\FunctionMatrices\" />
-    <Folder Include="Generated\FunctionVectors\" />
+    <Folder Include="FunctionMatrices\Generated\FunctionMatrices\" />
+    <Folder Include="FunctionMatrices\Generated\FunctionVectors\" />
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen UnaryComplementVector ~ &gt; $(ProjectDir)\Generated\FunctionVectors\UnaryComplementVector.cs&#xD;&#xA;..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen LogicalAndMatrix &quot;&amp;&quot; &gt; $(ProjectDir)\Generated\FunctionMatrices\LogicalAndMatrix.cs&#xD;&#xA;..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen AddMatrix + &gt; $(ProjectDir)\Generated\FunctionMatrices\AddMatrix.cs&#xD;&#xA;..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen MultiplyMatrix * &gt; $(ProjectDir)\Generated\FunctionMatrices\MultiplyMatrix.cs&#xD;&#xA;..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen SubtractMatrix - &gt; $(ProjectDir)\Generated\FunctionMatrices\SubtractMatrix.cs&#xD;&#xA;" />
+    <Exec Command="..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen UnaryComplementVector ~ &gt; $(ProjectDir)\FunctionMatrices\Generated\FunctionVectors\UnaryComplementVector.cs&#xD;&#xA;..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen LogicalAndMatrix &quot;&amp;&quot; &gt; $(ProjectDir)\FunctionMatrices\Generated\FunctionMatrices\LogicalAndMatrix.cs&#xD;&#xA;..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen AddMatrix + &gt; $(ProjectDir)\FunctionMatrices\Generated\FunctionMatrices\AddMatrix.cs&#xD;&#xA;..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen MultiplyMatrix * &gt; $(ProjectDir)\FunctionMatrices\Generated\FunctionMatrices\MultiplyMatrix.cs&#xD;&#xA;..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen SubtractMatrix - &gt; $(ProjectDir)\FunctionMatrices\Generated\FunctionMatrices\SubtractMatrix.cs&#xD;&#xA;" />
   </Target>
 
 </Project>
