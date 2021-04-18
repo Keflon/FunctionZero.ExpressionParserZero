@@ -24,7 +24,7 @@ namespace MatrixCodeGen
 
                 List<string> sourceCode;
 
-                if (args[0].ToLower().EndsWith("Matrix"))
+                if (args[0].ToLower().EndsWith("matrix"))
                 {
                     sourceCode = DoubleOperandFunctionMatrix(args[0], args[1]);
                 }
