@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis.Text;
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Diagnostics;
 
 namespace MatrixCodeGen
 {
@@ -18,11 +19,23 @@ namespace MatrixCodeGen
                 Console.WriteLine("Incorrect parameters");
             else
             {
-                List<string> sourcecode = CreateSourceCode(args[0], args[1]);
+                Debug.WriteLine(args[0]);
+                Debug.WriteLine(args[1]);
 
+                List<string> sourceCode;
+
+                if (args[0].ToLower().EndsWith("Matrix"))
+                {
+                    sourceCode = DoubleOperandFunctionMatrix(args[0], args[1]);
+                }
+                else
+                {
+                    sourceCode = SingleOperandFunctionVector(args[0], args[1]);
+
+                }
                 StringBuilder sb = new StringBuilder();
 
-                foreach (var item in sourcecode)
+                foreach (var item in sourceCode)
                     sb.AppendLine(item);
 
 
@@ -30,7 +43,50 @@ namespace MatrixCodeGen
             }
         }
 
-        private static List<string> CreateSourceCode(string className, string theOperator)
+        private static List<string> SingleOperandFunctionVector(string className, string theOperator)
+        {
+            var lookup = GetTypeLookup();
+
+            var retval = new List<string>();
+
+            retval.Add("using FunctionZero.ExpressionParserZero.FunctionMatrices;");
+            retval.Add("using FunctionZero.ExpressionParserZero.Operands;");
+            retval.Add("");
+            retval.Add("namespace FunctionZero.ExpressionParserZero.Parser.FunctionVectors");
+            retval.Add("{");
+            retval.Add($"    public static class {className}");
+            retval.Add(" {");
+            retval.Add("     public static SingleOperandFunctionVector Create()");
+            retval.Add("     {");
+            retval.Add("         var vector = new SingleOperandFunctionVector();");
+            retval.Add("");
+            retval.Add("");
+            retval.Add("");
+
+            foreach (var theType in lookup)
+            {
+                string resultType = GetVectorResultType(theType.Value, theOperator);
+                 if (resultType != null)
+                {
+                    string enumType = lookup.FirstOrDefault(pair => pair.Value == resultType).Key;
+
+                    string line = $"      vector.RegisterDelegate(OperandType.{theType.Key}, operand => new Operand(OperandType.{enumType}, {theOperator} ({theType.Value})operand.GetValue()));";
+
+                    retval.Add(line);
+                }
+            }
+
+            retval.Add("");
+            retval.Add("         return vector;");
+            retval.Add("     }");
+            retval.Add(" }");
+            retval.Add("}");
+
+            return retval;
+        }
+
+
+        private static List<string> DoubleOperandFunctionMatrix(string className, string theOperator)
         {
             var lookup = GetTypeLookup();
 
@@ -93,6 +149,65 @@ namespace MatrixCodeGen
             sb.AppendLine($"            {leftType} left = default;");
             sb.AppendLine($"            {rightType} right = default;");
             sb.AppendLine($"            var result = left {theOperator} right;");
+            sb.AppendLine("             return result.GetType().ToString();");
+            sb.AppendLine("     }");
+            sb.AppendLine(" }");
+            sb.AppendLine(" }");
+            sb.AppendLine("");
+
+            if (CanCompile(sb.ToString(), out var compilation))
+            {
+                var source = sb.ToString();
+
+                SemanticModel semanticModel = compilation.GetSemanticModel(compilation.SyntaxTrees[0], true);
+
+                var variableDeclarations = compilation.SyntaxTrees[0].GetRoot()
+                    .DescendantNodes()
+                    .OfType<LocalDeclarationStatementSyntax>();
+
+
+                foreach (LocalDeclarationStatementSyntax variableDeclaration in variableDeclarations)
+                {
+                    SymbolInfo symbolInfo = semanticModel.GetSymbolInfo(variableDeclaration.Declaration.Type);
+                    var name = variableDeclaration.Declaration.Variables.First().Identifier.Value;
+                    ISymbol typeSymbol = symbolInfo.Symbol; // the type symbol for the variable..
+
+                    if (name.ToString() == "result")
+                    {
+                        var retval = typeSymbol?.ToDisplayString() ?? null;
+
+                        if (retval != null)
+                        {
+                            //Compile(source);
+                        }
+
+                        return retval;
+                    }
+                }
+
+                throw new InvalidOperationException();
+            }
+            return null;
+        }
+
+
+        private static string GetVectorResultType(string theType, string theOperator)
+        {
+            var sb = new StringBuilder();
+
+
+            sb.AppendLine("using System;");
+            sb.AppendLine("");
+            sb.AppendLine(" namespace Borg");
+            sb.AppendLine(" {");
+            sb.AppendLine($"        public static class Test");
+            sb.AppendLine("     {");
+            sb.AppendLine("static int myInt;");
+
+            sb.AppendLine($"        public static string GetVectorResultType(string theType, string theOperator)");
+            sb.AppendLine("     {");
+            sb.AppendLine($"            {theType} theValue = default;");
+            sb.AppendLine($"            var result = {theOperator} theValue;");
             sb.AppendLine("             return result.GetType().ToString();");
             sb.AppendLine("     }");
             sb.AppendLine(" }");
