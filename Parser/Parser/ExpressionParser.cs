@@ -76,6 +76,45 @@ namespace FunctionZero.ExpressionParserZero.Parser
 
             // This is better as it includes functions: http://en.cppreference.com/w/c/language/operator_precedence
 
+
+            #region Casts
+
+            {
+                var castVector = UnaryCastVector.Create();
+
+                RegisterUnaryCastOperator(OperandType.Long, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.Sbyte, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.Byte, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.Short, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.Ushort, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.Int, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.Uint, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.Long, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.Ulong, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.Char, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.Float, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.Double, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.Bool, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.Decimal, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.NullableSbyte, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.NullableByte, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.NullableShort, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.NullableUshort, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.NullableInt, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.NullableUint, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.NullableLong, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.NullableUlong, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.NullableChar, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.NullableFloat, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.NullableDouble, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.NullableBool, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.NullableDecimal, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.String, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.Object, 12, castVector);
+            }
+
+            #endregion
+
             // Register UnaryMinus ...
             UnaryMinus = RegisterUnaryOperator("UnaryMinus", 12, UnaryMinusVector.Create());
             UnaryPlus = RegisterUnaryOperator("UnaryPlus", 12, null);
@@ -158,9 +197,9 @@ namespace FunctionZero.ExpressionParserZero.Parser
                             var result = OperatorActions.DoSetEquals(matrix, operandStack, vSet, parserPosition);
                             // DoSetEquals throws its own exception.
                         }
-				
-				
-				, text);
+
+
+                , text);
             Operators.Add(text, op);
             OperatorMatrices.Add(op, matrix);
             return op;
@@ -180,7 +219,31 @@ namespace FunctionZero.ExpressionParserZero.Parser
                         throw new ExpressionEvaluatorException(parserPosition,
                             ExpressionEvaluatorException.ExceptionCause.BadUnaryOperand,
                             "Unary operator '" + text + "' cannot be applied to operand of type " + result.Item1);
+                    }
+                },
+                text
+            );
+            Operators.Add(text, op);
+            OperatorVectors.Add(op, vector);
+            return op;
+        }
 
+
+        public IOperator RegisterUnaryCastOperator(OperandType operandType, int precedence, SingleOperandFunctionVector vector)
+        {
+            var text = operandType.ToString();
+
+            var op = new Operator(
+                OperatorType.UnaryOperator,
+                precedence,
+                (operandStack, vSet, parserPosition) =>
+                {
+                    var result = OperatorActions.DoUnaryCastOperation(vector, operandStack, vSet, operandType);
+                    if (result != null)
+                    {
+                        throw new ExpressionEvaluatorException(parserPosition,
+                            ExpressionEvaluatorException.ExceptionCause.BadUnaryOperand,
+                            "Cast to (" + text + ") cannot be applied to operand of type " + result.Item1);
                     }
                 },
                 text

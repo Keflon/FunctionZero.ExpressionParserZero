@@ -24,6 +24,7 @@
 // SOFTWARE.
 #endregion
 using FunctionZero.ExpressionParserZero.Operands;
+using System;
 
 namespace FunctionZero.ExpressionParserZero.FunctionMatrices
 {
@@ -46,6 +47,11 @@ namespace FunctionZero.ExpressionParserZero.FunctionMatrices
 		public IOperand PerformDelegate(IOperand operand)
 		{
 			return _delegateVector[(int)operand.Type]?.Invoke(operand);
+		}
+
+        internal IOperand PerformCastDelegate(OperandType castTo, IOperand operand)
+        {
+			return _delegateVector[(int)castTo]?.Invoke(operand);
 		}
 	}
 }

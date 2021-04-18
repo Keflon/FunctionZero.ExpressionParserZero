@@ -20,3 +20,4 @@
 ..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen UnaryMinusVector "-" > .\FunctionMatrices\Generated\FunctionVectors\UnaryMinusVector.cs
 ..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen UnaryNotVector "!" > .\FunctionMatrices\Generated\FunctionVectors\UnaryNotVector.cs
 
+..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen UnaryCastVector " " > .\FunctionMatrices\Generated\FunctionVectors\UnaryCastVector.cs

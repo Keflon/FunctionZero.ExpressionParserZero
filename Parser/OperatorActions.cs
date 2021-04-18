@@ -191,6 +191,24 @@ namespace FunctionZero.ExpressionParserZero
             }
         }
 
+        internal static Tuple<OperandType> DoUnaryCastOperation(SingleOperandFunctionVector vector, Stack<IOperand> operandStack, IBackingStore backingStore, OperandType castTo)
+        {
+            IOperand first = PopAndResolve(operandStack, backingStore);
+
+            IOperand result = vector.PerformCastDelegate(castTo, first);
+
+            if (result != null)
+            {
+                operandStack.Push(result);
+                return null;
+            }
+            else
+            {
+                // Signal an error ...
+                return new Tuple<OperandType>(first.Type);
+            }
+        }
+
         #endregion
     }
 }

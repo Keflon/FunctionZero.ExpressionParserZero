@@ -2,7 +2,7 @@
   "profiles": {
     "MatrixCodeGen": {
       "commandName": "Project",
-      "commandLineArgs": "TestMatrix !="
+      "commandLineArgs": "TestVector \" \""
     }
   }
 }
