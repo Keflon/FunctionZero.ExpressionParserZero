@@ -31,15 +31,10 @@ namespace MatrixCodeGen
                 else
                 {
                     sourceCode = SingleOperandFunctionVector(args[0], args[1]);
-
                 }
-                StringBuilder sb = new StringBuilder();
 
-                foreach (var item in sourceCode)
-                    sb.AppendLine(item);
-
-
-                Console.WriteLine(sb.ToString());
+                foreach (var line in sourceCode)
+                    Console.WriteLine(line);
             }
         }
 
@@ -53,33 +48,31 @@ namespace MatrixCodeGen
             retval.Add("using FunctionZero.ExpressionParserZero.Operands;");
             retval.Add("");
             retval.Add("namespace FunctionZero.ExpressionParserZero.Parser.FunctionVectors");
-            retval.Add("{");
+            retval.Add("{");        
             retval.Add($"    public static class {className}");
-            retval.Add(" {");
-            retval.Add("     public static SingleOperandFunctionVector Create()");
-            retval.Add("     {");
-            retval.Add("         var vector = new SingleOperandFunctionVector();");
-            retval.Add("");
-            retval.Add("");
+            retval.Add("    {");
+            retval.Add("        public static SingleOperandFunctionVector Create()");
+            retval.Add("        {");
+            retval.Add("            var vector = new SingleOperandFunctionVector();");
             retval.Add("");
 
             foreach (var theType in lookup)
             {
                 string resultType = GetVectorResultType(theType.Value, theOperator);
-                 if (resultType != null)
+                if (resultType != null)
                 {
                     string enumType = lookup.FirstOrDefault(pair => pair.Value == resultType).Key;
 
-                    string line = $"      vector.RegisterDelegate(OperandType.{theType.Key}, operand => new Operand(OperandType.{enumType}, {theOperator} ({theType.Value})operand.GetValue()));";
+                    string line = $"            vector.RegisterDelegate(OperandType.{theType.Key}, operand => new Operand(OperandType.{enumType}, {theOperator} ({theType.Value})operand.GetValue()));";
 
                     retval.Add(line);
                 }
             }
 
             retval.Add("");
-            retval.Add("         return vector;");
-            retval.Add("     }");
-            retval.Add(" }");
+            retval.Add("            return vector;");
+            retval.Add("        }");
+            retval.Add("    }");
             retval.Add("}");
 
             return retval;
@@ -115,9 +108,30 @@ namespace MatrixCodeGen
                     {
                         string enumType = lookup.FirstOrDefault(pair => pair.Value == resultType).Key;
 
-                        string line = $"      matrix.RegisterDelegate(OperandType.{left.Key}, OperandType.{right.Key}, (leftOperand, rightOperand) => new Operand(OperandType.{enumType}, ({left.Value})leftOperand.GetValue() {theOperator} ({right.Value})rightOperand.GetValue()));";
 
-                        retval.Add(line);
+                        string rightSide;
+                        if (right.Value == "null")
+                            rightSide = "null";
+                        else
+                            rightSide = $"({right.Value})rightOperand.GetValue()";
+
+                        if (theOperator == "=")
+                        {
+                            string line = $"            matrix.RegisterDelegate(OperandType.{left.Key}, OperandType.{right.Key}, (leftOperand, rightOperand) => new Operand(OperandType.{enumType}, {rightSide}));";
+                            retval.Add(line);
+                        }
+                        else
+                        {
+                            string leftSide;
+                            if (left.Value == "null")
+                                leftSide = "null";
+                            else
+                                leftSide = $"({left.Value})leftOperand.GetValue()";
+
+
+                            string line = $"            matrix.RegisterDelegate(OperandType.{left.Key}, OperandType.{right.Key}, (leftOperand, rightOperand) => new Operand(OperandType.{enumType}, {leftSide} {theOperator} {rightSide}));";
+                            retval.Add(line);
+                        }
                     }
                 }
             }
@@ -135,36 +149,40 @@ namespace MatrixCodeGen
         {
             var sb = new StringBuilder();
 
+            if (leftType == "null")
+                leftType = "object";
+            if (rightType == "null")
+                rightType = "object";
 
             sb.AppendLine("using System;");
             sb.AppendLine("");
-            sb.AppendLine(" namespace Borg");
-            sb.AppendLine(" {");
-            sb.AppendLine($"        public static class Test");
-            sb.AppendLine("     {");
-            sb.AppendLine("static int myInt;");
+            sb.AppendLine("namespace Borg");
+            sb.AppendLine("{");
+            sb.AppendLine($"    public static class Test");
+            sb.AppendLine("    {");
+            sb.AppendLine("        static int myInt;");
 
             sb.AppendLine($"        public static string GetResultType(string leftType, string rightType, string theOperator)");
-            sb.AppendLine("     {");
+            sb.AppendLine("        {");
             sb.AppendLine($"            {leftType} left = default;");
             sb.AppendLine($"            {rightType} right = default;");
             sb.AppendLine($"            var result = left {theOperator} right;");
             sb.AppendLine("             return result.GetType().ToString();");
-            sb.AppendLine("     }");
-            sb.AppendLine(" }");
-            sb.AppendLine(" }");
+            sb.AppendLine("        }");
+            sb.AppendLine("    }");
+            sb.AppendLine("}");
             sb.AppendLine("");
 
-            if (CanCompile(sb.ToString(), out var compilation))
+            var source = sb.ToString();
+
+            if (CanCompile(source, out var compilation))
             {
-                var source = sb.ToString();
 
                 SemanticModel semanticModel = compilation.GetSemanticModel(compilation.SyntaxTrees[0], true);
 
                 var variableDeclarations = compilation.SyntaxTrees[0].GetRoot()
                     .DescendantNodes()
                     .OfType<LocalDeclarationStatementSyntax>();
-
 
                 foreach (LocalDeclarationStatementSyntax variableDeclaration in variableDeclarations)
                 {
@@ -175,12 +193,6 @@ namespace MatrixCodeGen
                     if (name.ToString() == "result")
                     {
                         var retval = typeSymbol?.ToDisplayString() ?? null;
-
-                        if (retval != null)
-                        {
-                            //Compile(source);
-                        }
-
                         return retval;
                     }
                 }
@@ -194,7 +206,6 @@ namespace MatrixCodeGen
         private static string GetVectorResultType(string theType, string theOperator)
         {
             var sb = new StringBuilder();
-
 
             sb.AppendLine("using System;");
             sb.AppendLine("");

@@ -3,7 +3,7 @@ using FunctionZero.ExpressionParserZero.Operands;
 
 namespace FunctionZero.ExpressionParserZero.Parser.FunctionMatrices
 {
-    public static class LogicalAndMatrix
+    public static class LogicalOrMatrix
  {
      public static DoubleOperandFunctionMatrix Create()
      {
@@ -11,7 +11,7 @@ namespace FunctionZero.ExpressionParserZero.Parser.FunctionMatrices
 
 
 
-            matrix.RegisterDelegate(OperandType.Bool, OperandType.Bool, (leftOperand, rightOperand) => new Operand(OperandType.Bool, (bool)leftOperand.GetValue() && (bool)rightOperand.GetValue()));
+            matrix.RegisterDelegate(OperandType.Bool, OperandType.Bool, (leftOperand, rightOperand) => new Operand(OperandType.Bool, (bool)leftOperand.GetValue() || (bool)rightOperand.GetValue()));
 
          return matrix;
      }
