@@ -1,4 +1,5 @@
-﻿..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen AddMatrix "+" > .\FunctionMatrices\Generated\FunctionMatrices\AddMatrix.cs
+﻿
+..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen AddMatrix "+" > .\FunctionMatrices\Generated\FunctionMatrices\AddMatrix.cs
 ..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen BitwiseAndMatrix "&" > .\FunctionMatrices\Generated\FunctionMatrices\BitwiseAndMatrix.cs
 ..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen BitwiseOrMatrix "|" > .\FunctionMatrices\Generated\FunctionMatrices\BitwiseOrMatrix.cs
 ..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen BitwiseXorMatrix "^" > .\FunctionMatrices\Generated\FunctionMatrices\BitwiseXorMatrix.cs
@@ -14,10 +15,8 @@
 ..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen MultiplyMatrix * > .\FunctionMatrices\Generated\FunctionMatrices\MultiplyMatrix.cs
 ..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen NotEqualMatrix "!=" > .\FunctionMatrices\Generated\FunctionMatrices\NotEqualMatrix.cs
 ..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen SetEqualsMatrix "=" > .\FunctionMatrices\Generated\FunctionMatrices\SetEqualsMatrix.cs
-..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen SubtractMatrix - > .\FunctionMatrices\Generated\FunctionMatrices\SubtractMatrix.cs
-
-
-
-..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen UnaryComplementVector ~ > .\FunctionMatrices\Generated\FunctionVectors\UnaryComplementVector.cs
-..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen UnaryComplementVector ~ > .\FunctionMatrices\Generated\FunctionVectors\UnaryComplementVector.cs
+..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen SubtractMatrix "-" > .\FunctionMatrices\Generated\FunctionMatrices\SubtractMatrix.cs
+..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen UnaryComplementVector "~" > .\FunctionMatrices\Generated\FunctionVectors\UnaryComplementVector.cs
+..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen UnaryMinusVector "-" > .\FunctionMatrices\Generated\FunctionVectors\UnaryMinusVector.cs
+..\MatrixCodeGen\bin\Debug\netcoreapp3.0\MatrixCodeGen UnaryNotVector "!" > .\FunctionMatrices\Generated\FunctionVectors\UnaryNotVector.cs
 
