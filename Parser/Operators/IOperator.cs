@@ -55,5 +55,8 @@ namespace FunctionZero.ExpressionParserZero.Operators
         Function,
         OpenParenthesis,
         CloseParenthesis,
+
+
+        UnaryCastOperator,
     }
 }

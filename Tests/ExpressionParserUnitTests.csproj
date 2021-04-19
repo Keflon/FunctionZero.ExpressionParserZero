@@ -57,6 +57,7 @@
     <Compile Include="ExpressionEvaluatorDottedNotation.cs" />
     <Compile Include="ExpressionEvaluatorLogicalTests.cs" />
     <Compile Include="ExpressionEvaluatorTests.cs" />
+    <Compile Include="CastTests.cs" />
     <Compile Include="ExpressionParserTests.cs" />
     <Compile Include="FunctionMatrixOverloads.cs" />
     <Compile Include="NullableTypesTests.cs" />

@@ -37,7 +37,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
     public class Tokenizer
     {
         private readonly Dictionary<string, IOperator> _operators;
-
+   
         private readonly Dictionary<string, IOperator> _functions;
         private readonly StreamReader _inputReader;
         public int ParserPosition { get; private set; }
