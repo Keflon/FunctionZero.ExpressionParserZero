@@ -34,6 +34,28 @@ namespace ExpressionParserUnitTests
 		}
 
 
+		[TestMethod]
+		public void TestLongCastMinuse()
+		{
+
+
+			ExpressionParser parser = new ExpressionParser();
+
+			var compiledExpression = parser.Parse("(Long)5.2");
+
+			Debug.WriteLine(compiledExpression.ToString());
+
+			//Assert.AreEqual("5 UnaryMinus ", Stringify(result));
+
+			long expectedResult = 5;
+			var evalResult = compiledExpression.Evaluate(null);
+
+			Assert.AreEqual(1, evalResult.Count);
+			var actualResult = (long)evalResult.Pop().GetValue();
+			Assert.AreEqual(expectedResult, actualResult);
+		}
+
+
 
 
 
