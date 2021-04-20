@@ -39,6 +39,13 @@ namespace FunctionZero.ExpressionParserZero.Operands
 
 	    }
 
+		internal Operand(OperandType operandType)
+        {
+			Type = operandType;
+			OperandValue = null;
+			ParserPosition = -1;
+		}
+
         public Operand(long parserPosition, OperandType operandType, object operandValue)
 		{
 			Debug.Assert(CheckValueType(operandType, operandValue) == true);

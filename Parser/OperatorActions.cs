@@ -191,11 +191,11 @@ namespace FunctionZero.ExpressionParserZero
             }
         }
 
-        internal static Tuple<OperandType> DoUnaryCastOperation(SingleOperandFunctionVector vector, Stack<IOperand> operandStack, IBackingStore backingStore, OperandType castTo)
+        internal static Tuple<OperandType> DoUnaryCastOperation(DoubleOperandFunctionMatrix matrix, Stack<IOperand> operandStack, IBackingStore backingStore, Operand castTo)
         {
             IOperand first = PopAndResolve(operandStack, backingStore);
 
-            IOperand result = vector.PerformCastDelegate(castTo, first);
+            IOperand result = matrix.PerformDelegate(first, castTo);
 
             if (result != null)
             {
@@ -208,7 +208,10 @@ namespace FunctionZero.ExpressionParserZero
                 return new Tuple<OperandType>(first.Type);
             }
         }
-
+        //internal IOperand PerformCastDelegate(OperandType castTo, IOperand operand)
+        //{
+        //    return _delegateVector[(int)castTo]?.Invoke(operand);
+        //}
         #endregion
     }
 }

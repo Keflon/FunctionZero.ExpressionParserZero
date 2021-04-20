@@ -48,10 +48,5 @@ namespace FunctionZero.ExpressionParserZero.FunctionMatrices
 		{
 			return _delegateVector[(int)operand.Type]?.Invoke(operand);
 		}
-
-        internal IOperand PerformCastDelegate(OperandType castTo, IOperand operand)
-        {
-			return _delegateVector[(int)castTo]?.Invoke(operand);
-		}
 	}
 }

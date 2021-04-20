@@ -15,27 +15,34 @@ namespace MatrixCodeGen
     {
         static void Main(string[] args)
         {
-            if (args.Count() != 2)
-                Console.WriteLine("Incorrect parameters");
-            else
-            {
-                Debug.WriteLine(args[0]);
-                Debug.WriteLine(args[1]);
+            List<string> sourceCode = null;
 
-                List<string> sourceCode;
+            if (args.Count() == 1)
+            {
+                sourceCode = UnaryCastMatrix(args[0]);
+
+            }
+            else if (args.Count() == 2)
+            {
+                Debug.WriteLine(args[1]);
 
                 if (args[0].ToLower().EndsWith("matrix"))
                 {
                     sourceCode = DoubleOperandFunctionMatrix(args[0], args[1]);
                 }
-                else
+                else if (args[0].ToLower().EndsWith("vector"))
                 {
                     sourceCode = SingleOperandFunctionVector(args[0], args[1]);
                 }
+            }
+            else
+                Console.WriteLine("Incorrect parameters");
 
+            Debug.WriteLine(args[0]);
+
+            if (sourceCode != null)
                 foreach (var line in sourceCode)
                     Console.WriteLine(line);
-            }
         }
 
         private static List<string> SingleOperandFunctionVector(string className, string theOperator)
@@ -48,7 +55,7 @@ namespace MatrixCodeGen
             retval.Add("using FunctionZero.ExpressionParserZero.Operands;");
             retval.Add("");
             retval.Add("namespace FunctionZero.ExpressionParserZero.Parser.FunctionVectors");
-            retval.Add("{");        
+            retval.Add("{");
             retval.Add($"    public static class {className}");
             retval.Add("    {");
             retval.Add("        public static SingleOperandFunctionVector Create()");
@@ -78,6 +85,45 @@ namespace MatrixCodeGen
             return retval;
         }
 
+        private static List<string> UnaryCastMatrix(string className)
+        {
+            var lookup = GetTypeLookup();
+
+            var retval = new List<string>();
+
+            retval.Add("using FunctionZero.ExpressionParserZero.FunctionMatrices;");
+            retval.Add("using FunctionZero.ExpressionParserZero.Operands;");
+            retval.Add("");
+            retval.Add("namespace FunctionZero.ExpressionParserZero.Parser.FunctionMatrices");
+            retval.Add("{");
+            retval.Add($"    public static class {className}");
+            retval.Add("    {");
+            retval.Add("        public static DoubleOperandFunctionMatrix Create()");
+            retval.Add("        {");
+            retval.Add("            var matrix = new DoubleOperandFunctionMatrix();");
+
+            foreach (var castFrom in lookup)
+            {
+                foreach (var castTo in lookup)
+                {
+                    //matrix.RegisterDelegate(OperandType.NullableByte, OperandType.Byte, operand => new Operand(OperandType.NullableByte, (byte?)(byte)operand.GetValue()));
+
+                    if (CanDoCast(castFrom.Value, castTo.Value))
+                    {
+                        string line = $"            matrix.RegisterDelegate(OperandType.{castFrom.Key}, OperandType.{castTo.Key}, (fromOperand, toOperand) => " +
+                                                $"new Operand(OperandType.{castTo.Key}, ({castTo.Value})({castFrom.Value}) fromOperand.GetValue()));";
+                        retval.Add(line);
+                    }
+                }
+            }
+
+            retval.Add("            return matrix;");
+            retval.Add("        }");
+            retval.Add("    }");
+            retval.Add("}");
+
+            return retval;
+        }
 
         private static List<string> DoubleOperandFunctionMatrix(string className, string theOperator)
         {
@@ -143,6 +189,34 @@ namespace MatrixCodeGen
             retval.Add("}");
 
             return retval;
+        }
+
+        private static bool CanDoCast(string castTo, string castFrom)
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine($"using System;");
+            sb.AppendLine($"");
+            sb.AppendLine($"namespace Borg");
+            sb.AppendLine( "{");
+            sb.AppendLine($"    public static class Test");
+            sb.AppendLine( "    {");
+            sb.AppendLine($"        public static {castTo} TestMethod({castFrom} from, {castTo} to, object thing)");
+            sb.AppendLine( "        {");
+            sb.AppendLine($"             {castTo} result = ({castTo})({castFrom}) thing;");
+            sb.AppendLine($"             return result;");
+            sb.AppendLine( "        }");
+            sb.AppendLine( "    }");
+            sb.AppendLine( "}");
+            sb.AppendLine($"");
+
+            var source = sb.ToString();
+
+            if (CanCompile(source, out var compilation))
+            {
+                return true;
+            }
+            return false;
         }
 
         private static string GetResultType(string leftType, string rightType, string theOperator)

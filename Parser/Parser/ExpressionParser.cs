@@ -83,36 +83,36 @@ namespace FunctionZero.ExpressionParserZero.Parser
             #region Casts
 
             {
-                var castVector = UnaryCastVector.Create();
+                var castMatrix = UnaryCastMatrix.Create();
 
-                RegisterUnaryCastOperator(OperandType.Sbyte, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.Byte, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.Short, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.Ushort, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.Int, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.Uint, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.Long, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.Ulong, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.Char, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.Float, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.Double, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.Bool, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.Decimal, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.NullableSbyte, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.NullableByte, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.NullableShort, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.NullableUshort, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.NullableInt, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.NullableUint, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.NullableLong, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.NullableUlong, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.NullableChar, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.NullableFloat, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.NullableDouble, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.NullableBool, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.NullableDecimal, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.String, 12, castVector);
-                RegisterUnaryCastOperator(OperandType.Object, 12, castVector);
+                RegisterUnaryCastOperator(OperandType.Sbyte, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.Byte, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.Short, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.Ushort, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.Int, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.Uint, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.Long, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.Ulong, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.Char, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.Float, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.Double, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.Bool, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.Decimal, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.NullableSbyte, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.NullableByte, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.NullableShort, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.NullableUshort, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.NullableInt, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.NullableUint, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.NullableLong, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.NullableUlong, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.NullableChar, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.NullableFloat, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.NullableDouble, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.NullableBool, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.NullableDecimal, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.String, 12, castMatrix);
+                RegisterUnaryCastOperator(OperandType.Object, 12, castMatrix);
             }
 
             #endregion
@@ -231,16 +231,18 @@ namespace FunctionZero.ExpressionParserZero.Parser
         }
 
 
-        public IOperator RegisterUnaryCastOperator(OperandType operandType, int precedence, SingleOperandFunctionVector vector)
+        public IOperator RegisterUnaryCastOperator(OperandType operandType, int precedence, DoubleOperandFunctionMatrix matrix)
         {
             var text = operandType.ToString();
+
+            var castToOperand = new Operand(operandType);
 
             var op = new Operator(
                 OperatorType.UnaryCastOperator,
                 precedence,
                 (operandStack, vSet, parserPosition) =>
                 {
-                    var result = OperatorActions.DoUnaryCastOperation(vector, operandStack, vSet, operandType);
+                    var result = OperatorActions.DoUnaryCastOperation(matrix, operandStack, vSet, castToOperand);
                     if (result != null)
                     {
                         throw new ExpressionEvaluatorException(parserPosition,
@@ -251,7 +253,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
                 text
             );
             Operators.Add(text, op);
-            OperatorVectors.Add(op, vector);
+            OperatorMatrices.Add(op, matrix);
             return op;
         }
 
