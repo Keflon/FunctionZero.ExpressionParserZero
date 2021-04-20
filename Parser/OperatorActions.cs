@@ -193,9 +193,9 @@ namespace FunctionZero.ExpressionParserZero
 
         internal static Tuple<OperandType> DoUnaryCastOperation(DoubleOperandFunctionMatrix matrix, Stack<IOperand> operandStack, IBackingStore backingStore, Operand castTo)
         {
-            IOperand first = PopAndResolve(operandStack, backingStore);
+            IOperand operand = PopAndResolve(operandStack, backingStore);
 
-            IOperand result = matrix.PerformDelegate(first, castTo);
+            IOperand result = matrix.PerformDelegate(operand, castTo);
 
             if (result != null)
             {
@@ -205,13 +205,10 @@ namespace FunctionZero.ExpressionParserZero
             else
             {
                 // Signal an error ...
-                return new Tuple<OperandType>(first.Type);
+                return new Tuple<OperandType>(operand.Type);
             }
         }
-        //internal IOperand PerformCastDelegate(OperandType castTo, IOperand operand)
-        //{
-        //    return _delegateVector[(int)castTo]?.Invoke(operand);
-        //}
+
         #endregion
     }
 }

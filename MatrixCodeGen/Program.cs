@@ -110,8 +110,18 @@ namespace MatrixCodeGen
 
                     if (CanDoCast(castFrom.Value, castTo.Value))
                     {
-                        string line = $"            matrix.RegisterDelegate(OperandType.{castFrom.Key}, OperandType.{castTo.Key}, (fromOperand, toOperand) => " +
-                                                $"new Operand(OperandType.{castTo.Key}, ({castTo.Value})({castFrom.Value}) fromOperand.GetValue()));";
+                        string line;
+                        if (castFrom.Value == "null")
+                        {
+                            line = $"            matrix.RegisterDelegate(OperandType.{castFrom.Key}, OperandType.{castTo.Key}, (fromOperand, toOperand) => " +
+                        $"new Operand(OperandType.{castTo.Key}, ({castTo.Value}) null));";
+                        }
+                        else
+                        {
+                            line = $"            matrix.RegisterDelegate(OperandType.{castFrom.Key}, OperandType.{castTo.Key}, (fromOperand, toOperand) => " +
+                                                    $"new Operand(OperandType.{castTo.Key}, ({castTo.Value})({castFrom.Value}) fromOperand.GetValue()));";
+                        }
+
                         retval.Add(line);
                     }
                 }
@@ -191,23 +201,32 @@ namespace MatrixCodeGen
             return retval;
         }
 
-        private static bool CanDoCast(string castTo, string castFrom)
+        private static bool CanDoCast(string castFrom, string castTo)
         {
             var sb = new StringBuilder();
 
             sb.AppendLine($"using System;");
             sb.AppendLine($"");
             sb.AppendLine($"namespace Borg");
-            sb.AppendLine( "{");
+            sb.AppendLine("{");
             sb.AppendLine($"    public static class Test");
-            sb.AppendLine( "    {");
-            sb.AppendLine($"        public static {castTo} TestMethod({castFrom} from, {castTo} to, object thing)");
-            sb.AppendLine( "        {");
-            sb.AppendLine($"             {castTo} result = ({castTo})({castFrom}) thing;");
+            sb.AppendLine("    {");
+            if (castFrom == "null")
+            {
+                sb.AppendLine($"        public static {castTo} TestMethod({castTo} to, object thing)");
+                sb.AppendLine("        {");
+                sb.AppendLine($"             {castTo} result = ({castTo}) null;");
+            }
+            else
+            {
+                sb.AppendLine($"        public static {castTo} TestMethod({castFrom} from, {castTo} to, object thing)");
+                sb.AppendLine("        {");
+                sb.AppendLine($"             {castTo} result = ({castTo})({castFrom}) thing;");
+            }
             sb.AppendLine($"             return result;");
-            sb.AppendLine( "        }");
-            sb.AppendLine( "    }");
-            sb.AppendLine( "}");
+            sb.AppendLine("        }");
+            sb.AppendLine("    }");
+            sb.AppendLine("}");
             sb.AppendLine($"");
 
             var source = sb.ToString();
