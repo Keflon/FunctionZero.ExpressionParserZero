@@ -147,26 +147,45 @@ namespace ExpressionParserUnitTests
 		    Assert.AreEqual(expectedResult, actualResult);
 	    }
 
-	    [TestMethod]
-	    public void TestNullableLongNullAddLong()
-	    {
-		    ExpressionParser e = new ExpressionParser();
-		    VariableSet variables = new VariableSet();
+		[TestMethod]
+		public void TestNullableLongNullAddLong()
+		{
+			ExpressionParser e = new ExpressionParser();
+			VariableSet variables = new VariableSet();
 
-		    variables.RegisterVariable(OperandType.NullableLong, "Left", null);
-		    variables.RegisterVariable(OperandType.Long, "Right", 5);
+			variables.RegisterVariable(OperandType.NullableLong, "Left", null);
+			variables.RegisterVariable(OperandType.Long, "Right", 5);
 
-		    long? left = null;
-		    long right = 5;
+			long? left = null;
+			long right = 5;
 
-		    long? expectedResult = left + right;
+			long? expectedResult = left + right;
 
-		    var compiledExpression = e.Parse("Left + Right");
+			var compiledExpression = e.Parse("Left + Right");
 
-		    var evalResult = compiledExpression.Evaluate(variables);
-		    Assert.AreEqual(1, evalResult.Count);
-		    long? actualResult = (long?)evalResult.Pop().GetValue();
-		    Assert.AreEqual(expectedResult, actualResult);
-	    }
+			var evalResult = compiledExpression.Evaluate(variables);
+			Assert.AreEqual(1, evalResult.Count);
+			long? actualResult = (long?)evalResult.Pop().GetValue();
+			Assert.AreEqual(expectedResult, actualResult);
+		}
+
+
+		[TestMethod]
+		public void TestNullableLongNullEqualityNull()
+		{
+			ExpressionParser e = new ExpressionParser();
+			VariableSet variables = new VariableSet();
+
+			variables.RegisterVariable(OperandType.NullableLong, "Left", null);
+
+			bool expectedResult = true;
+
+			var compiledExpression = e.Parse("Left == null");
+
+			var evalResult = compiledExpression.Evaluate(variables);
+			Assert.AreEqual(1, evalResult.Count);
+			bool actualResult = (bool)evalResult.Pop().GetValue();
+			Assert.AreEqual(expectedResult, actualResult);
+		}
 	}
 }

@@ -74,12 +74,40 @@ namespace ExpressionParserUnitTests
         {
             ExpressionParser parser = new ExpressionParser();
 
-            bool? b = (bool?)null;
-
             var compiledExpression = parser.Parse("(NullableBool)null");
             var evalResult = compiledExpression.Evaluate(null);
 
             object expectedResult = null;
+
+            Assert.AreEqual(1, evalResult.Count);
+            var actualResult = evalResult.Pop().GetValue();
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void TestLongCastWithUnaryPlus()
+        {
+            ExpressionParser parser = new ExpressionParser();
+
+            var compiledExpression = parser.Parse("(Long)+5.2");
+            var evalResult = compiledExpression.Evaluate(null);
+
+            long expectedResult = 5;
+
+            Assert.AreEqual(1, evalResult.Count);
+            var actualResult = evalResult.Pop().GetValue();
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void TestUnaryPlus()
+        {
+            ExpressionParser parser = new ExpressionParser();
+
+            var compiledExpression = parser.Parse("+5.2");
+            var evalResult = compiledExpression.Evaluate(null);
+
+            double expectedResult = 5.2;
 
             Assert.AreEqual(1, evalResult.Count);
             var actualResult = evalResult.Pop().GetValue();

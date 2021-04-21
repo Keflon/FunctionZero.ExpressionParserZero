@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="FunctionMatrices\Generated\FunctionMatrices\" />
-    <Folder Include="FunctionMatrices\Generated\FunctionVectors\" />
   </ItemGroup>
 
 </Project>

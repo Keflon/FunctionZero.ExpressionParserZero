@@ -119,7 +119,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
 
             // Register UnaryMinus ...
             UnaryMinus = RegisterUnaryOperator("UnaryMinus", 12, UnaryMinusVector.Create());
-            UnaryPlus = RegisterUnaryOperator("UnaryPlus", 12, null);
+            UnaryPlus = RegisterUnaryOperator("UnaryPlus", 12, AddVector.Create());
             RegisterUnaryOperator("!", 12, UnaryNotVector.Create());
             RegisterUnaryOperator("~", 12, UnaryComplementVector.Create());
             RegisterOperator("*", 11, MultiplyMatrix.Create());

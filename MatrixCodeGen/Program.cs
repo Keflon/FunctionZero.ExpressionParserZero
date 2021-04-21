@@ -164,7 +164,6 @@ namespace MatrixCodeGen
                     {
                         string enumType = lookup.FirstOrDefault(pair => pair.Value == resultType).Key;
 
-
                         string rightSide;
                         if (right.Value == "null")
                             rightSide = "null";
@@ -242,10 +241,19 @@ namespace MatrixCodeGen
         {
             var sb = new StringBuilder();
 
-            if (leftType == "null")
-                leftType = "object";
-            if (rightType == "null")
-                rightType = "object";
+            //if (leftType == "null")
+            //    leftType = "object";
+            //if (rightType == "null")
+            //    rightType = "object";
+
+            if((leftType == "null") && (rightType=="long?"))
+            {
+                Debug.WriteLine("Gotcha!");
+            }
+
+            string leftSide = leftType == "null" ? "null" : "left";
+            string rightSide = rightType == "null" ? "null" : "right";
+
 
             sb.AppendLine("using System;");
             sb.AppendLine("");
@@ -253,13 +261,17 @@ namespace MatrixCodeGen
             sb.AppendLine("{");
             sb.AppendLine($"    public static class Test");
             sb.AppendLine("    {");
-            sb.AppendLine("        static int myInt;");
-
-            sb.AppendLine($"        public static string GetResultType(string leftType, string rightType, string theOperator)");
+            sb.AppendLine($"        public static string GetResultType()");
             sb.AppendLine("        {");
-            sb.AppendLine($"            {leftType} left = default;");
-            sb.AppendLine($"            {rightType} right = default;");
-            sb.AppendLine($"            var result = left {theOperator} right;");
+
+            if (leftType != "null")
+                sb.AppendLine($"            {leftType} left = default;");
+
+
+            if (rightType != "null")
+                sb.AppendLine($"            {rightType} right = default;");
+
+            sb.AppendLine($"            var result = {leftSide} {theOperator} {rightSide};");
             sb.AppendLine("             return result.GetType().ToString();");
             sb.AppendLine("        }");
             sb.AppendLine("    }");
