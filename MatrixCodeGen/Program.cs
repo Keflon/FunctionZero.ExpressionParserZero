@@ -152,8 +152,6 @@ namespace MatrixCodeGen
             retval.Add("     {");
             retval.Add("         var matrix = new DoubleOperandFunctionMatrix();");
             retval.Add("");
-            retval.Add("");
-            retval.Add("");
 
             foreach (var left in lookup)
             {
