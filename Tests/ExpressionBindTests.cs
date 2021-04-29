@@ -36,10 +36,10 @@ namespace ExpressionParserUnitTests
             var host = new TestClass(new TestClass(new TestClass(null, 41), 6), 5);
 
             var binding = new ExpressionBind(host, $"(Child.TestIntResult + Child.Child.TestIntResult) * TestIntResult");
-            Assert.AreEqual((6 + 41) * 5, (int)(long)binding.Result);
+            Assert.AreEqual((6 + 41) * 5, (int)binding.Result);
 
             host.Child.TestIntResult++;
-            Assert.AreEqual((7 + 41) * 5, (int)(long)binding.Result);
+            Assert.AreEqual((7 + 41) * 5, (int)binding.Result);
         }
 
         [TestMethod]
@@ -48,10 +48,31 @@ namespace ExpressionParserUnitTests
             var host = new TestClass(new TestClass(new TestClass(null, 41), 6), 5);
 
             var binding = new ExpressionBind(host, $"(Child.TestIntResult + Child.Child.TestIntResult) * TestIntResult");
-            Assert.AreEqual((6 + 41) * 5, (int)(long)binding.Result);
+            Assert.AreEqual((6 + 41) * 5, (int)binding.Result);
 
             host.Child.TestIntResult++;
-            Assert.AreEqual((7 + 41) * 5, (int)(long)binding.Result);
+            Assert.AreEqual((7 + 41) * 5, (int)binding.Result);
+        }
+
+
+        public int? MyNullableInt { get; set; }
+
+        [TestMethod]
+        public void TestNullableExpression()
+        {
+            MyNullableInt = 42;
+
+            var binding = new ExpressionBind(this, $"MyNullableInt");
+            Assert.AreEqual(42, (int?)binding.Result);
+        }
+
+        [TestMethod]
+        public void TestNullNullableExpression()
+        {
+            MyNullableInt = null;
+
+            var binding = new ExpressionBind(this, $"MyNullableInt");
+            Assert.AreEqual(null, (int?)binding.Result);
         }
     }
 }

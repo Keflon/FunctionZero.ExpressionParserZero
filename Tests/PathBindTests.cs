@@ -1,11 +1,12 @@
 using FunctionZero.ExpressionParserZero.Binding;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
+using zBindTests;
 
-namespace zBindTests
+namespace ExpressionParserUnitTests
 {
     [TestClass]
-    public class UnitTest1
+    public class PathBindTests
     {
         [TestMethod]
         public void TestBindToInt()
@@ -64,7 +65,7 @@ namespace zBindTests
 
             int target = 0;
 
-            var binding = new PathBind(host, $"{nameof(TestClass.Child)}.{nameof(TestClass.Child)}.{nameof(TestClass.TestIntResult)}", (o)=>target = (int)o);
+            var binding = new PathBind(host, $"{nameof(TestClass.Child)}.{nameof(TestClass.Child)}.{nameof(TestClass.TestIntResult)}", (o) => target = (int)o);
             Assert.AreEqual(41, binding.Value);
             Assert.AreEqual(binding.Value, target);
 

@@ -65,7 +65,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterVariableCastTests.cs" />
     <Compile Include="TestClass.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="PathBindTests.cs" />
     <Compile Include="VariableCollisionTests.cs" />
     <Compile Include="VariableFactoryTests.cs" />
   </ItemGroup>

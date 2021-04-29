@@ -17,6 +17,9 @@ namespace FunctionZero.ExpressionParserZero.Binding
         private static char[] _dot = new[] { '.' };
 
         private readonly PropertyInfo _propertyInfo;
+
+        public Type PropertyType { get; private set; }
+
         private readonly PathBind _bindingRoot;
         private readonly bool _isLeaf;
         private readonly object _host;
@@ -57,7 +60,7 @@ namespace FunctionZero.ExpressionParserZero.Binding
 
             // Get info for the property
             _propertyInfo = host.GetType().GetProperty(_propertyName, BindingFlags.Public | BindingFlags.Instance);
-
+            
             // Bail out if the property doesn't exist or cannot be read.
             if (_propertyInfo == null || _propertyInfo.CanRead == false)
                 return;
@@ -73,7 +76,10 @@ namespace FunctionZero.ExpressionParserZero.Binding
             if (_isLeaf == false && _partValue != null)
                 _child = new PathBind(_bindingRoot, null, _partValue, _bits, _currentIndex + 1);
             else
+            {
                 _bindingRoot.Value = _partValue;
+                _bindingRoot.PropertyType = _propertyInfo.PropertyType;
+            }
         }
 
         /// <summary>

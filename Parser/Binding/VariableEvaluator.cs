@@ -3,6 +3,7 @@ using FunctionZero.ExpressionParserZero.Operands;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace FunctionZero.ExpressionParserZero.Binding
@@ -19,33 +20,60 @@ namespace FunctionZero.ExpressionParserZero.Binding
             _bindingCollection = bindingCollection;
         }
 
+        private static IDictionary<Type, OperandType> _operandTypeLookup = new Dictionary<Type, OperandType>()
+        {
+            { typeof(sbyte), OperandType.Sbyte},
+            { typeof(byte), OperandType.Byte},
+            { typeof(short), OperandType.Short},
+            { typeof(ushort), OperandType.Ushort},
+            { typeof(int), OperandType.Int},
+            { typeof(uint), OperandType.Uint},
+            { typeof(long), OperandType.Long},
+            { typeof(ulong), OperandType.Ulong},
+            { typeof(char), OperandType.Char},
+            { typeof(float), OperandType.Float},
+            { typeof(double), OperandType.Double},
+            { typeof(bool), OperandType.Bool},
+            { typeof(decimal), OperandType.Decimal},
+            { typeof(sbyte?), OperandType.NullableSbyte},
+            { typeof(byte?), OperandType.NullableByte},
+            { typeof(short?), OperandType.NullableShort},
+            { typeof(ushort?), OperandType.NullableUshort},
+            { typeof(int?), OperandType.NullableInt},
+            { typeof(uint?), OperandType.NullableUint},
+            { typeof(long?), OperandType.NullableLong},
+            { typeof(ulong?), OperandType.NullableUlong},
+            { typeof(char?), OperandType.NullableChar},
+            { typeof(float?), OperandType.NullableFloat},
+            { typeof(double?), OperandType.NullableDouble},
+            { typeof(bool?), OperandType.NullableBool},
+            { typeof(decimal?), OperandType.NullableDecimal},
+            { typeof(string), OperandType.String},
+            //{ typeof(), OperandType.Variable,       },
+            //{ typeof(), OperandType.VSet,           },
+            //{ typeof(), OperandType.Object},
+            //{ typeof(), OperandType.Null }
+        };
         public (OperandType type, object value) GetValue(string qualifiedName)
         {
             int index = _keys.IndexOf(qualifiedName);
             object value = _bindingCollection[index].Value;
+            Type theType = _bindingCollection[index].PropertyType;
 
-            if (value is long longResult)
-                return (OperandType.Long, longResult);
-
-            if (value is int intResult)
-                return (OperandType.Long, (long)intResult);
-
-            if (value is double doubleResult)
-                return (OperandType.Double, doubleResult);
-
-            if (value is float floatResult)
-                return (OperandType.Double, (double)floatResult);
-
-            if (value is bool boolResult)
-                return (OperandType.Bool, boolResult);
-
-            if (value is string stringResult)
-                return (OperandType.String, stringResult);
+            if(_operandTypeLookup.TryGetValue(theType, out var theOperandType))
+                return (theOperandType, value);
 
             if (value == null)
                 return (OperandType.Null, null);
 
             return (OperandType.Object, value);
+        }
+
+        // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types
+        bool IsOfNullableType<T>(T o)
+        {
+            var type = typeof(T);
+            return Nullable.GetUnderlyingType(type) != null;
         }
 
         private static char[] _dot = new[] { '.' };
