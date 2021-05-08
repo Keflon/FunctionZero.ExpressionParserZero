@@ -27,26 +27,88 @@ using FunctionZero.ExpressionParserZero.Tokens;
 
 namespace FunctionZero.ExpressionParserZero.Operands
 {
-	public interface IOperand : IToken
-	{
-		object GetValue();
-		bool IsNumber { get; }
-	    OperandType Type { get; }
+    public interface IOperand : IToken
+    {
+        object GetValue();
+        bool IsNumber { get; }
+        OperandType Type { get; }
     }
 
     public enum OperandType
     {
-        Long = 0,
-		NullableLong,
+        //      Long = 0,
+        //NullableLong,
+        //      Double,
+        //NullableDouble,
+        //String,
+        //Variable,
+        //      Bool,
+        //      NullableBool,
+        //      VSet,
+        //      Object, 
+
+        Sbyte,
+        Byte,
+        Short,
+        Ushort,
+        Int,
+        Uint,
+        Long,
+        Ulong,
+        Char,
+        Float,
         Double,
-		NullableDouble,
-		String,
-		Variable,
         Bool,
+        Decimal,
+        NullableSbyte,
+        NullableByte,
+        NullableShort,
+        NullableUshort,
+        NullableInt,
+        NullableUint,
+        NullableLong,
+        NullableUlong,
+        NullableChar,
+        NullableFloat,
+        NullableDouble,
         NullableBool,
-        VSet,
+        NullableDecimal,
+        String,
+        Variable,           // TODO: Derive a VariableOperand?
+        VSet,               // Wierd old uncle.
         Object, 
-        
         Null
     }
 }
+
+/*
+
+Sbyte	
+Byte	
+Short	
+Ushort	
+Int	    
+Uint	
+Long	
+Ulong	
+Char	
+Float	
+Double	
+Bool	
+Decimal	
+
+NullableSbyte	
+NullableByte	
+NullableShort	
+NullableUshort	
+NullableInt	    
+NullableUint	
+NullableLong	
+NullableUlong	
+NullableChar	
+NullableFloat	
+NullableDouble	
+NullableBool	
+NullableDecimal	
+
+*/

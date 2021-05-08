@@ -58,7 +58,10 @@ namespace FunctionZero.ExpressionParserZero.Exceptions
 
 			DoubleOperandOperatorNotFound,
 			UnaryOperatorNotFound,
-		}
+
+
+            UnexpectedCastOperand,
+        }
 
 		public ExpressionParserException(long offset, ExceptionCause cause, string message = null) : base(message ?? cause.ToString())
 		{
