@@ -15,7 +15,7 @@ namespace ExpressionParserUnitTests
             var binding = new ExpressionBind(host, "TestIntResult * 2");
             Assert.AreEqual(10, (int)(long)binding.Result);
 
-            host.TestIntResult++;
+            host.TestInt++;
             Assert.AreEqual(12, (int)(long)binding.Result);
         }
 
@@ -26,7 +26,7 @@ namespace ExpressionParserUnitTests
             var binding = new ExpressionBind(host, "TestIntResult * 2");
             Assert.AreEqual(10, (int)(long)binding.Result);
 
-            host.TestIntResult++;
+            host.TestInt++;
             Assert.AreEqual(12, (int)(long)binding.Result);
         }
 
@@ -38,7 +38,7 @@ namespace ExpressionParserUnitTests
             var binding = new ExpressionBind(host, $"(Child.TestIntResult + Child.Child.TestIntResult) * TestIntResult");
             Assert.AreEqual((6 + 41) * 5, (int)binding.Result);
 
-            host.Child.TestIntResult++;
+            host.Child.TestInt++;
             Assert.AreEqual((7 + 41) * 5, (int)binding.Result);
         }
 
@@ -50,7 +50,7 @@ namespace ExpressionParserUnitTests
             var binding = new ExpressionBind(host, $"(Child.TestIntResult + Child.Child.TestIntResult) * TestIntResult");
             Assert.AreEqual((6 + 41) * 5, (int)binding.Result);
 
-            host.Child.TestIntResult++;
+            host.Child.TestInt++;
             Assert.AreEqual((7 + 41) * 5, (int)binding.Result);
         }
 

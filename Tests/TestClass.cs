@@ -12,24 +12,26 @@ namespace zBindTests
         public TestClass(TestClass child, int startValue)
         {
             Child = child;
-            TestIntResult = startValue;
+            TestInt = startValue;
         }
-        private int _testIntResult;
+        public TestClass(int startValue) : this(null, startValue) { }
+
+        private int _testInt;
 
 
 
 
-        public int TestIntResult
+        public int TestInt
         {
             get
             {
-                return _testIntResult;
+                return _testInt;
             }
             set
             {
-                if (value != _testIntResult)
-                    _testIntResult = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TestIntResult)));
+                if (value != _testInt)
+                    _testInt = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TestInt)));
             }
         }
 

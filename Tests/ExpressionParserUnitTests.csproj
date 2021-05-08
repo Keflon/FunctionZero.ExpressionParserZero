@@ -54,6 +54,7 @@
     <Compile Include="AdvancedDocumentationExample.cs" />
     <Compile Include="DocumentationSnippets.cs" />
     <Compile Include="DottedVariableCreationTests.cs" />
+    <Compile Include="ExpressionSampleTests.cs" />
     <Compile Include="ExpressionBindTests.cs" />
     <Compile Include="ExpressionEvaluatorDottedNotation.cs" />
     <Compile Include="ExpressionEvaluatorLogicalTests.cs" />
