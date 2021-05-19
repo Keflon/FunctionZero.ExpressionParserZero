@@ -72,7 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Parser\ExpressionParserZero.csproj">
-      <Project>{f71fc8a4-5952-4d47-99e2-14eda90f36c2}</Project>
+      <Project>{F71FC8A4-5952-4D47-99E2-14EDA90F36C2}</Project>
       <Name>ExpressionParserZero</Name>
     </ProjectReference>
     <ProjectReference Include="..\VariableStoreZero\VariableStoreZero.csproj">

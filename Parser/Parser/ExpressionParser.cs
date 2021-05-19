@@ -29,6 +29,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using FunctionZero.ExpressionParserZero.BackingStore;
+using FunctionZero.ExpressionParserZero.Evaluator;
 using FunctionZero.ExpressionParserZero.Exceptions;
 using FunctionZero.ExpressionParserZero.FunctionMatrices;
 using FunctionZero.ExpressionParserZero.Operands;
@@ -406,6 +407,10 @@ namespace FunctionZero.ExpressionParserZero.Parser
                     ExpressionParserException.ExceptionCause.ClosingBraceExpected);
 
             PopByPrecedence(operatorStack, tokenList, 0);
+
+
+            var tree = new ExpressionTree(tokenList);
+
 
             return tokenList;
         }
