@@ -12,18 +12,18 @@ namespace ExpressionParserUnitTests
         public void TestExpression()
         {
             var host = new TestClass(null, 5);
-            var binding = new ExpressionBind(host, "TestIntResult * 2");
-            Assert.AreEqual(10, (int)(long)binding.Result);
-
+            var binding = new ExpressionBind(host, "TestInt * 2");
+            Assert.AreEqual(10, (long)binding.Result);
+            
             host.TestInt++;
-            Assert.AreEqual(12, (int)(long)binding.Result);
+            Assert.AreEqual(12, (long)binding.Result);
         }
 
         [TestMethod]
         public void TestAutoExpression()
         {
             var host = new TestClass(null, 5);
-            var binding = new ExpressionBind(host, "TestIntResult * 2");
+            var binding = new ExpressionBind(host, "TestInt * 2");
             Assert.AreEqual(10, (int)(long)binding.Result);
 
             host.TestInt++;
@@ -35,7 +35,7 @@ namespace ExpressionParserUnitTests
         {
             var host = new TestClass(new TestClass(new TestClass(null, 41), 6), 5);
 
-            var binding = new ExpressionBind(host, $"(Child.TestIntResult + Child.Child.TestIntResult) * TestIntResult");
+            var binding = new ExpressionBind(host, $"(Child.TestInt + Child.Child.TestInt) * TestInt");
             Assert.AreEqual((6 + 41) * 5, (int)binding.Result);
 
             host.Child.TestInt++;
@@ -47,7 +47,7 @@ namespace ExpressionParserUnitTests
         {
             var host = new TestClass(new TestClass(new TestClass(null, 41), 6), 5);
 
-            var binding = new ExpressionBind(host, $"(Child.TestIntResult + Child.Child.TestIntResult) * TestIntResult");
+            var binding = new ExpressionBind(host, $"(Child.TestInt + Child.Child.TestInt) * TestInt");
             Assert.AreEqual((6 + 41) * 5, (int)binding.Result);
 
             host.Child.TestInt++;

@@ -2,6 +2,7 @@ using FunctionZero.ExpressionParserZero.Binding;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using zBindTests;
 
@@ -51,7 +52,8 @@ namespace ExpressionParserUnitTests
         [TestMethod]
         public void TestExpression()
         {
-            int count = 0;
+            int staleCount = 0;
+            int changedCount = 0;
 
             TestObject = new TestClass(12);
 
@@ -60,22 +62,40 @@ namespace ExpressionParserUnitTests
 
             var binding = new ExpressionBind(this, "TestObject.TestInt * (TestInt + TestFloat * 2)");
 
-            binding.ValueIsStale += (sender, ea) => count++;
+            binding.ValueIsStale += (sender, ea) => staleCount++;
+            binding.ResultChanged +=
+                (sender, ea) =>
+                {
+                    Debug.WriteLine(ea.NewValue);
+                    changedCount++;
+                };
 
             Assert.AreEqual(TestObject.TestInt * (TestInt + TestFloat * 2), (float)binding.Result);
-            Assert.AreEqual(1, count);
+            Assert.AreEqual(0, staleCount);
+            Assert.AreEqual(1, changedCount);
 
             TestObject.TestInt++;
+            
+            Assert.AreEqual(1, staleCount);
+            Assert.AreEqual(1, changedCount);
             Assert.AreEqual(TestObject.TestInt * (TestInt + TestFloat * 2), (float)binding.Result);
-            Assert.AreEqual(2, count);
+            Assert.AreEqual(1, staleCount);
+            Assert.AreEqual(2, changedCount);
 
             TestInt = 2;
+
+            Assert.AreEqual(2, staleCount);
+            Assert.AreEqual(2, changedCount);
             Assert.AreEqual(TestObject.TestInt * (TestInt + TestFloat * 2), (float)binding.Result);
-            Assert.AreEqual(3, count);
+            Assert.AreEqual(2, staleCount);
+            Assert.AreEqual(3, changedCount);
 
             TestFloat = -4.6F;
+            Assert.AreEqual(3, staleCount);
+            Assert.AreEqual(3, changedCount);
             Assert.AreEqual(TestObject.TestInt * (TestInt + TestFloat * 2), (float)binding.Result);
-            Assert.AreEqual(4, count);
+            Assert.AreEqual(3, staleCount);
+            Assert.AreEqual(4, changedCount);
         }
 
 
