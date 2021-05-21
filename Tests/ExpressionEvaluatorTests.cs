@@ -252,7 +252,7 @@ namespace ExpressionParserUnitTests
 				Assert.AreEqual((string)actualResult2, "Hello Banana!");
 				Assert.AreEqual(ex.Cause, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable);
 				Assert.AreEqual(ex.Offset, 9);
-				Assert.AreEqual(ex.Message, "Melon");
+				Assert.AreEqual(ex.Message, "'Melon'");
 			}
 		}
 

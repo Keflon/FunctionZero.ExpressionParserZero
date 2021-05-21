@@ -57,9 +57,9 @@ namespace FunctionZero.ExpressionParserZero
                     var valueAndType = backingStore.GetValue((string)operand.GetValue());
                     operand = new Operand(operand.ParserPosition, valueAndType.type, valueAndType.value);
                 }
-                catch (KeyNotFoundException)
+                catch// (KeyNotFoundException)
                 {
-                    throw new ExpressionEvaluatorException(operand.ParserPosition, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, operand.GetValue().ToString());
+                    throw new ExpressionEvaluatorException(operand.ParserPosition, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, $"'{operand.GetValue().ToString()}'");
                 }
             }
             return operand;
@@ -162,7 +162,15 @@ namespace FunctionZero.ExpressionParserZero
                 string varName = (string)first.GetValue();
 
                 //var targetVariable = ResolveVariable(variables, first);
-                var valueAndType = backingStore.GetValue(varName);
+                (OperandType type, object value) valueAndType;
+                try
+                {
+                    valueAndType = backingStore.GetValue(varName);
+                }
+                catch(Exception ex)
+                {
+                    throw new ExpressionEvaluatorException(-1, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, $"'{varName}'");
+                }
 
                 var firstOperand = new Operand(first.ParserPosition, valueAndType.type, valueAndType.value);
 
