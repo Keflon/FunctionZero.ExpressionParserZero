@@ -1,5 +1,7 @@
 using FunctionZero.ExpressionParserZero.Binding;
+using FunctionZero.ExpressionParserZero.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -97,6 +99,25 @@ namespace ExpressionParserUnitTests
             MyObject = null;
             var binding = new ExpressionBind(this, "(False && True) && (SomethingHorrid)");
             Assert.AreEqual(false, (bool)binding.Result);
+        }
+        [TestMethod]
+        public void TestExpression6()
+        {
+            IntA = 5;
+            IntB = 6;
+            MyObject = null;
+
+            try
+            {
+                var binding = new ExpressionBind(this, "(True && True) && (SomethingHorrid)");
+                var test = binding.Result;
+            }
+            catch(ExpressionEvaluatorException eeex)
+            {
+                Assert.AreEqual(ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, eeex.Cause);
+                Assert.AreEqual("'SomethingHorrid'", eeex.Message);
+
+            }
         }
 
 

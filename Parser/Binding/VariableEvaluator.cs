@@ -1,4 +1,5 @@
 ﻿using FunctionZero.ExpressionParserZero.BackingStore;
+using FunctionZero.ExpressionParserZero.Exceptions;
 using FunctionZero.ExpressionParserZero.Operands;
 using System;
 using System.Collections;
@@ -59,6 +60,9 @@ namespace FunctionZero.ExpressionParserZero.Binding
             int index = _keys.IndexOf(qualifiedName);
             object value = _bindingCollection[index].Value;
             Type theType = _bindingCollection[index].PropertyType;
+
+            if (theType == null)
+                throw new ExpressionEvaluatorException(-1, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, $"'{qualifiedName}'");
 
             if(_operandTypeLookup.TryGetValue(theType, out var theOperandType))
                 return (theOperandType, value);
