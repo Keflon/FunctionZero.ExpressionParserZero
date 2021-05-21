@@ -11,11 +11,11 @@ using zBindTests;
 namespace ExpressionParserUnitTests
 {
     [TestClass]
-    public class LogicalTests : INotifyPropertyChanged
+    public class LogicalAndTests : INotifyPropertyChanged
     {
         private int _intA;
         private int _intB;
-        private LogicalTests _myObject;
+        private LogicalAndTests _myObject;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -44,7 +44,7 @@ namespace ExpressionParserUnitTests
             get => _intB;
             set => SetProperty(ref _intB, value);
         }
-        public LogicalTests MyObject
+        public LogicalAndTests MyObject
         {
             get => _myObject;
             set => SetProperty(ref _myObject, value);
@@ -119,8 +119,5 @@ namespace ExpressionParserUnitTests
 
             }
         }
-
-
-
     }
 }
