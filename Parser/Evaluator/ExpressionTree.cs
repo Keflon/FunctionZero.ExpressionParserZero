@@ -14,18 +14,18 @@ namespace FunctionZero.ExpressionParserZero.Evaluator
 
             foreach (var item in rpnTokens)
             {
-                var node = new ExpressionTreeNode(item);
                 int count = GetOperandCount(item);
+                var node = new ExpressionTreeNode(item, count);
 
                 while (count-- != 0)
                     node.AddChild(stack.Pop());
                 
                 stack.Push(node);
             }
-            RootNode = stack.Pop();
+            RootNodeList = new List<ExpressionTreeNode>(stack);
         }
 
-        public ExpressionTreeNode RootNode { get; }
+        public List<ExpressionTreeNode> RootNodeList { get; }
 
         private int GetOperandCount(IToken item)
         {
@@ -59,13 +59,15 @@ namespace FunctionZero.ExpressionParserZero.Evaluator
 
     public class ExpressionTreeNode
     {
-        public ExpressionTreeNode(IToken token)
+        public ExpressionTreeNode(IToken token, int parameterCount)
         {
             Token = token;
+            ParameterCount = parameterCount;
             Children = new List<ExpressionTreeNode>();
         }
 
         public IToken Token { get; }
+        public int ParameterCount { get; }
         public List<ExpressionTreeNode> Children { get; }
 
         public void AddChild(ExpressionTreeNode node)

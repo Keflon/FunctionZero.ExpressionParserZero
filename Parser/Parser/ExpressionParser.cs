@@ -44,7 +44,6 @@ namespace FunctionZero.ExpressionParserZero.Parser
 {
     // TODO: 
     // Functions - count parameters. Validate that count.
-    // Function Matrices / Vectors. Flesh them out.
 
     // DONE:
     // Add type string, tokenise a quoted string.
@@ -52,6 +51,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
     // Trap error location if operator fails, e.g. if 'Add' is given a bool and a string.
     // - Items in the resultant IToken list need to know their parser location, though the list can repeat Token objects, therefore we need a List of TokenWrappers where the wrapper is unique and holds a parser position.
     // Finish writing operators.
+    // Function Matrices / Vectors. Flesh them out.
 
     public class ExpressionParser
     {
@@ -409,7 +409,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
             PopByPrecedence(operatorStack, tokenList, 0);
 
 
-            var tree = new ExpressionTree(tokenList);
+            //var tree = new ExpressionTree(tokenList);
 
 
             return tokenList;

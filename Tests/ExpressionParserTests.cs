@@ -238,8 +238,8 @@ namespace ExpressionParserUnitTests
 			//parser.RegisterOperator("LTE", 9, OperatorActions.DoLessOrEqual);
 			//parser.RegisterOperator("GTE", 9, OperatorActions.DoGreaterOrEqual);
 
-			var result = parser.Parse("3 AND 5");
-			Assert.AreEqual("3 5 AND ", Stringify(result));
+			var result = parser.Parse("true AND false");
+			Assert.AreEqual("True False AND ", Stringify(result));
 		}
 #if false
 
@@ -434,6 +434,22 @@ namespace ExpressionParserUnitTests
 
 
 		[TestMethod]
+		public void TestComma()
+		{
+			ExpressionParser e = new ExpressionParser();
+
+			var compiledExpression = e.Parse("5, 6");
+
+			var evalResult = compiledExpression.Evaluate(null);
+			Assert.AreEqual(2, evalResult.Count);
+			var second = (long)evalResult.Pop().GetValue();
+			var first = (long)evalResult.Pop().GetValue();
+			Assert.AreEqual(5, first);
+			Assert.AreEqual(6, second);
+		}
+
+
+		[TestMethod]
 		public void SimpleTestLiteralStringsApostrophe()
 		{
 			ExpressionParser e = new ExpressionParser();
@@ -442,10 +458,10 @@ namespace ExpressionParserUnitTests
 
 			var evalResult = compiledExpression.Evaluate(null);
 			Assert.AreEqual(2, evalResult.Count);
-			var actualResult1 = (string)evalResult.Pop().GetValue();
 			var actualResult2 = (string)evalResult.Pop().GetValue();
-			Assert.AreEqual("keith", actualResult1);
-			Assert.AreEqual("hello there", actualResult2);
+			var actualResult1 = (string)evalResult.Pop().GetValue();
+			Assert.AreEqual("hello there", actualResult1);
+			Assert.AreEqual("keith", actualResult2);
 		}
 
 
@@ -471,10 +487,10 @@ namespace ExpressionParserUnitTests
 
 			var evalResult = compiledExpression.Evaluate(null);
 			Assert.AreEqual(2, evalResult.Count);
-			var actualResult1 = (string)evalResult.Pop().GetValue();
 			var actualResult2 = (string)evalResult.Pop().GetValue();
-			Assert.AreEqual("keith", actualResult1);
-			Assert.AreEqual("hello there", actualResult2);
+			var actualResult1 = (string)evalResult.Pop().GetValue();
+			Assert.AreEqual("hello there", actualResult1);
+			Assert.AreEqual("keith", actualResult2);
 		}
 
 		[TestMethod]
@@ -486,10 +502,10 @@ namespace ExpressionParserUnitTests
 
 			var evalResult = compiledExpression.Evaluate(null);
 			Assert.AreEqual(2, evalResult.Count);
-			var actualResult1 = (string)evalResult.Pop().GetValue();
 			var actualResult2 = (string)evalResult.Pop().GetValue();
-			Assert.AreEqual("keith", actualResult1);
-			Assert.AreEqual("hello there", actualResult2);
+			var actualResult1 = (string)evalResult.Pop().GetValue();
+			Assert.AreEqual("hello there", actualResult1);
+			Assert.AreEqual("keith", actualResult2);
 		}
 
 		[TestMethod]

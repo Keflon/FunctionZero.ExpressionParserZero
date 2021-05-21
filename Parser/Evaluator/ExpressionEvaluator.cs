@@ -23,8 +23,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
+using System;
 using System.Collections.Generic;
 using FunctionZero.ExpressionParserZero.BackingStore;
+using FunctionZero.ExpressionParserZero.Evaluator;
 using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Operators;
 using FunctionZero.ExpressionParserZero.Parser;
@@ -32,15 +34,16 @@ using FunctionZero.ExpressionParserZero.Tokens;
 
 namespace FunctionZero.ExpressionParserZero
 {
-	public static class ExpressionEvaluator
-	{
+    public static class ExpressionEvaluator
+    {
+#if false
 		public static OperandStack Evaluate(IEnumerable<IToken> rpnTokens, IBackingStore backingStore)
 		{
 			var operandStack = new OperandStack();
 
-			foreach(IToken token in rpnTokens)
+			foreach (IToken token in rpnTokens)
 			{
-				if(token.TokenType == TokenType.Operand)
+				if (token.TokenType == TokenType.Operand)
 				{
 					operandStack.Push((IOperand)token);
 				}
@@ -51,5 +54,78 @@ namespace FunctionZero.ExpressionParserZero
 			}
 			return operandStack;
 		}
-	}
+#else
+        //public static OperandStack Evaluate(IEnumerable<IToken> rpnTokens, IBackingStore backingStore)
+        //{
+        //    var tree = new ExpressionTree(rpnTokens);
+        //    var operandStack = new OperandStack();
+
+        //    foreach (var node in tree.RootNodeList)
+        //        Evaluate(node, operandStack, backingStore);
+
+        //    var resultStack = new OperandStack();
+
+        //    while (operandStack.Count != 0)
+        //        resultStack.Push(operandStack.Pop());
+
+        //    return resultStack;
+        //}
+        public static OperandStack Evaluate(IEnumerable<IToken> rpnTokens, IBackingStore backingStore)
+        {
+            var tree = new ExpressionTree(rpnTokens);
+            var operandStack = new OperandStack();
+
+            for (int c = tree.RootNodeList.Count - 1; c >= 0; c--)
+                Evaluate(tree.RootNodeList[c], operandStack, backingStore);
+
+            return operandStack;
+        }
+
+        private static void Evaluate(ExpressionTreeNode node, OperandStack operandStack, IBackingStore backingStore)
+        {
+            var token = node.Token;
+
+            if (token.TokenType == TokenType.Operand)
+            {
+                operandStack.Push((IOperand)token);
+            }
+            else
+            {
+                var op = ((OperatorWrapper)token).WrappedOperator;
+
+                if (op.AsString == "&&")     // HACK:
+                {
+                    Evaluate(node.Children[1], operandStack, backingStore);
+                    if ((bool)operandStack.Peek().GetValue() == false)
+                    {
+                        operandStack.Push(new Operand(OperandType.Bool, false));
+                        return;
+                    }
+                    else
+                        Evaluate(node.Children[0], operandStack, backingStore);
+                }
+                else if(op.AsString == "||")
+                {
+                    Evaluate(node.Children[1], operandStack, backingStore);
+                    if ((bool)operandStack.Peek().GetValue() == true)
+                    {
+                        operandStack.Push(new Operand(OperandType.Bool, true));
+                        return;
+                    }
+                    else
+                        Evaluate(node.Children[0], operandStack, backingStore);
+                }
+                else
+                {
+                    // TODO: Build it backwards so we can just foreach here.
+                    for (int c = node.Children.Count - 1; c >= 0; c--)
+                    {
+                        Evaluate(node.Children[c], operandStack, backingStore);
+                    }
+                }
+               op.DoOperation(operandStack, backingStore, token.ParserPosition);
+            }
+        }
+#endif
+    }
 }
