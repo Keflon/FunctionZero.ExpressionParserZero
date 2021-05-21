@@ -46,6 +46,14 @@ namespace FunctionZero.ExpressionParserZero.Operators
         Action<Stack<IOperand>, IBackingStore, long> DoOperation { get; }
 
         OperatorType Type { get; }
+        ShortCircuitMode ShortCircuit { get; }
+    }
+
+    public enum ShortCircuitMode
+    {
+        None = 0,
+        LogicalAnd,
+        LogicalOr
     }
 
     public enum OperatorType

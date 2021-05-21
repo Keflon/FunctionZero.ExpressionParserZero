@@ -1,6 +1,7 @@
 ﻿using FunctionZero.ExpressionParserZero;
 using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Operands;
+using FunctionZero.ExpressionParserZero.Operators;
 using FunctionZero.ExpressionParserZero.Parser;
 using FunctionZero.ExpressionParserZero.Parser.FunctionMatrices;
 using System;
@@ -23,8 +24,8 @@ namespace FunctionZero.ExpressionParserZero.Binding
                 ep.RegisterFunction("Cos", DoCos, 1, 1);
                 ep.RegisterFunction("Tan", DoTan, 1, 1);
 
-                ep.RegisterOperator("AND", 4, LogicalAndMatrix.Create());
-                ep.RegisterOperator("OR", 4, LogicalOrMatrix.Create());
+                ep.RegisterOperator("AND", 4, LogicalAndMatrix.Create(), ShortCircuitMode.LogicalAnd);
+                ep.RegisterOperator("OR", 4, LogicalOrMatrix.Create(), ShortCircuitMode.LogicalOr);
                 ep.RegisterOperator("LT", 4, LessThanMatrix.Create());
                 ep.RegisterOperator("LTE", 4, LessThanOrEqualMatrix.Create());
                 ep.RegisterOperator("GT", 4, GreaterThanMatrix.Create());

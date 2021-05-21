@@ -92,8 +92,7 @@ namespace FunctionZero.ExpressionParserZero
             else
             {
                 var op = ((OperatorWrapper)token).WrappedOperator;
-
-                if (op.AsString == "&&")     // HACK:
+                if(op.ShortCircuit == ShortCircuitMode.LogicalAnd)
                 {
                     Evaluate(node.Children[1], operandStack, backingStore);
                     if ((bool)operandStack.Peek().GetValue() == false)
@@ -104,7 +103,7 @@ namespace FunctionZero.ExpressionParserZero
                     else
                         Evaluate(node.Children[0], operandStack, backingStore);
                 }
-                else if(op.AsString == "||")
+                else if(op.ShortCircuit == ShortCircuitMode.LogicalOr)
                 {
                     Evaluate(node.Children[1], operandStack, backingStore);
                     if ((bool)operandStack.Peek().GetValue() == true)

@@ -137,14 +137,14 @@ namespace FunctionZero.ExpressionParserZero.Parser
             RegisterOperator("&", 7, BitwiseAndMatrix.Create());
             RegisterOperator("^", 6, BitwiseXorMatrix.Create());
             RegisterOperator("|", 5, BitwiseOrMatrix.Create());
-            RegisterOperator("&&", 4, LogicalAndMatrix.Create());
-            RegisterOperator("||", 3, LogicalOrMatrix.Create());
+            RegisterOperator("&&", 4, LogicalAndMatrix.Create(), ShortCircuitMode.LogicalAnd);
+            RegisterOperator("||", 3, LogicalOrMatrix.Create(), ShortCircuitMode.LogicalOr);
 
             // Register operators ...
             RegisterSetEqualsOperator("=", 2, SetEqualsMatrix.Create()); // Can do assignment to a variable.
             CommaOperator = RegisterOperator(",", 1, null); // Do nothing. Correct???
-            OpenParenthesisOperator = RegisterOperator("(", 0, null, OperatorType.OpenParenthesis);
-            CloseParenthesisOperator = RegisterOperator(")", 13, null, OperatorType.CloseParenthesis);
+            OpenParenthesisOperator = RegisterOperator("(", 0, null, ShortCircuitMode.None, OperatorType.OpenParenthesis);
+            CloseParenthesisOperator = RegisterOperator(")", 13, null, ShortCircuitMode.None, OperatorType.CloseParenthesis);
 
             // Register functions ...
             Functions = new Dictionary<string, IOperator>();
@@ -166,11 +166,16 @@ namespace FunctionZero.ExpressionParserZero.Parser
         private IOperator CloseParenthesisOperator { get; }
 
 
-        public IOperator RegisterOperator(string text, int precedence, DoubleOperandFunctionMatrix matrix,
+        public IOperator RegisterOperator(
+            string text, 
+            int precedence, 
+            DoubleOperandFunctionMatrix matrix, 
+            ShortCircuitMode shortCircuit = ShortCircuitMode.None, 
             OperatorType operatorType = OperatorType.Operator)
         {
             var op = new Operator(operatorType,
                 precedence,
+                shortCircuit,
                 (operandStack, vSet, parserPosition) =>
                 {
                     var result = OperatorActions.DoOperation(matrix, operandStack, vSet);
@@ -193,7 +198,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
 
         public IOperator RegisterSetEqualsOperator(string text, int precedence, DoubleOperandFunctionMatrix matrix)
         {
-            var op = new Operator(OperatorType.Operator, precedence,
+            var op = new Operator(OperatorType.Operator, precedence, ShortCircuitMode.None,
 
                         (operandStack, vSet, parserPosition) =>
                         {
@@ -213,6 +218,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
             var op = new Operator(
                 OperatorType.UnaryOperator,
                 precedence,
+                ShortCircuitMode.None,
                 (operandStack, vSet, parserPosition) =>
                 {
 
@@ -241,6 +247,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
             var op = new Operator(
                 OperatorType.UnaryCastOperator,
                 precedence,
+                ShortCircuitMode.None,
                 (operandStack, vSet, parserPosition) =>
                 {
                     var result = OperatorActions.DoUnaryCastOperation(matrix, operandStack, vSet, castToOperand);
