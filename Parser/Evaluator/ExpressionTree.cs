@@ -61,10 +61,6 @@ namespace FunctionZero.ExpressionParserZero.Evaluator
             }
         }
 
-        //internal object Evaluate(VariableEvaluator evaluator)
-        //{
-        //    throw new NotImplementedException();
-        //}
         public OperandStack Evaluate(IBackingStore backingStore)
         {
             return ExpressionEvaluator.Evaluate(this, backingStore);
