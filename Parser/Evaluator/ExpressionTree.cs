@@ -1,4 +1,7 @@
-﻿using FunctionZero.ExpressionParserZero.Operators;
+﻿using FunctionZero.ExpressionParserZero.BackingStore;
+using FunctionZero.ExpressionParserZero.Binding;
+using FunctionZero.ExpressionParserZero.Operators;
+using FunctionZero.ExpressionParserZero.Parser;
 using FunctionZero.ExpressionParserZero.Tokens;
 using System;
 using System.Collections.Generic;
@@ -10,6 +13,7 @@ namespace FunctionZero.ExpressionParserZero.Evaluator
     {
         public ExpressionTree(IEnumerable<IToken> rpnTokens)
         {
+            RpnTokens = rpnTokens;
             var stack = new Stack<ExpressionTreeNode>();
 
             foreach (var item in rpnTokens)
@@ -26,6 +30,7 @@ namespace FunctionZero.ExpressionParserZero.Evaluator
         }
 
         public List<ExpressionTreeNode> RootNodeList { get; }
+        public IEnumerable<IToken> RpnTokens { get; }
 
         private int GetOperandCount(IToken item)
         {
@@ -54,6 +59,15 @@ namespace FunctionZero.ExpressionParserZero.Evaluator
                 default:
                     return 0;
             }
+        }
+
+        //internal object Evaluate(VariableEvaluator evaluator)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        public OperandStack Evaluate(IBackingStore backingStore)
+        {
+            return ExpressionEvaluator.Evaluate(this, backingStore);
         }
     }
 

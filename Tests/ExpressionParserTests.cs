@@ -20,7 +20,7 @@ namespace ExpressionParserUnitTests
 			ExpressionParser parser = new ExpressionParser();
 
 			var result = parser.Parse("-5");
-			Assert.AreEqual("5 UnaryMinus ", Stringify(result));
+			Assert.AreEqual("(Long:5) [UnaryMinus] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -29,7 +29,7 @@ namespace ExpressionParserUnitTests
 			ExpressionParser parser = new ExpressionParser();
 
 			var result = parser.Parse("-5--(-6--3)");
-			Assert.AreEqual("5 UnaryMinus 6 UnaryMinus 3 UnaryMinus - UnaryMinus - ", Stringify(result));
+			Assert.AreEqual("(Long:5) [UnaryMinus] (Long:6) [UnaryMinus] (Long:3) [UnaryMinus] [-] [UnaryMinus] [-] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -38,7 +38,7 @@ namespace ExpressionParserUnitTests
 			ExpressionParser parser = new ExpressionParser();
 
 			var result = parser.Parse("!5");
-			Assert.AreEqual("5 ! ", Stringify(result));
+			Assert.AreEqual("(Long:5) [!] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -47,7 +47,7 @@ namespace ExpressionParserUnitTests
 			ExpressionParser parser = new ExpressionParser();
 
 			var result = parser.Parse("True | False");
-			Assert.AreEqual("True False | ", Stringify(result));
+			Assert.AreEqual("(Bool:True) (Bool:False) [|] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -56,7 +56,7 @@ namespace ExpressionParserUnitTests
 			ExpressionParser parser = new ExpressionParser();
 
 			var result = parser.Parse("!(5+!True)");
-			Assert.AreEqual("5 True ! + ! ", Stringify(result));
+			Assert.AreEqual("(Long:5) (Bool:True) [!] [+] [!] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -65,7 +65,7 @@ namespace ExpressionParserUnitTests
 			ExpressionParser parser = new ExpressionParser();
 
 			var result = parser.Parse("(5.2+3)*(3+5)");
-			Assert.AreEqual("5.2 3 + 3 5 + * ", Stringify(result));
+			Assert.AreEqual("(Double:5.2) (Long:3) [+] (Long:3) (Long:5) [+] [*] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -74,7 +74,7 @@ namespace ExpressionParserUnitTests
 			ExpressionParser parser = new ExpressionParser();
 
 			var result = parser.Parse("day+_debug_mul(_debug_mul(58, 23), _debug_mul(9,4))");
-			Assert.AreEqual("day 58 23 _debug_mul 9 4 _debug_mul _debug_mul + ", Stringify(result));
+			Assert.AreEqual("(Variable:day) (Long:58) (Long:23) [_debug_mul] (Long:9) (Long:4) [_debug_mul] [_debug_mul] [+] ", Stringify(result.RpnTokens));
 		}
 
 		//[TestMethod]
@@ -93,7 +93,7 @@ namespace ExpressionParserUnitTests
 			parser.RegisterFunction("F0", null, 2);
 			parser.RegisterFunction("F1", null, 2);
 			var result = parser.Parse("F0(a,b+c,F1(d,e))");
-			Assert.AreEqual("a b c + d e F1 F0 ", Stringify(result));
+			Assert.AreEqual("(Variable:a) (Variable:b) (Variable:c) [+] (Variable:d) (Variable:e) [F1] [F0] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -103,7 +103,7 @@ namespace ExpressionParserUnitTests
 			parser.RegisterFunction("F0", null, 1);
 			var result = parser.Parse("!F0(0)");
 
-			Assert.AreEqual("0 F0 ! ", Stringify(result));
+			Assert.AreEqual("(Long:0) [F0] [!] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -111,7 +111,7 @@ namespace ExpressionParserUnitTests
 		{
 			ExpressionParser parser = new ExpressionParser();
 			var result = parser.Parse("---5");
-			Assert.AreEqual("5 UnaryMinus UnaryMinus UnaryMinus ", Stringify(result));
+			Assert.AreEqual("(Long:5) [UnaryMinus] [UnaryMinus] [UnaryMinus] ", Stringify(result.RpnTokens));
 
 		}
 
@@ -120,7 +120,7 @@ namespace ExpressionParserUnitTests
 		{
 			ExpressionParser parser = new ExpressionParser();
 			var result = parser.Parse("+++5");
-			Assert.AreEqual("5 UnaryPlus UnaryPlus UnaryPlus ", Stringify(result));
+			Assert.AreEqual("(Long:5) [UnaryPlus] [UnaryPlus] [UnaryPlus] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -128,7 +128,7 @@ namespace ExpressionParserUnitTests
 		{
 			ExpressionParser parser = new ExpressionParser();
 			var result = parser.Parse("!!!False");
-			Assert.AreEqual("False ! ! ! ", Stringify(result));
+			Assert.AreEqual("(Bool:False) [!] [!] [!] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -136,7 +136,7 @@ namespace ExpressionParserUnitTests
 		{
 			ExpressionParser parser = new ExpressionParser();
 			var result = parser.Parse("3+!50");
-			Assert.AreEqual("3 50 ! + ", Stringify(result));
+			Assert.AreEqual("(Long:3) (Long:50) [!] [+] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -239,7 +239,7 @@ namespace ExpressionParserUnitTests
 			//parser.RegisterOperator("GTE", 9, OperatorActions.DoGreaterOrEqual);
 
 			var result = parser.Parse("true AND false");
-			Assert.AreEqual("True False AND ", Stringify(result));
+			Assert.AreEqual("(Bool:True) (Bool:False) [AND] ", Stringify(result.RpnTokens));
 		}
 #if false
 
@@ -569,18 +569,9 @@ namespace ExpressionParserUnitTests
 		//	return retVal;
 		//}
 
-		public static string Stringify(IList<IToken> result)
+		public static string Stringify(IEnumerable<IToken> result)
 		{
-			StringBuilder sb = new StringBuilder();
-
-			foreach(var token in result)
-			{
-				sb.Append(token.ToString());
-				sb.Append(' ');
-			}
-			string retVal = sb.ToString();
-			Debug.WriteLine(retVal);
-			return retVal;
+			return TokenService.TokensAsString(result);
 		}
 
 	}

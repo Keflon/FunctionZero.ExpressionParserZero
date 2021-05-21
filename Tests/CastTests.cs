@@ -24,7 +24,8 @@ namespace ExpressionParserUnitTests
 
             Debug.WriteLine(compiledExpression.ToString());
 
-            Debug.WriteLine(Stringify(compiledExpression));
+            //Debug.WriteLine(Stringify(compiledExpression));
+            Debug.WriteLine(TokenService.TokensAsString(compiledExpression.RpnTokens));
             //Assert.AreEqual("5 UnaryMinus ", Stringify(result));
 
             long expectedResult = 5;
@@ -120,19 +121,19 @@ namespace ExpressionParserUnitTests
 
 
 
-        public static string Stringify(IList<IToken> result)
-        {
-            StringBuilder sb = new StringBuilder();
+        //public static string Stringify(IList<IToken> result)
+        //{
+        //    StringBuilder sb = new StringBuilder();
 
-            foreach (var token in result)
-            {
-                sb.Append(token.ToString());
-                sb.Append(' ');
-            }
-            string retVal = sb.ToString();
-            Debug.WriteLine(retVal);
-            return retVal;
-        }
+        //    foreach (var token in result)
+        //    {
+        //        sb.Append(token.ToString());
+        //        sb.Append(' ');
+        //    }
+        //    string retVal = sb.ToString();
+        //    Debug.WriteLine(retVal);
+        //    return retVal;
+        //}
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using FunctionZero.ExpressionParserZero.Operands;
+﻿using FunctionZero.ExpressionParserZero.Evaluator;
+using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Tokens;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,8 @@ namespace FunctionZero.ExpressionParserZero.Binding
         private readonly IList<string> _bindingLookup;
         private readonly IList<PathBind> _bindingCollection;
         private readonly VariableEvaluator _evaluator;
-        private readonly Parser.TokenList _compiledExpression;
+        //private readonly Parser.TokenList _compiledExpression;
+        private readonly ExpressionTree _compiledExpression;
         private object _result;
         private bool _isStale;
 
@@ -53,7 +55,7 @@ namespace FunctionZero.ExpressionParserZero.Binding
             var ep = ExpressionParserFactory.GetExpressionParser();
             _compiledExpression = ep.Parse(expression);
 
-            foreach (IToken item in _compiledExpression)
+            foreach (IToken item in _compiledExpression.RpnTokens)
             {
                 if (item is Operand op)
                 {

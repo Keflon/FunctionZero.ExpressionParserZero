@@ -55,24 +55,24 @@ namespace FunctionZero.ExpressionParserZero
 			return operandStack;
 		}
 #else
-        //public static OperandStack Evaluate(IEnumerable<IToken> rpnTokens, IBackingStore backingStore)
-        //{
-        //    var tree = new ExpressionTree(rpnTokens);
-        //    var operandStack = new OperandStack();
-
-        //    foreach (var node in tree.RootNodeList)
-        //        Evaluate(node, operandStack, backingStore);
-
-        //    var resultStack = new OperandStack();
-
-        //    while (operandStack.Count != 0)
-        //        resultStack.Push(operandStack.Pop());
-
-        //    return resultStack;
-        //}
         public static OperandStack Evaluate(IEnumerable<IToken> rpnTokens, IBackingStore backingStore)
         {
             var tree = new ExpressionTree(rpnTokens);
+            var operandStack = new OperandStack();
+
+            foreach (var node in tree.RootNodeList)
+                Evaluate(node, operandStack, backingStore);
+
+            var resultStack = new OperandStack();
+
+            while (operandStack.Count != 0)
+                resultStack.Push(operandStack.Pop());
+
+            return resultStack;
+        }
+        public static OperandStack Evaluate(ExpressionTree tree, IBackingStore backingStore)
+        {
+            //var tree = new ExpressionTree(rpnTokens);
             var operandStack = new OperandStack();
 
             for (int c = tree.RootNodeList.Count - 1; c >= 0; c--)

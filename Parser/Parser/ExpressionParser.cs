@@ -266,7 +266,8 @@ namespace FunctionZero.ExpressionParserZero.Parser
             return op;
         }
 
-        public TokenList Parse(string expression)
+        //public TokenList Parse(string expression)
+        public ExpressionTree Parse(string expression)
         {
             return Parse(new MemoryStream(Encoding.UTF8.GetBytes(expression ?? "")));
         }
@@ -293,7 +294,8 @@ namespace FunctionZero.ExpressionParserZero.Parser
         //}
 
 
-        public TokenList Parse(Stream inputStream)
+        //public TokenList Parse(Stream inputStream)
+        public ExpressionTree Parse(Stream inputStream)
         {
             _parenthesisDepth = 0;
             var tokenizer = new Tokenizer(inputStream, Operators, Functions);
@@ -409,10 +411,10 @@ namespace FunctionZero.ExpressionParserZero.Parser
             PopByPrecedence(operatorStack, tokenList, 0);
 
 
-            //var tree = new ExpressionTree(tokenList);
+            var tree = new ExpressionTree(tokenList);
+            return tree;
 
-
-            return tokenList;
+            //return tokenList;
         }
 
         /// <summary>
