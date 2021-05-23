@@ -72,7 +72,6 @@ namespace FunctionZero.ExpressionParserZero
         }
         public static OperandStack Evaluate(ExpressionTree tree, IBackingStore backingStore)
         {
-            //var tree = new ExpressionTree(rpnTokens);
             var operandStack = new OperandStack();
 
             for (int c = tree.RootNodeList.Count - 1; c >= 0; c--)
