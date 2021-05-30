@@ -1,5 +1,6 @@
 ﻿using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Binding;
+using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Operators;
 using FunctionZero.ExpressionParserZero.Parser;
 using FunctionZero.ExpressionParserZero.Tokens;
@@ -11,6 +12,76 @@ namespace FunctionZero.ExpressionParserZero.Evaluator
 {
     public class ExpressionTree
     {
+        //public T CastTo<T>(OperandType opType, object val)
+        //{
+        //    switch (opType)
+        //    {
+        //        case OperandType.Sbyte:
+        //            return (T)(sbyte)val;
+        //        case OperandType.Byte:
+        //            break;
+        //        case OperandType.Short:
+        //            break;
+        //        case OperandType.Ushort:
+        //            break;
+        //        case OperandType.Int:
+        //            break;
+        //        case OperandType.Uint:
+        //            break;
+        //        case OperandType.Long:
+        //            break;
+        //        case OperandType.Ulong:
+        //            break;
+        //        case OperandType.Char:
+        //            break;
+        //        case OperandType.Float:
+        //            break;
+        //        case OperandType.Double:
+        //            break;
+        //        case OperandType.Bool:
+        //            break;
+        //        case OperandType.Decimal:
+        //            break;
+        //        case OperandType.NullableSbyte:
+        //            break;
+        //        case OperandType.NullableByte:
+        //            break;
+        //        case OperandType.NullableShort:
+        //            break;
+        //        case OperandType.NullableUshort:
+        //            break;
+        //        case OperandType.NullableInt:
+        //            break;
+        //        case OperandType.NullableUint:
+        //            break;
+        //        case OperandType.NullableLong:
+        //            break;
+        //        case OperandType.NullableUlong:
+        //            break;
+        //        case OperandType.NullableChar:
+        //            break;
+        //        case OperandType.NullableFloat:
+        //            break;
+        //        case OperandType.NullableDouble:
+        //            break;
+        //        case OperandType.NullableBool:
+        //            break;
+        //        case OperandType.NullableDecimal:
+        //            break;
+        //        case OperandType.String:
+        //            break;
+        //        case OperandType.Variable:
+        //            break;
+        //        case OperandType.VSet:
+        //            break;
+        //        case OperandType.Object:
+        //            break;
+        //        case OperandType.Null:
+        //            break;
+        //    }
+        //    return default(T);
+        //}
+
         public ExpressionTree(IEnumerable<IToken> rpnTokens)
         {
             RpnTokens = rpnTokens;
@@ -23,11 +94,12 @@ namespace FunctionZero.ExpressionParserZero.Evaluator
 
                 while (count-- != 0)
                     node.AddChild(stack.Pop());
-                
+
                 stack.Push(node);
             }
             RootNodeList = new List<ExpressionTreeNode>(stack);
         }
+
 
         public List<ExpressionTreeNode> RootNodeList { get; }
         public IEnumerable<IToken> RpnTokens { get; }

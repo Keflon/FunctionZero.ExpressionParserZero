@@ -76,7 +76,7 @@ namespace FunctionZero.ExpressionParserZero.Binding
 
         public object Evaluate()
         {
-            if (IsStale == true)
+            if (IsStale)
             {
                 try
                 {
@@ -97,11 +97,13 @@ namespace FunctionZero.ExpressionParserZero.Binding
                     throw;
                 }
             }
-            // Return the backing variable rather than the property to prevent a recursive call.
+            // Return the backing variable rather than the property, to prevent a recursive call.
             // The getter calls Evaluate!
             return _result;
         }
 
-        private void SomethingChanged(object newValue) => IsStale = true;
+        private void SomethingChanged(object newValue) => Invalidate();
+
+        public void Invalidate() => IsStale = true;
     }
 }
