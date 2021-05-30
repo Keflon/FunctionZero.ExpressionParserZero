@@ -44,8 +44,16 @@ namespace FunctionZero.ExpressionParserZero.Binding
                 }
             }
         }
-
+        /// <summary>
+        /// Result is re-evaluated lazily, i.e. when Result is stale AND Evaluate is called.
+        /// Result is stale if the binding has not been evaluated or if Invalidate has been called.
+        /// Invalidate() is called if a property referenced by the expression raises an INotifyPropertyChanged event.
+        /// </summary>
         public event EventHandler<ValueChangedEventArgs> ResultChanged;
+        /// <summary>
+        /// This event is raised if Invalidate() is called.
+        /// Invalidate() is called if a property referenced by the expression raises an INotifyPropertyChanged event.
+        /// </summary>
         public event EventHandler<EventArgs> ValueIsStale;
 
         public ExpressionBind(object host, string expression)
