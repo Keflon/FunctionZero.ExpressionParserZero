@@ -10,7 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		License.txt = License.txt
 		ReadMe.md = ReadMe.md
 		ReadMe.v3.md = ReadMe.v3.md
-		ReadMe.wip..md = ReadMe.wip..md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionParserZero", "Parser\ExpressionParserZero.csproj", "{F71FC8A4-5952-4D47-99E2-14EDA90F36C2}"

@@ -2,14 +2,14 @@
 # FunctionZero.ExpressionParserZero
 A fast and very flexible parser, validator and evaluator that allows you to build, inspect, and evaluate 
 infix expressions at runtime.  
-Expressions can contain variables that can be rsolved against properties in your class instances.
+Expressions can contain **variables** that can be **resolved against properties in your class instances.**
 
 ## Overview
 `ExpressionParserZero` is a `.NET Standard` library used to parse infix expressions into an `ExpressionTree` 
 that can be evaluated against an `IBackingStore`.
 Expressions can contain constants and variables and can make use of custom overloads and user-defined functions:
 - (5 + 6) * 11.3
-- ( (a + b) * (limit.top + 5) ) / 6
+- ( (a + b) * (myViewModel.Things + 5) ) / 6
 - 3 * MyFunc("Janet")&nbsp;&nbsp;&nbsp;&nbsp;(*with a suitable function registered*)
 - 12 * "Hello World!"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(*with a suitable operator overload registered*)
    
@@ -18,7 +18,9 @@ Expressions can contain constants and variables and can make use of custom overl
   - Compile expressions once only, independently of variables
   - Does not use *reflection* or *compiler services* - safe to use in AOT environments such as iOS
   - Fully typesafe
+  - Short-circuit is supported when evaluating expressions
 - Variables
+  - Properties in your classes can be referenced without any additional code
   - Full support for constants and runtime variables
   - **Variables can be assigned in an expression, e.g. "a = 4 + b"**
   - Supports nested variables that can be accessed by dotted notation
@@ -81,8 +83,8 @@ public event EventHandler<ValueChangedEventArgs> ResultChanged;
 If you ~~like to make things a little harder for yourself~~ want a high level of customisation 
 you can use the `ExpressionParser` directly.
 ```csharp
-// Get a reference to an ExpressionParser:
-ExpressionParser parser = new ExpressionParser();
+// Get a reference to an ExpressionParser. 'new' your own up or ...
+ExpressionParser parser = ExpressionParserFactory.GetExpressionParser();
 
 // Compile your expression:
 var expressionTree = parser.Parse("(TestInt + Child.TestInt) * TestInt");
@@ -161,7 +163,6 @@ Sin((Double)myFloat)
 |=|2|SetEquals|
 |,|1|Comma|
 
-[FunctionZero.zBind](https://www.nuget.org/packages/FunctionZero.zBind)
 ## Operator Aliases 
 If you are using `ExpressionBind` the following *aliases* are registered for you. 
 ([along with some useful Functions](#functions)). 
@@ -331,11 +332,10 @@ You could implement your own e.g. to store and retrieve values in a database.
 
 ## VariableSet, IVariableSet ...
 IVariableSet are still supported, though they are no longer required now that we can bind directly to POCO instances.  
-For documentation on IVariableSet, see [v3 documentation](TODO: Put link here)
+For documentation on IVariableSet, see [v3 documentation](ReadMe.v3.md)
 
 ### TODO:
 
-- Discuss short-circuit
 - Replace IVariableSet in the diagram with IBackingStore
 - Limitations:
   - object indexing not yet supported
