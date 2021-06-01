@@ -49,7 +49,6 @@ namespace ExpressionParserUnitTests
 
             var binding = new ExpressionBind(host, $"(Child.TestInt + Child.Child.TestInt) * TestInt");
             Assert.AreEqual((6 + 41) * 5, (int)binding.Result);
-
             host.Child.TestInt++;
             Assert.AreEqual((7 + 41) * 5, (int)binding.Result);
         }

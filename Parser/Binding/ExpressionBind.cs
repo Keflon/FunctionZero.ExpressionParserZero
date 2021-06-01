@@ -1,5 +1,6 @@
 ﻿using FunctionZero.ExpressionParserZero.Evaluator;
 using FunctionZero.ExpressionParserZero.Operands;
+using FunctionZero.ExpressionParserZero.Parser;
 using FunctionZero.ExpressionParserZero.Tokens;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,6 @@ namespace FunctionZero.ExpressionParserZero.Binding
         private readonly IList<string> _bindingLookup;
         private readonly IList<PathBind> _bindingCollection;
         private readonly VariableEvaluator _evaluator;
-        //private readonly Parser.TokenList _compiledExpression;
         private readonly ExpressionTree _compiledExpression;
         private object _result;
         private bool _isStale;
@@ -56,12 +56,12 @@ namespace FunctionZero.ExpressionParserZero.Binding
         /// </summary>
         public event EventHandler<EventArgs> ValueIsStale;
 
-        public ExpressionBind(object host, string expression)
+        public ExpressionBind(object host, string expression, ExpressionParser parser = null)
         {
             _bindingLookup = new List<string>();
             _bindingCollection = new List<PathBind>();
-            var ep = ExpressionParserFactory.GetExpressionParser();
-            _compiledExpression = ep.Parse(expression);
+
+            _compiledExpression = (parser ?? ExpressionParserFactory.GetExpressionParser()).Parse(expression);
 
             foreach (IToken item in _compiledExpression.RpnTokens)
             {

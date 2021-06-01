@@ -18,22 +18,10 @@ namespace FunctionZero.ExpressionParserZero.Binding
         {
             if (_expressionParser == null)
             {
-                var ep = new ExpressionParser();
-
-                ep.RegisterFunction("Sin", DoSin, 1, 1);
-                ep.RegisterFunction("Cos", DoCos, 1, 1);
-                ep.RegisterFunction("Tan", DoTan, 1, 1);
-
-                ep.RegisterOperator("AND", 4, LogicalAndMatrix.Create(), ShortCircuitMode.LogicalAnd);
-                ep.RegisterOperator("OR", 4, LogicalOrMatrix.Create(), ShortCircuitMode.LogicalOr);
-                ep.RegisterOperator("LT", 4, LessThanMatrix.Create());
-                ep.RegisterOperator("LTE", 4, LessThanOrEqualMatrix.Create());
-                ep.RegisterOperator("GT", 4, GreaterThanMatrix.Create());
-                ep.RegisterOperator("GTE", 4, GreaterThanOrEqualMatrix.Create());
-                ep.RegisterOperator("BAND", 4, BitwiseAndMatrix.Create());
-                ep.RegisterOperator("BOR", 4, BitwiseOrMatrix.Create());
-
-                ReplaceDefaultExpressionParser(ep, false);
+                var parser = new ExpressionParser();
+                DefaultRegistrations.RegisterDefaultAliases(parser);
+                DefaultRegistrations.RegisterDefaultFunctions(parser);
+                ReplaceDefaultExpressionParser(parser, false);
             }
             return _expressionParser;
         }
@@ -48,30 +36,6 @@ namespace FunctionZero.ExpressionParserZero.Binding
             {
                 throw new InvalidOperationException("Attempt to replace default ExpressionParser after it has created been created for a consumer");
             }
-        }
-
-        private static void DoSin(Stack<IOperand> stack, IBackingStore store, long paramCount)
-        {
-            IOperand first = OperatorActions.PopAndResolve(stack, store);
-            double val = (double)first.GetValue();
-            var result = Math.Sin(val);
-            stack.Push(new Operand(-1, OperandType.Double, result));
-        }
-
-        private static void DoCos(Stack<IOperand> stack, IBackingStore store, long paramCount)
-        {
-            IOperand first = OperatorActions.PopAndResolve(stack, store);
-            double val = (double)first.GetValue();
-            var result = Math.Cos(val);
-            stack.Push(new Operand(-1, OperandType.Double, result));
-        }
-
-        private static void DoTan(Stack<IOperand> stack, IBackingStore store, long paramCount)
-        {
-            IOperand first = OperatorActions.PopAndResolve(stack, store);
-            double val = (double)first.GetValue();
-            var result = Math.Tan(val);
-            stack.Push(new Operand(-1, OperandType.Double, result));
         }
     }
 }

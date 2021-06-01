@@ -98,6 +98,24 @@ var evalResult = expressionTree.Evaluate(backingStore);
 // Get the result of the evaluation:
 var actualResult = (int)evalResult.Pop().GetValue();
 ```
+### Tips
+You will likely need only one instance of `ExpressionParser` for all your parsing  
+Parsing an expression into an `ExpressionTree`can be expensive, and parsing the same expression *always* 
+yields the *same* tree, so parse once and cache the result  
+An `ExpressionTree` can be *evaluated* many times, either against the same or different `IBackingStore` objects
+- If you repeatedly evaluate "a=a+1" you will see the variable 'a' climb in value
+
+## Comma operator
+Use the comma operator to evaluate multiple expressions, same as `csharp`  
+`ExpressionBind` yields the result of the last expression;
+`ExpressionTree.Evaluate` provides all results on the resultant `OperandStack`.
+
+## Assignment operator
+You can use the assignment operator `=` to set values in your backing store.  
+E.g.  
+`a = a + 1`  
+`locationString = "Latitude: " + Customer.Latitude + " Longitude: " + Customer.Longitude` 
+
 ## Casting
 Casting follows the same rules as `csharp`. You can cast to any type like this:
 ```
@@ -143,9 +161,18 @@ Sin((Double)myFloat)
 |=|2|SetEquals|
 |,|1|Comma|
 
+[FunctionZero.zBind](https://www.nuget.org/packages/FunctionZero.zBind)
 ## Operator Aliases 
-The following aliases have been added to simplify writing expressions in markup, for example by 
-[FunctionZero.zBind](https://www.nuget.org/packages/FunctionZero.zBind) 
+If you are using `ExpressionBind` the following *aliases* are registered for you. 
+([along with some useful Functions](#functions)). 
+If you do not want them registered, configure an `ExpressionParser` the way you want it, then call the 
+following in your startup code: 
+```csharp
+ExpressionParserFactory.ReplaceDefaultExpressionParser(yourExpressionParser, false);
+```
+If you are using an `ExpressionParser` directly and you want predefined aliases and functions, 
+get your instance from `ExpressionParserFactory.GetExpressionParser()` before any call to 
+`ExpressionParserFactory.ReplaceDefaultExpressionParser`
 
 |Alias|Operator|
 |--|:--:|
@@ -186,24 +213,46 @@ so take a look at the ExpressionParser constructor for examples of how to add op
 If you are serious about adding your own operators and they support many data-types you should invest some 
 time looking at the `MatrixCodeGen` project and perhaps tidy it up while you're in there :)
 
-## Pre-registered Functions
-|Function|Equivalent|
-|--|:--:|
-|Sin(double value)|Math.Sin(double value)|
-|Cos(double value)|Math.Cos(double value)|
-|Tan(double value)|Math.Tan(double value)|
+## Functions
+If you are using `ExpressionBind` the following *functions* are registered for you. 
+([along with some useful aliases](#operator-aliases)). 
+If you do not want them registered, configure an `ExpressionParser` the way you want it, then call the 
+following in your startup code: 
+```csharp
+ExpressionParserFactory.ReplaceDefaultExpressionParser(yourExpressionParser, false);
+```
+If you are using an `ExpressionParser` directly and you want predefined aliases and functions, 
+get your instance from `ExpressionParserFactory.GetExpressionParser()` before any call to 
+`ExpressionParserFactory.ReplaceDefaultExpressionParser`
 
-etc.
+|Function|Equivalent|
+|--|--|
+|Acos(double value)|Math.Acos(double value)|
+|Asin(double value)|Math.Asin(double value)|
+|Atan(double value)|Math.Atan(double value)|
+|Cos(double value)|Math.Cos(double value)|
+|Cosh(double value)|Math.Cosh(double value)|
+|Exp(double value)|Math.Exp(double value)|
+|Log10(double value)|Math.Log10(double value)|
+|Pow(double value)|Math.Pow(double value)|
+|Sin(double value)|Math.Sin(double value)|
+|Sinh(double value)|Math.Sinh(double value)|
+|Sqrt(double value)|Math.Sqrt(double value)|
+|Tan(double value)|Math.Tan(double value)|
+|Tanh(double value)|Math.Tanh(double value)|
+|Lerp(double a, double b, double t)|Linear interpolation between a and b|
 
 ## User defined functions
+**Note: `Lerp` is also pre-registered; the following is just for example.**
 Suppose you wanted a new function to to do a linear interpolation between two values, like this:
+
 ```csharp
 double Lerp(double a, double b, double t)
 {
   return a + t * (b - a);
 }
 ```
-First you will need a reference to your ExpressionParser
+First you will need a reference to your `ExpressionParser`. The default one is here:
 ```csharp
 var parser = ExpressionParserFactory.GetExpressionParser();
 ```
@@ -252,16 +301,41 @@ TIP: You can call `ToString()` on `ExpressionTree.RpnTokens` to pretty-print the
 This can be useful in debugging, for example if you are seeing rounding-errors or exceptions.
 ```
 
+## PathBind
+`ExpressionBind` uses `PathBind` instances internally to evaluate POCO properties and react if they raise 
+`INotifyPropertyChanged` events.  
+Put simply, `PathBind` binds to a property on a *host*, retrieves its value, and raises an `Action<object>` 
+if that value changes.  
+The path to a property can be fully qualified using dotted notation and the `PathBind` object will track changes 
+to values within a path as long as each `property` raises `INotifyPropertyChanged`
+```csharp
+[TestMethod]
+public void TestPathBind()
+{
+    TestObject = new TestClass(12);
+    var binding = new PathBind(this, "TestObject.TestInt", ValueChanged);
+    Assert.AreEqual(12, binding.Value);
+    TestObject.TestInt++;
+    Assert.AreEqual(13, binding.Value);
+}
+private void ValueChanged(object obj)
+{
+    Assert.AreEqual(13, (int)obj);
+}
+```
+
+## IBackingStore
+This is used when evaluating expressions in order to read and write to 'variables'.  
+For example, `PocoBackingStore` implements this interface to read and write public properties on class instances.   
+You could implement your own e.g. to store and retrieve values in a database.
+
 ## VariableSet, IVariableSet ...
 IVariableSet are still supported, though they are no longer required now that we can bind directly to POCO instances.  
 For documentation on IVariableSet, see [v3 documentation](TODO: Put link here)
 
 ### TODO:
 
-- Discussion on IBackingStore, PocoBackingStore
-- Introduction to PathBind
 - Discuss short-circuit
-- Explain comma operator and OperandStack
 - Replace IVariableSet in the diagram with IBackingStore
 - Limitations:
   - object indexing not yet supported
