@@ -37,6 +37,8 @@ namespace FunctionZero.ExpressionParserZero.Parser
             parser.RegisterFunction("Sqrt", DoSqrt, 1, 1);
             parser.RegisterFunction("Tan", DoTan, 1, 1);
             parser.RegisterFunction("Tanh", DoTanh, 1, 1);
+
+            parser.RegisterFunction("Lerp", DoLerp, 3, 3);
         }
 
         private static void DoAcos(Stack<IOperand> stack, IBackingStore store, long paramCount)
@@ -138,6 +140,25 @@ namespace FunctionZero.ExpressionParserZero.Parser
             double val = (double)first.GetValue();
             var result = Math.Tanh(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
+        }
+
+        private static void DoLerp(Stack<IOperand> operandStack, IBackingStore backingStore, long paramCount)
+        {
+            // Pop the correct number of parameters from the operands stack, ** in reverse order **
+            // If an operand is a variable, it is resolved from the backing store provided
+            IOperand third = OperatorActions.PopAndResolve(operandStack, backingStore);
+            IOperand second = OperatorActions.PopAndResolve(operandStack, backingStore);
+            IOperand first = OperatorActions.PopAndResolve(operandStack, backingStore);
+
+            double a = (double)first.GetValue();
+            double b = (double)second.GetValue();
+            double t = (double)third.GetValue();
+
+            // The result is of type double
+            double result = a + t * (b - a);
+
+            // Push the result back onto the operand stack
+            operandStack.Push(new Operand(-1, OperandType.Double, result));
         }
     }
 }

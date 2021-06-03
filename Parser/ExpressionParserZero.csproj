@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>FunctionZero.ExpressionParserZero</PackageId>
-    <Version>5.0.0</Version>
+    <Version>5.0.1</Version>
     <Description>RPN Expression Parser and Evaluator with databinding to POCO and INPC instances.</Description>
     <Copyright>Copyright 2017-2021 (c) Function Zero Ltd.</Copyright>
     <PackageTags>RPN postfix expression parser evaluator infix reverse polish overload typesafe variable variables bind binding zbind z:bind cast casting</PackageTags>
-    <PackageReleaseNotes>Added short-circuit support. Added databinding directly to csharp properties. Added PocoBackingStore as a POCO replacement for IVariableStore / IVariableSet. Expressions are now parsed into an ExpressionTree. (TokenList is still available via ExpressionTree.RpnTokens). Many default functions such as Sin, Cos, Tan, Log etc. See the readme.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added the Lerp function that was accidentally omitted in the last release.</PackageReleaseNotes>
     <Authors>Keith Pickford</Authors>
     <Company>Function Zero Ltd</Company>
     <RootNamespace>FunctionZero.ExpressionParserZero</RootNamespace>
