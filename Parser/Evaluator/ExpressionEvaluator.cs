@@ -122,6 +122,7 @@ namespace FunctionZero.ExpressionParserZero
                     }
                 }
                op.DoOperation(operandStack, backingStore, token.ParserPosition);
+               //op.DoOperation(operandStack, backingStore, token.ParserPosition, node.Children.Count);
             }
         }
 #endif

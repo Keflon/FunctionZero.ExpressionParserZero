@@ -31,6 +31,7 @@ using FunctionZero.ExpressionParserZero.Tokens;
 
 namespace FunctionZero.ExpressionParserZero.Operators
 {
+    public delegate void DoOperationDelegate(Stack<IOperand> operandStack, IBackingStore backingStore, long parserPosition);
     public interface IOperator : IToken
     {
         string AsString { get; }
@@ -43,7 +44,9 @@ namespace FunctionZero.ExpressionParserZero.Operators
         /// <summary>
         /// Performs the operator action on the stack.
         /// </summary>
-        Action<Stack<IOperand>, IBackingStore, long> DoOperation { get; }
+        /// 
+        //Action<Stack<IOperand>, IBackingStore, long> DoOperation { get; }
+        DoOperationDelegate DoOperation { get; }
 
         OperatorType Type { get; }
         ShortCircuitMode ShortCircuit { get; }

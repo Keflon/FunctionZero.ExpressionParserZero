@@ -39,7 +39,7 @@ namespace FunctionZero.ExpressionParserZero.Operators
 		public bool IsOperator => true;
 		public bool IsOperand => false;
 
-		public Operator(OperatorType operatorType, int precedence, ShortCircuitMode shortCircuit, Action<Stack<IOperand>, IBackingStore, long> doOperation, string asString)
+		public Operator(OperatorType operatorType, int precedence, ShortCircuitMode shortCircuit, DoOperationDelegate doOperation, string asString)
 		{
 			Precedence = precedence;
             ShortCircuit = shortCircuit;
@@ -62,7 +62,7 @@ namespace FunctionZero.ExpressionParserZero.Operators
 	    }
 
         public ShortCircuitMode ShortCircuit { get; }
-        public Action<Stack<IOperand>, IBackingStore, long> DoOperation { get; }
+        public DoOperationDelegate DoOperation { get; }
 	    public OperatorType Type { get; }
 
 	    public long ParserPosition { get {throw new NotImplementedException("This should never be accessed!");} }

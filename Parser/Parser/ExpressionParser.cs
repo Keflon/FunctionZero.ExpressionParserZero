@@ -265,7 +265,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
             return op;
         }
 
-        public IFunctionOperator RegisterFunction(string text, Action<Stack<IOperand>, IBackingStore, long> doOperation,
+        public IFunctionOperator RegisterFunction(string text, DoOperationDelegate doOperation,
             int parameterCount, int maxParameterCount = 0)
         {
             var op = new FunctionOperator(OperatorType.Function, doOperation, text, parameterCount, maxParameterCount);

@@ -32,7 +32,7 @@ namespace FunctionZero.ExpressionParserZero.Operators
 {
 	class FunctionOperator : Operator, IFunctionOperator
 	{
-		public FunctionOperator(OperatorType operatorType, Action<Stack<IOperand>, IBackingStore, long> doOperation, string asString, int parameterCount, int maxParameterCount)
+		public FunctionOperator(OperatorType operatorType, DoOperationDelegate doOperation, string asString, int parameterCount, int maxParameterCount)
             : base(operatorType, Parser.ExpressionParser.FunctionPrecedence, ShortCircuitMode.None, doOperation, asString)
 		{
 			MinParameterCount = parameterCount;

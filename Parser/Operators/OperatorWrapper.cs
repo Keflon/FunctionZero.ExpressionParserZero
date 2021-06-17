@@ -55,7 +55,7 @@ namespace FunctionZero.ExpressionParserZero.Operators
 
         public string AsString => WrappedOperator.AsString;
         public int Precedence => WrappedOperator.Precedence;
-        public Action<Stack<IOperand>, IBackingStore, long> DoOperation => WrappedOperator.DoOperation;
+        public DoOperationDelegate DoOperation => WrappedOperator.DoOperation;
         public OperatorType Type => WrappedOperator.Type;
 
         public ShortCircuitMode ShortCircuit => WrappedOperator.ShortCircuit;
