@@ -65,6 +65,33 @@ namespace FunctionZero.ExpressionParserZero
             return operand;
         }
 
+        /// <summary>
+        /// Peeks an operand from the stack. If it's a variable it returns an operand holding the variable value, otherwise it returns the operand.
+        /// </summary>
+        /// <param name="stack"></param>
+        /// <param name="variables"></param>
+        /// <returns></returns>
+        public static IOperand PeekAndResolve(Stack<IOperand> stack, IBackingStore backingStore)
+        {
+            IOperand operand = stack.Peek();
+
+            if (operand.Type == OperandType.Variable)
+            {
+                //var variable = ResolveVariable(variables, retVal);
+
+                try
+                {
+                    var valueAndType = backingStore.GetValue((string)operand.GetValue());
+                    operand = new Operand(operand.ParserPosition, valueAndType.type, valueAndType.value);
+                }
+                catch// (KeyNotFoundException)
+                {
+                    throw new ExpressionEvaluatorException(operand.ParserPosition, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, $"'{operand.GetValue().ToString()}'");
+                }
+            }
+            return operand;
+        }
+
         //private static Variable ResolveVariable(IVariableStore variables, IOperand variable)
         //{
         //	try

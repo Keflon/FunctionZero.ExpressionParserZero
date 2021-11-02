@@ -94,8 +94,13 @@ namespace FunctionZero.ExpressionParserZero
                 if(op.ShortCircuit == ShortCircuitMode.LogicalAnd)
                 {
                     Evaluate(node.Children[1], operandStack, backingStore);
-                    if ((bool)operandStack.Peek().GetValue() == false)
+
+                    var thing = OperatorActions.PeekAndResolve(operandStack, backingStore);
+
+                    if ((bool)thing.GetValue() == false)
                     {
+                        // The operator has done its work, discard it.
+                        operandStack.Pop();
                         operandStack.Push(new Operand(OperandType.Bool, false));
                         return;
                     }
@@ -105,8 +110,13 @@ namespace FunctionZero.ExpressionParserZero
                 else if(op.ShortCircuit == ShortCircuitMode.LogicalOr)
                 {
                     Evaluate(node.Children[1], operandStack, backingStore);
-                    if ((bool)operandStack.Peek().GetValue() == true)
+
+                    var thing = OperatorActions.PeekAndResolve(operandStack, backingStore);
+
+                    if ((bool)thing.GetValue() == true)
                     {
+                        // The operator has done its work, discard it.
+                        operandStack.Pop();
                         operandStack.Push(new Operand(OperandType.Bool, true));
                         return;
                     }

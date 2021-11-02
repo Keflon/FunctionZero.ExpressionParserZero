@@ -488,7 +488,7 @@ namespace ExpressionParserUnitTests
 			{
 				var result = e.Parse("..");
 			}
-			catch(ExpressionParserException ex)
+			catch (ExpressionParserException ex)
 			{
 				Assert.AreEqual(1, ex.Offset);
 				Assert.AreEqual(ExpressionParserException.ExceptionCause.MultipleDecimalPoint, ex.Cause);
@@ -497,6 +497,140 @@ namespace ExpressionParserUnitTests
 
 			Assert.Fail("Did not throw correct exception");
 		}
+
+		public bool TestBool { get; set; }
+
+		[TestMethod]
+		public void TestBoolVariableAndBoolShortCircuit()
+		{
+			ExpressionParser e = new ExpressionParser();
+			var backingStore = new PocoBackingStore(this);
+			TestBool = false;
+
+			var compiledExpression = e.Parse("TestBool && true");
+
+			var evalResult = compiledExpression.Evaluate(backingStore);
+			Assert.AreEqual(1, evalResult.Count);
+			Assert.AreEqual(false, (bool)evalResult.Pop().GetValue());
+
+		}
+
+		[TestMethod]
+		public void TestBoolVariableAndBoolNoShortCircuit()
+		{
+			ExpressionParser e = new ExpressionParser();
+			var backingStore = new PocoBackingStore(this);
+			TestBool = true;
+
+			var compiledExpression = e.Parse("TestBool && true");
+
+			var evalResult = compiledExpression.Evaluate(backingStore);
+			Assert.AreEqual(1, evalResult.Count);
+			Assert.AreEqual(true, (bool)evalResult.Pop().GetValue());
+
+		}
+
+		[TestMethod]
+		public void TestBoolAndBoolShortCircuit()
+		{
+			ExpressionParser e = new ExpressionParser();
+			var backingStore = new PocoBackingStore(this);
+
+			var compiledExpression = e.Parse("false && true");
+
+			var evalResult = compiledExpression.Evaluate(backingStore);
+			Assert.AreEqual(1, evalResult.Count);
+			Assert.AreEqual(false, (bool)evalResult.Pop().GetValue());
+
+		}
+
+		[TestMethod]
+		public void TestBoolAndBoolNoShortCircuit()
+		{
+			ExpressionParser e = new ExpressionParser();
+			var backingStore = new PocoBackingStore(this);
+			TestBool = true;
+
+			var compiledExpression = e.Parse("true && true");
+
+			var evalResult = compiledExpression.Evaluate(backingStore);
+			Assert.AreEqual(1, evalResult.Count);
+			Assert.AreEqual(true, (bool)evalResult.Pop().GetValue());
+
+		}
+
+
+
+
+
+
+
+		[TestMethod]
+		public void TestBoolVariableOrBoolNoShortCircuit()
+		{
+			ExpressionParser e = new ExpressionParser();
+			var backingStore = new PocoBackingStore(this);
+			TestBool = false;
+
+			var compiledExpression = e.Parse("TestBool || false");
+
+			var evalResult = compiledExpression.Evaluate(backingStore);
+			Assert.AreEqual(1, evalResult.Count);
+			Assert.AreEqual(false, (bool)evalResult.Pop().GetValue());
+
+		}
+
+		[TestMethod]
+		public void TestBoolVariableOrBoolShortCircuit()
+		{
+			ExpressionParser e = new ExpressionParser();
+			var backingStore = new PocoBackingStore(this);
+			TestBool = true;
+
+			var compiledExpression = e.Parse("TestBool || false");
+
+			var evalResult = compiledExpression.Evaluate(backingStore);
+			Assert.AreEqual(1, evalResult.Count);
+			Assert.AreEqual(true, (bool)evalResult.Pop().GetValue());
+
+		}
+
+		[TestMethod]
+		public void TestBoolOrBoolNoShortCircuit()
+		{
+			ExpressionParser e = new ExpressionParser();
+			var backingStore = new PocoBackingStore(this);
+
+			var compiledExpression = e.Parse("false || true");
+
+			var evalResult = compiledExpression.Evaluate(backingStore);
+			Assert.AreEqual(1, evalResult.Count);
+			Assert.AreEqual(true, (bool)evalResult.Pop().GetValue());
+
+		}
+
+		[TestMethod]
+		public void TestBoolOrBoolShortCircuit()
+		{
+			ExpressionParser e = new ExpressionParser();
+			var backingStore = new PocoBackingStore(this);
+			TestBool = true;
+
+			var compiledExpression = e.Parse("true || false");
+
+			var evalResult = compiledExpression.Evaluate(backingStore);
+			Assert.AreEqual(1, evalResult.Count);
+			Assert.AreEqual(true, (bool)evalResult.Pop().GetValue());
+
+		}
+
+
+
+
+
+
+
+
 
 
 
