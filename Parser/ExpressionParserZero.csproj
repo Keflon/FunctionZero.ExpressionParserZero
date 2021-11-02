@@ -3,11 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>FunctionZero.ExpressionParserZero</PackageId>
-    <Version>5.0.1</Version>
+    <Version>5.0.2</Version>
     <Description>RPN Expression Parser and Evaluator with databinding to POCO and INPC instances.</Description>
     <Copyright>Copyright 2017-2021 (c) Function Zero Ltd.</Copyright>
     <PackageTags>RPN postfix expression parser evaluator infix reverse polish overload typesafe variable variables bind binding zbind z:bind cast casting</PackageTags>
-    <PackageReleaseNotes>Added the Lerp function that was accidentally omitted in the last release.</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed two problems with the ExpressionEvaluator short-circuit code:
+1. Variables were not being resolved, so 'true &amp;&amp; true' worked, but 'SomeBool &amp;&amp; true' raised an InvalidCastException.
+2. When short-circuit activated, the evaluator neglected to pop the operand that caused the short-circuit.</PackageReleaseNotes>
     <Authors>Keith Pickford</Authors>
     <Company>Function Zero Ltd</Company>
     <RootNamespace>FunctionZero.ExpressionParserZero</RootNamespace>
