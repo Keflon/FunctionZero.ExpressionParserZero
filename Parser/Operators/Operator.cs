@@ -32,7 +32,7 @@ using FunctionZero.ExpressionParserZero.Tokens;
 
 namespace FunctionZero.ExpressionParserZero.Operators
 {
-	class Operator : IOperator
+	public class Operator : IOperator
 	{
 		private int _precedence;
 
