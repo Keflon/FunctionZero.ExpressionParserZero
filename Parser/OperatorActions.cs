@@ -81,7 +81,7 @@ namespace FunctionZero.ExpressionParserZero
         //}
 
         [Obsolete("Used by a test-case call to RegisterFunction.")]
-        internal static void DoMultiply(Stack<IOperand> stack, IBackingStore backingStore, long parserPosition)
+        internal static void DoMultiply(Stack<IOperand> stack, IBackingStore backingStore, long paramCount, long parserPosition)
         {
             IOperand second = PopAndResolve(stack, backingStore);
             IOperand first = PopAndResolve(stack, backingStore);

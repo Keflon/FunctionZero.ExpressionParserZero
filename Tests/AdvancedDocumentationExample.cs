@@ -89,7 +89,7 @@ namespace ExpressionParserUnitTests
         /// long StringContains(string source, string subString, bool isCaseSensitive)
         /// Returns index of subString, or -1
         /// </summary>
-        private void DoStringContains(Stack<IOperand> operands, IBackingStore backingStore, long parserPosition)
+        private void DoStringContains(Stack<IOperand> operands, IBackingStore backingStore, long paramCount, long parserPosition)
         {
             // Pop the correct number of parameters from the operands stack, ** in reverse order **
             // If an operand is a variable, it is resolved from the variables provided

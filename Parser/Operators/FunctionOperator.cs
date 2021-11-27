@@ -27,7 +27,7 @@ using System;
 using System.Collections.Generic;
 using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Operands;
-
+	
 namespace FunctionZero.ExpressionParserZero.Operators
 {
 	class FunctionOperator : Operator, IFunctionOperator

@@ -31,7 +31,7 @@ using FunctionZero.ExpressionParserZero.Tokens;
 
 namespace FunctionZero.ExpressionParserZero.Operators
 {
-    public delegate void DoOperationDelegate(Stack<IOperand> operandStack, IBackingStore backingStore, long parserPosition);
+    public delegate void DoOperationDelegate(Stack<IOperand> operandStack, IBackingStore backingStore, long parameterCount, long parserPosition);
     public interface IOperator : IToken
     {
         string AsString { get; }

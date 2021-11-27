@@ -176,7 +176,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
             var op = new Operator(operatorType,
                 precedence,
                 shortCircuit,
-                (operandStack, vSet, parserPosition) =>
+                (operandStack, vSet, paramCount, parserPosition) =>
                 {
                     var result = OperatorActions.DoOperation(matrix, operandStack, vSet);
                     if (result != null)
@@ -200,7 +200,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
         {
             var op = new Operator(OperatorType.Operator, precedence, ShortCircuitMode.None,
 
-                        (operandStack, vSet, parserPosition) =>
+                        (operandStack, vSet, paramCount, parserPosition) =>
                         {
                             var result = OperatorActions.DoSetEquals(matrix, operandStack, vSet, parserPosition);
                             // DoSetEquals throws its own exception.
@@ -219,7 +219,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
                 OperatorType.UnaryOperator,
                 precedence,
                 ShortCircuitMode.None,
-                (operandStack, vSet, parserPosition) =>
+                (operandStack, vSet, paramCount, parserPosition) =>
                 {
 
                     var result = OperatorActions.DoUnaryOperation(vector, operandStack, vSet);
@@ -248,7 +248,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
                 OperatorType.UnaryCastOperator,
                 precedence,
                 ShortCircuitMode.None,
-                (operandStack, vSet, parserPosition) =>
+                (operandStack, vSet, paramCount, parserPosition) =>
                 {
                     var result = OperatorActions.DoUnaryCastOperation(matrix, operandStack, vSet, castToOperand);
                     if (result != null)
@@ -308,6 +308,9 @@ namespace FunctionZero.ExpressionParserZero.Parser
             var tokenizer = new Tokenizer(inputStream, Operators, Functions);
 
             var operatorStack = new Stack<OperatorWrapper>();
+            var functionStack = new Stack<(OperatorWrapper ow, int pDepth)>();
+            functionStack.Push((null, -1));
+
             var tokenList = new TokenList();
             _state = State.None;
 
@@ -355,6 +358,8 @@ namespace FunctionZero.ExpressionParserZero.Parser
                                 operatorStack.Push(operatorWrapper);
                                 break;
                             case OperatorType.Function:
+                                functionStack.Push((operatorWrapper, _parenthesisDepth));
+                                
                                 operatorStack.Push(operatorWrapper);
                                 break;
                             case OperatorType.OpenParenthesis:
@@ -365,6 +370,10 @@ namespace FunctionZero.ExpressionParserZero.Parser
                                 break;
                             case OperatorType.CloseParenthesis:
                                 _parenthesisDepth--;
+                                // Put this somewhere ((FunctionOperator)functionStack.Peek().ow.WrappedOperator).ActualParameterCount++;
+                                if (_parenthesisDepth == functionStack.Peek().pDepth)
+                                    functionStack.Pop();
+
                                 if (_state == State.CloseParenthesis)
                                 {
                                     // Pop operators until an open-parenthesis is encountered.
@@ -413,7 +422,11 @@ namespace FunctionZero.ExpressionParserZero.Parser
             // Check parenthesis
             if (_parenthesisDepth != 0)
                 throw new ExpressionParserException(tokenizer.ParserPosition,
-                    ExpressionParserException.ExceptionCause.ClosingBraceExpected);
+                    ExpressionParserException.ExceptionCause.ClosingBraceExpected); 
+            
+            if (functionStack.Count != 1)
+                throw new ExpressionParserException(tokenizer.ParserPosition,
+                    ExpressionParserException.ExceptionCause.WrongNumberOfFunctionParameters);
 
             PopByPrecedence(operatorStack, tokenList, 0);
 

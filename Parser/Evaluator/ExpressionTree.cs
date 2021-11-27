@@ -118,6 +118,7 @@ namespace FunctionZero.ExpressionParserZero.Evaluator
                             case OperatorType.UnaryOperator:
                                 return 1;
                             case OperatorType.Function:
+                                //return 2;
                                 return ((IFunctionOperator)((OperatorWrapper)op).WrappedOperator).ActualParameterCount;
                             case OperatorType.UnaryCastOperator:
                                 return 1;

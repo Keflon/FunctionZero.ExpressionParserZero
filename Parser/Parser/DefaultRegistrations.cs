@@ -41,42 +41,42 @@ namespace FunctionZero.ExpressionParserZero.Parser
             parser.RegisterFunction("Lerp", DoLerp, 3, 3);
         }
 
-        private static void DoAcos(Stack<IOperand> stack, IBackingStore store, long paramCount)
+        private static void DoAcos(Stack<IOperand> stack, IBackingStore store, long paramCount, long parserPosition)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
             double val = (double)first.GetValue();
             var result = Math.Acos(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
-        private static void DoAsin(Stack<IOperand> stack, IBackingStore store, long paramCount)
+        private static void DoAsin(Stack<IOperand> stack, IBackingStore store, long paramCount, long parserPosition)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
             double val = (double)first.GetValue();
             var result = Math.Asin(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
-        private static void DoAtan(Stack<IOperand> stack, IBackingStore store, long paramCount)
+        private static void DoAtan(Stack<IOperand> stack, IBackingStore store, long paramCount, long parserPosition)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
             double val = (double)first.GetValue();
             var result = Math.Atan(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
-        private static void DoCos(Stack<IOperand> stack, IBackingStore store, long paramCount)
+        private static void DoCos(Stack<IOperand> stack, IBackingStore store, long paramCount, long parserPosition)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
             double val = (double)first.GetValue();
             var result = Math.Cos(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
-        private static void DoCosh(Stack<IOperand> stack, IBackingStore store, long paramCount)
+        private static void DoCosh(Stack<IOperand> stack, IBackingStore store, long paramCount, long parserPosition)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
             double val = (double)first.GetValue();
             var result = Math.Cosh(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
-        private static void DoExp(Stack<IOperand> stack, IBackingStore store, long paramCount)
+        private static void DoExp(Stack<IOperand> stack, IBackingStore store, long paramCount, long parserPosition)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
             double val = (double)first.GetValue();
@@ -90,14 +90,14 @@ namespace FunctionZero.ExpressionParserZero.Parser
         //    var result = Math.Exp(val);
         //    stack.Push(new Operand(-1, OperandType.Double, result));
         //}
-        private static void DoLog10(Stack<IOperand> stack, IBackingStore store, long paramCount)
+        private static void DoLog10(Stack<IOperand> stack, IBackingStore store, long paramCount, long parserPosition)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
             double val = (double)first.GetValue();
             var result = Math.Log10(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
-        private static void DoPow(Stack<IOperand> stack, IBackingStore store, long paramCount)
+        private static void DoPow(Stack<IOperand> stack, IBackingStore store, long paramCount, long parserPosition)
         {
             IOperand second = OperatorActions.PopAndResolve(stack, store);
             IOperand first = OperatorActions.PopAndResolve(stack, store);
@@ -106,35 +106,35 @@ namespace FunctionZero.ExpressionParserZero.Parser
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
 
-        private static void DoSin(Stack<IOperand> stack, IBackingStore store, long paramCount)
+        private static void DoSin(Stack<IOperand> stack, IBackingStore store, long paramCount, long parserPosition)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
             double val = (double)first.GetValue();
             var result = Math.Sin(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
-        private static void DoSinh(Stack<IOperand> stack, IBackingStore store, long paramCount)
+        private static void DoSinh(Stack<IOperand> stack, IBackingStore store, long paramCount, long parserPosition)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
             double val = (double)first.GetValue();
             var result = Math.Sinh(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
-        private static void DoSqrt(Stack<IOperand> stack, IBackingStore store, long paramCount)
+        private static void DoSqrt(Stack<IOperand> stack, IBackingStore store, long paramCount, long parserPosition)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
             double val = (double)first.GetValue();
             var result = Math.Sqrt(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
-        private static void DoTan(Stack<IOperand> stack, IBackingStore store, long paramCount)
+        private static void DoTan(Stack<IOperand> stack, IBackingStore store, long paramCount, long parserPosition)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
             double val = (double)first.GetValue();
             var result = Math.Tan(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
-        private static void DoTanh(Stack<IOperand> stack, IBackingStore store, long paramCount)
+        private static void DoTanh(Stack<IOperand> stack, IBackingStore store, long paramCount, long parserPosition)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
             double val = (double)first.GetValue();
@@ -142,7 +142,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
 
-        private static void DoLerp(Stack<IOperand> operandStack, IBackingStore backingStore, long paramCount)
+        private static void DoLerp(Stack<IOperand> operandStack, IBackingStore backingStore, long paramCount, long parserPosition)
         {
             // Pop the correct number of parameters from the operands stack, ** in reverse order **
             // If an operand is a variable, it is resolved from the backing store provided

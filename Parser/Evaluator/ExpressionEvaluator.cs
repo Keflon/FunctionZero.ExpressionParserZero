@@ -121,8 +121,8 @@ namespace FunctionZero.ExpressionParserZero
                         Evaluate(node.Children[c], operandStack, backingStore);
                     }
                 }
-               op.DoOperation(operandStack, backingStore, token.ParserPosition);
-               //op.DoOperation(operandStack, backingStore, token.ParserPosition, node.Children.Count);
+               //op.DoOperation(operandStack, backingStore, token.ParserPosition);
+               op.DoOperation(operandStack, backingStore, node.Children.Count, token.ParserPosition);
             }
         }
 #endif
