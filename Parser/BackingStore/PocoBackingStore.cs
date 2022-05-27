@@ -41,6 +41,9 @@ namespace FunctionZero.ExpressionParserZero.BackingStore
 
         protected (object host, PropertyInfo info) GetPropertyInfo(object host, string qualifiedName)
         {
+            // TODO: Cache this.
+            // TODO: 'host' cannot change, so just cache qualifiedName against a PropertyInfo instance.
+
             var bits = qualifiedName.Split(_dot);
 
             PropertyInfo pi = null;

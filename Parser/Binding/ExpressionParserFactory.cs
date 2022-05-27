@@ -34,7 +34,7 @@ namespace FunctionZero.ExpressionParserZero.Binding
             }
             else
             {
-                throw new InvalidOperationException("Attempt to replace default ExpressionParser after it has created been created for a consumer");
+                throw new InvalidOperationException("Attempt to replace default ExpressionParser after it has created for a consumer");
             }
         }
     }

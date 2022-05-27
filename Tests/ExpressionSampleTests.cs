@@ -107,7 +107,7 @@ namespace ExpressionParserUnitTests
             var binding = new PathBind(this, "TestObject.TestInt");
             
             Assert.AreEqual(12, binding.Value);
-
+            
             TestObject.TestInt++;
             Assert.AreEqual(13, binding.Value);
         }

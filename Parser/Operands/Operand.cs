@@ -67,6 +67,72 @@ namespace FunctionZero.ExpressionParserZero.Operands
         {
             Debug.Assert(CheckValueType(Type, OperandValue) == true);
 
+            switch (Type)
+            {
+                case OperandType.Sbyte:
+                    return (sbyte)OperandValue;
+                case OperandType.Byte:
+                    return(byte)OperandValue;
+                case OperandType.Short:
+                    return (short)OperandValue;
+                case OperandType.Ushort:
+                    return (ushort)OperandValue;
+                case OperandType.Int:
+                    return (int)OperandValue;
+                case OperandType.Uint:
+                    return (uint)OperandValue;
+                case OperandType.Long:
+                    return (long)OperandValue;
+                case OperandType.Ulong:
+                    return (ulong)OperandValue;
+                case OperandType.Char:
+                    return (char)OperandValue;
+                case OperandType.Float:
+                    return (float)OperandValue;
+                case OperandType.Double:
+                    return (double)OperandValue;
+                case OperandType.Bool:
+                    return (bool)OperandValue;
+                case OperandType.Decimal:
+                    return (decimal)OperandValue;
+                case OperandType.NullableSbyte:
+                    return (sbyte?)OperandValue;
+                case OperandType.NullableByte:
+                    return (byte?)OperandValue;
+                case OperandType.NullableShort:
+                    return (short?)OperandValue;
+                case OperandType.NullableUshort:
+                    return (ushort?)OperandValue;
+                case OperandType.NullableInt:
+                    return (int?)OperandValue;
+                case OperandType.NullableUint:
+                    return (uint?)OperandValue;
+                case OperandType.NullableLong:
+                    return (long?)OperandValue;
+                case OperandType.NullableUlong:
+                    return (ulong?)OperandValue;
+                case OperandType.NullableChar:
+                    return (char?)OperandValue;
+                case OperandType.NullableFloat:
+                    return (float?)OperandValue;
+                case OperandType.NullableDouble:
+                    return (double?)OperandValue;
+                case OperandType.NullableBool:
+                    return (bool?)OperandValue;
+                case OperandType.NullableDecimal:
+                    return (decimal?)OperandValue;
+                case OperandType.String:
+                    return (string)OperandValue;
+                case OperandType.Variable:
+                    return OperandValue;
+                case OperandType.VSet:
+                    return OperandValue;
+                case OperandType.Object:
+                    return OperandValue;
+                case OperandType.Null:
+                    return OperandValue;
+            }
+
             return OperandValue;
         }
 
