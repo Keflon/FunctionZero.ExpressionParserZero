@@ -114,7 +114,7 @@ namespace MatrixCodeGen
                         if (castFrom.Value == "null")
                         {
                             line = $"            matrix.RegisterDelegate(OperandType.{castFrom.Key}, OperandType.{castTo.Key}, (fromOperand, toOperand) => " +
-                        $"new Operand(OperandType.{castTo.Key}, ({castTo.Value}) null));";
+                                                    $"new Operand(OperandType.{castTo.Key}, ({castTo.Value}) null));";
                         }
                         else
                         {
@@ -170,7 +170,9 @@ namespace MatrixCodeGen
 
                         if (theOperator == "=")
                         {
-                            string line = $"            matrix.RegisterDelegate(OperandType.{left.Key}, OperandType.{right.Key}, (leftOperand, rightOperand) => new Operand(OperandType.{enumType}, {rightSide}));";
+                            // This is an assignment, and it may be e.g. MyLong = MyInt, meaning after unboxing the rhs we need to cast it to the type of the lhs,
+                            // otherwise we'll be creating an operand that lies about it's contained type. 
+                            string line = $"            matrix.RegisterDelegate(OperandType.{left.Key}, OperandType.{right.Key}, (leftOperand, rightOperand) => new Operand(OperandType.{enumType}, ({left.Value}){rightSide}));";
                             retval.Add(line);
                         }
                         else
