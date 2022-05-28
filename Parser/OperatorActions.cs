@@ -188,10 +188,10 @@ namespace FunctionZero.ExpressionParserZero
             {
                 string varName = (string)first.GetValue();
 
-                //var targetVariable = ResolveVariable(variables, first);
                 (OperandType type, object value) valueAndType;
                 try
                 {
+                    // We need the type, don't need the value because it's going to be overwritten.
                     valueAndType = backingStore.GetValue(varName);
                 }
                 catch(Exception ex)
@@ -199,14 +199,13 @@ namespace FunctionZero.ExpressionParserZero
                     throw new ExpressionEvaluatorException(-1, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, $"'{varName}'");
                 }
 
+                // type is needed so we can pick out the correct martrix operation. Value is irrelevant as it is overwritten.
                 var firstOperand = new Operand(first.ParserPosition, valueAndType.type, valueAndType.value);
 
                 IOperand result = matrix.PerformDelegate(firstOperand, second);
 
                 if (result != null)
                 {
-                    //Debug.Assert(targetVariable.VariableType == result.Type);
-                    //targetVariable.Value = result.GetValue();
                     backingStore.SetValue(varName, result.GetValue());
                     stack.Push(result);
                     return null;
@@ -216,13 +215,6 @@ namespace FunctionZero.ExpressionParserZero
                     // Signal an error ...
                     return new Tuple<OperandType, OperandType>(first.Type, second.Type);
                 }
-#if false
-				// Supports dotted notation.
-				Variable v = variables.GetVariable(varName);
-				v.Value = second.GetValue();
-				// Put the result on the stack. Is that right? Should the result be the variable or it's value?
-				stack.Push(new Operand(Bogey, v.VariableType, v.Value));
-#endif
             }
         }
 
