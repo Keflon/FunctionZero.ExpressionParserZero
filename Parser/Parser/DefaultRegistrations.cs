@@ -44,42 +44,43 @@ namespace FunctionZero.ExpressionParserZero.Parser
         private static void DoAcos(Stack<IOperand> stack, IBackingStore store, long paramCount)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
-            double val = (double)first.GetValue();
+            //double val = (double)first.GetValue();
+            double val = Convert.ToDouble(first.GetValue());
             var result = Math.Acos(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
         private static void DoAsin(Stack<IOperand> stack, IBackingStore store, long paramCount)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
-            double val = (double)first.GetValue();
+            double val = Convert.ToDouble(first.GetValue());
             var result = Math.Asin(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
         private static void DoAtan(Stack<IOperand> stack, IBackingStore store, long paramCount)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
-            double val = (double)first.GetValue();
+            double val = Convert.ToDouble(first.GetValue());
             var result = Math.Atan(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
         private static void DoCos(Stack<IOperand> stack, IBackingStore store, long paramCount)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
-            double val = (double)first.GetValue();
+            double val = Convert.ToDouble(first.GetValue());
             var result = Math.Cos(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
         private static void DoCosh(Stack<IOperand> stack, IBackingStore store, long paramCount)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
-            double val = (double)first.GetValue();
+            double val = Convert.ToDouble(first.GetValue());
             var result = Math.Cosh(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
         private static void DoExp(Stack<IOperand> stack, IBackingStore store, long paramCount)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
-            double val = (double)first.GetValue();
+            double val = Convert.ToDouble(first.GetValue());
             var result = Math.Exp(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
@@ -93,7 +94,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
         private static void DoLog10(Stack<IOperand> stack, IBackingStore store, long paramCount)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
-            double val = (double)first.GetValue();
+            double val = Convert.ToDouble(first.GetValue());
             var result = Math.Log10(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
@@ -102,42 +103,42 @@ namespace FunctionZero.ExpressionParserZero.Parser
             IOperand second = OperatorActions.PopAndResolve(stack, store);
             IOperand first = OperatorActions.PopAndResolve(stack, store);
             double val = (double)first.GetValue();
-            var result = Math.Pow((double)first.GetValue(), (double)second.GetValue());
+            var result = Math.Pow(Convert.ToDouble(first.GetValue()), Convert.ToDouble(second.GetValue()));
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
 
         private static void DoSin(Stack<IOperand> stack, IBackingStore store, long paramCount)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
-            double val = (double)first.GetValue();
+            double val = Convert.ToDouble(first.GetValue());
             var result = Math.Sin(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
         private static void DoSinh(Stack<IOperand> stack, IBackingStore store, long paramCount)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
-            double val = (double)first.GetValue();
+            double val = Convert.ToDouble(first.GetValue());
             var result = Math.Sinh(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
         private static void DoSqrt(Stack<IOperand> stack, IBackingStore store, long paramCount)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
-            double val = (double)first.GetValue();
+            double val = Convert.ToDouble(first.GetValue());
             var result = Math.Sqrt(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
         private static void DoTan(Stack<IOperand> stack, IBackingStore store, long paramCount)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
-            double val = (double)first.GetValue();
+            double val = Convert.ToDouble(first.GetValue());
             var result = Math.Tan(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
         private static void DoTanh(Stack<IOperand> stack, IBackingStore store, long paramCount)
         {
             IOperand first = OperatorActions.PopAndResolve(stack, store);
-            double val = (double)first.GetValue();
+            double val = Convert.ToDouble(first.GetValue());
             var result = Math.Tanh(val);
             stack.Push(new Operand(-1, OperandType.Double, result));
         }
@@ -150,9 +151,9 @@ namespace FunctionZero.ExpressionParserZero.Parser
             IOperand second = OperatorActions.PopAndResolve(operandStack, backingStore);
             IOperand first = OperatorActions.PopAndResolve(operandStack, backingStore);
 
-            double a = (double)first.GetValue();
-            double b = (double)second.GetValue();
-            double t = (double)third.GetValue();
+            double a = Convert.ToDouble(first.GetValue());
+            double b = Convert.ToDouble(second.GetValue());
+            double t = Convert.ToDouble(third.GetValue());
 
             // The result is of type double
             double result = a + t * (b - a);
