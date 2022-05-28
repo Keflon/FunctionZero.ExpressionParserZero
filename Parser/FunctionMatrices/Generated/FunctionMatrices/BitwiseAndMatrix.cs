@@ -9,8 +9,6 @@ namespace FunctionZero.ExpressionParserZero.Parser.FunctionMatrices
      {
          var matrix = new DoubleOperandFunctionMatrix();
 
-
-
             matrix.RegisterDelegate(OperandType.Sbyte, OperandType.Sbyte, (leftOperand, rightOperand) => new Operand(OperandType.Int, (sbyte)leftOperand.GetValue() & (sbyte)rightOperand.GetValue()));
             matrix.RegisterDelegate(OperandType.Sbyte, OperandType.Byte, (leftOperand, rightOperand) => new Operand(OperandType.Int, (sbyte)leftOperand.GetValue() & (byte)rightOperand.GetValue()));
             matrix.RegisterDelegate(OperandType.Sbyte, OperandType.Short, (leftOperand, rightOperand) => new Operand(OperandType.Int, (sbyte)leftOperand.GetValue() & (short)rightOperand.GetValue()));
