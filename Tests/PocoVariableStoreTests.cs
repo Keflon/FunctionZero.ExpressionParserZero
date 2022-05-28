@@ -23,6 +23,50 @@ namespace ExpressionParserUnitTests
         public TestClass MyTestObject { get; set; }
 
 
+        public long LongC { get; set; }
+
+        [TestMethod]
+        public void TestStoreNew()
+        {
+            IntA = 5;
+            LongC = 9;
+            var backingStore = new PocoBackingStore(this);
+            ExpressionParser e = new ExpressionParser();
+
+            var compiledExpression = e.Parse("LongC = IntA");
+            //LongC = IntA;
+            var evalResult = compiledExpression.Evaluate(backingStore);
+
+            Assert.AreEqual(IntA, LongC);
+            Assert.AreEqual(IntA, 5);
+
+            Assert.AreEqual(1, evalResult.Count);
+        }
+
+        //    // Csharp compiler does not allow this, so neither does ExpressionParserZero.
+        //    //IntA = LongC;
+        //[TestMethod]
+        //public void TestStoreNew2()
+        //{
+        //    IntA = 5;
+        //    LongC = 9;
+        //    MyTestObject = new TestClass(21);
+        //    var backingStore = new PocoBackingStore(this);
+        //    ExpressionParser e = new ExpressionParser();
+
+        //    //int expectedResult = (IntA + IntB) * MyTestObject.TestInt;
+
+        //    var compiledExpression = e.Parse("IntA = LongC");
+        //    // Csharp compiler does not allow this, so neither does ExpressionParserZero.
+        //    //IntA = LongC;
+        //    var evalResult = compiledExpression.Evaluate(backingStore);
+
+        //    Assert.AreEqual(IntA, LongC);
+        //    Assert.AreEqual(IntA, 9);
+
+        //    Assert.AreEqual(1, evalResult.Count);
+        //}
+
         [TestMethod]
         public void TestStore0()
         {
