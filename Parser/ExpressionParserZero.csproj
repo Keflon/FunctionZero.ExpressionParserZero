@@ -3,13 +3,17 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>FunctionZero.ExpressionParserZero</PackageId>
-    <Version>5.0.2</Version>
+    <Version>5.1.0</Version>
     <Description>RPN Expression Parser and Evaluator with databinding to POCO and INPC instances.</Description>
     <Copyright>Copyright 2017-2021 (c) Function Zero Ltd.</Copyright>
     <PackageTags>RPN postfix expression parser evaluator infix reverse polish overload typesafe variable variables bind binding zbind z:bind cast casting</PackageTags>
-    <PackageReleaseNotes>Fixed two problems with the ExpressionEvaluator short-circuit code:
-1. Variables were not being resolved, so 'true &amp;&amp; true' worked, but 'SomeBool &amp;&amp; true' raised an InvalidCastException.
-2. When short-circuit activated, the evaluator neglected to pop the operand that caused the short-circuit.</PackageReleaseNotes>
+    <PackageReleaseNotes>Automatic casting updates ...
+
+Pre-registered functions such as Sin, Cos, Lerp etc now automatically cast their input to the required type.
+E.g. 'Sin(myFloat)' works (without an explicit cast), despite the Sin function requiring a double.
+
+Assignments will cast the RHS to the correct type for the LHS.
+E.g. 'myDouble = myFloat' works without an explicit cast.</PackageReleaseNotes>
     <Authors>Keith Pickford</Authors>
     <Company>Function Zero Ltd</Company>
     <RootNamespace>FunctionZero.ExpressionParserZero</RootNamespace>
