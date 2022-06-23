@@ -390,14 +390,14 @@ namespace ExpressionParserUnitTests
 		{
 			ExpressionParser e = new ExpressionParser();
 
-			double expectedResult = ((((2 + 3) * 3) + 4) * 5) + 5;
+			int expectedResult = ((((2 + 3) * 3) + 4) * 5) + 5;
 
 			var compiledExpression = e.Parse("((((2+3)*3)+4)*5)+5");
 
 			var evalResult = compiledExpression.Evaluate(null);
 			Assert.AreEqual(1, evalResult.Count);
 
-			Assert.AreEqual(expectedResult, (long)evalResult.Pop().GetValue());
+			Assert.AreEqual(expectedResult, (int)evalResult.Pop().GetValue());
 		}
 
 		long mul(long a, long b)

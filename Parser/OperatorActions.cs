@@ -113,23 +113,11 @@ namespace FunctionZero.ExpressionParserZero
             IOperand second = PopAndResolve(stack, backingStore);
             IOperand first = PopAndResolve(stack, backingStore);
 
-            if (first.IsNumber && second.IsNumber)
-            {
-                if (first.Type == OperandType.Double)
-                    if (second.Type == OperandType.Double)
-                        stack.Push(new Operand(Bogey, OperandType.Double, (double)first.GetValue() * (double)second.GetValue()));        // double double
-                    else
-                        stack.Push(new Operand(Bogey, OperandType.Double, (double)first.GetValue() * (long)second.GetValue()));          // double long
-                else if (second.Type == OperandType.Double)
-                    stack.Push(new Operand(Bogey, OperandType.Double, (long)first.GetValue() * (double)second.GetValue()));              // long double
-                else
-                    stack.Push(new Operand(Bogey, OperandType.Long, (long)first.GetValue() * (long)second.GetValue()));                  // long long
-            }
-            else
-            {
-                throw new ExpressionEvaluatorException(parserPosition, ExpressionEvaluatorException.ExceptionCause.BadOperand, "Operator '*' cannot be applied to operands of type " + first.TokenType + " and " + second.TokenType);
+            // Don't do this in production code.
+            var matrix = Parser.FunctionMatrices.MultiplyMatrix.Create();
 
-            }
+            stack.Push(matrix.PerformDelegate(first, second));
+
         }
 
         internal static Tuple<OperandType> DoUnaryOperation(SingleOperandFunctionVector vector, Stack<IOperand> stack, IBackingStore backingStore)

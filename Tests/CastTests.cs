@@ -116,8 +116,20 @@ namespace ExpressionParserUnitTests
         }
 
 
+        [TestMethod]
+        public void TestAddUshort()
+        {
+            ExpressionParser parser = new ExpressionParser();
 
+            var compiledExpression = parser.Parse("+(Ushort)5 + (Ushort)7");
+            var evalResult = compiledExpression.Evaluate(null);
 
+            ushort expectedResult = 12;
+
+            Assert.AreEqual(1, evalResult.Count);
+            var actualResult = (int)evalResult.Pop().GetValue();
+            Assert.AreEqual(expectedResult, actualResult);
+        }
 
 
 

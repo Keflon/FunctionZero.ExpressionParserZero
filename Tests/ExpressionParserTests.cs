@@ -20,7 +20,7 @@ namespace ExpressionParserUnitTests
 			ExpressionParser parser = new ExpressionParser();
 
 			var result = parser.Parse("-5");
-			Assert.AreEqual("(Long:5) [UnaryMinus] ", Stringify(result.RpnTokens));
+			Assert.AreEqual("(Int:5) [UnaryMinus] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -29,7 +29,7 @@ namespace ExpressionParserUnitTests
 			ExpressionParser parser = new ExpressionParser();
 
 			var result = parser.Parse("-5--(-6--3)");
-			Assert.AreEqual("(Long:5) [UnaryMinus] (Long:6) [UnaryMinus] (Long:3) [UnaryMinus] [-] [UnaryMinus] [-] ", Stringify(result.RpnTokens));
+			Assert.AreEqual("(Int:5) [UnaryMinus] (Int:6) [UnaryMinus] (Int:3) [UnaryMinus] [-] [UnaryMinus] [-] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -38,7 +38,7 @@ namespace ExpressionParserUnitTests
 			ExpressionParser parser = new ExpressionParser();
 
 			var result = parser.Parse("!5");
-			Assert.AreEqual("(Long:5) [!] ", Stringify(result.RpnTokens));
+			Assert.AreEqual("(Int:5) [!] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -56,7 +56,7 @@ namespace ExpressionParserUnitTests
 			ExpressionParser parser = new ExpressionParser();
 
 			var result = parser.Parse("!(5+!True)");
-			Assert.AreEqual("(Long:5) (Bool:True) [!] [+] [!] ", Stringify(result.RpnTokens));
+			Assert.AreEqual("(Int:5) (Bool:True) [!] [+] [!] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -65,7 +65,7 @@ namespace ExpressionParserUnitTests
 			ExpressionParser parser = new ExpressionParser();
 
 			var result = parser.Parse("(5.2+3)*(3+5)");
-			Assert.AreEqual("(Double:5.2) (Long:3) [+] (Long:3) (Long:5) [+] [*] ", Stringify(result.RpnTokens));
+			Assert.AreEqual("(Double:5.2) (Int:3) [+] (Int:3) (Int:5) [+] [*] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -74,7 +74,7 @@ namespace ExpressionParserUnitTests
 			ExpressionParser parser = new ExpressionParser();
 
 			var result = parser.Parse("day+_debug_mul(_debug_mul(58, 23), _debug_mul(9,4))");
-			Assert.AreEqual("(Variable:day) (Long:58) (Long:23) [_debug_mul] (Long:9) (Long:4) [_debug_mul] [_debug_mul] [+] ", Stringify(result.RpnTokens));
+			Assert.AreEqual("(Variable:day) (Int:58) (Int:23) [_debug_mul] (Int:9) (Int:4) [_debug_mul] [_debug_mul] [+] ", Stringify(result.RpnTokens));
 		}
 
 		//[TestMethod]
@@ -103,7 +103,7 @@ namespace ExpressionParserUnitTests
 			parser.RegisterFunction("F0", null, 1);
 			var result = parser.Parse("!F0(0)");
 
-			Assert.AreEqual("(Long:0) [F0] [!] ", Stringify(result.RpnTokens));
+			Assert.AreEqual("(Int:0) [F0] [!] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -111,7 +111,7 @@ namespace ExpressionParserUnitTests
 		{
 			ExpressionParser parser = new ExpressionParser();
 			var result = parser.Parse("---5");
-			Assert.AreEqual("(Long:5) [UnaryMinus] [UnaryMinus] [UnaryMinus] ", Stringify(result.RpnTokens));
+			Assert.AreEqual("(Int:5) [UnaryMinus] [UnaryMinus] [UnaryMinus] ", Stringify(result.RpnTokens));
 
 		}
 
@@ -120,7 +120,7 @@ namespace ExpressionParserUnitTests
 		{
 			ExpressionParser parser = new ExpressionParser();
 			var result = parser.Parse("+++5");
-			Assert.AreEqual("(Long:5) [UnaryPlus] [UnaryPlus] [UnaryPlus] ", Stringify(result.RpnTokens));
+			Assert.AreEqual("(Int:5) [UnaryPlus] [UnaryPlus] [UnaryPlus] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -136,7 +136,7 @@ namespace ExpressionParserUnitTests
 		{
 			ExpressionParser parser = new ExpressionParser();
 			var result = parser.Parse("3+!50");
-			Assert.AreEqual("(Long:3) (Long:50) [!] [+] ", Stringify(result.RpnTokens));
+			Assert.AreEqual("(Int:3) (Int:50) [!] [+] ", Stringify(result.RpnTokens));
 		}
 
 		[TestMethod]
@@ -442,8 +442,8 @@ namespace ExpressionParserUnitTests
 
 			var evalResult = compiledExpression.Evaluate(null);
 			Assert.AreEqual(2, evalResult.Count);
-			var second = (long)evalResult.Pop().GetValue();
-			var first = (long)evalResult.Pop().GetValue();
+			var second = (int)evalResult.Pop().GetValue();
+			var first = (int)evalResult.Pop().GetValue();
 			Assert.AreEqual(5, first);
 			Assert.AreEqual(6, second);
 		}

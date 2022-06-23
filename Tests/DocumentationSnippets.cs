@@ -47,7 +47,7 @@ namespace ExpressionParserUnitTests
             // Pop the result from the stack...
             IOperand result = resultStack.Pop();
             Debug.WriteLine($"{result.Type}, {result.GetValue()}");
-            long answer = (long)result.GetValue();
+            int answer = (int)result.GetValue();
             Debug.WriteLine(answer);
         }
         /*
@@ -74,7 +74,7 @@ namespace ExpressionParserUnitTests
             // Pop the result from the stack...
             IOperand result = resultStack.Pop();
             Debug.WriteLine($"{result.Type}, {result.GetValue()}");
-            long answer = (long)result.GetValue();
+            int answer = (int)result.GetValue();
             Debug.WriteLine(answer);
         }
         /*
