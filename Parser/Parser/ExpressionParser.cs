@@ -386,7 +386,8 @@ namespace FunctionZero.ExpressionParserZero.Parser
                     case TokenType.Operand:
                         switch (((IOperand)token).Type)
                         {
-
+                            // No need for e.g. OperandType.Float because these cannot be created by the parser. (See Tokenizer.ParseNumberToken)
+                            case OperandType.Int:
                             case OperandType.Long:
                             case OperandType.Double:
                             case OperandType.String:
@@ -636,6 +637,10 @@ namespace FunctionZero.ExpressionParserZero.Parser
                         switch (((IOperand)token).Type)
                         {
                             // Operands ...
+                            case OperandType.Int:
+                            case OperandType.Float:
+
+
                             case OperandType.Long:
                             case OperandType.Double:
                             case OperandType.String:
