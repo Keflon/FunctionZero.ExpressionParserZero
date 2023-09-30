@@ -3,12 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>FunctionZero.ExpressionParserZero</PackageId>
-    <Version>5.2.0</Version>
+    <Version>5.3.0</Version>
     <Description>RPN Expression Parser and Evaluator with databinding to POCO and INPC instances.</Description>
     <Copyright>Copyright 2017-2021 (c) Function Zero Ltd.</Copyright>
     <PackageTags>RPN postfix expression parser evaluator infix reverse polish overload typesafe variable variables bind binding zbind z:bind cast casting</PackageTags>
-    <PackageReleaseNotes>When parsing an integer number, a Long will only be created if the number is too big for an Int.
-This is to match csharp.</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed a possible bug when part of a path is set to null.
+PathBind can now TwoWay databind between INPC properties.</PackageReleaseNotes>
     <Authors>Keith Pickford</Authors>
     <Company>Function Zero Ltd</Company>
     <RootNamespace>FunctionZero.ExpressionParserZero</RootNamespace>
@@ -17,9 +17,14 @@ This is to match csharp.</PackageReleaseNotes>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <PackageReadmeFile>Readme.NuGet.md</PackageReadmeFile>
+    <PackageIcon>F0 gravatar.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\Images\F0 gravatar.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\License.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

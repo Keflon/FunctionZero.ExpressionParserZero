@@ -30,8 +30,10 @@ namespace zBindTests
             set
             {
                 if (value != _testInt)
+                {
                     _testInt = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TestInt)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TestInt)));
+                }
             }
         }
 

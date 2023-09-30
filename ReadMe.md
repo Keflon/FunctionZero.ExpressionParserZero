@@ -1,4 +1,9 @@
 
+# October 2023 Update
+1. `PathBind` can now make a two-way binding. Use `BindTo` to DataBind any `INPC` properties to each other!
+1. Updated docs to describe `BindTo` and  automatic casting in pre-registered functions such as `Sin`, `Cos`, `Lerp` etc.
+1. Fixed a possible edge-case bug if part of a path is set to null.
+
 # FunctionZero.ExpressionParserZero
 A fast and very flexible parser, validator and evaluator that allows you to build, inspect, and evaluate 
 infix expressions at runtime.  
@@ -130,12 +135,12 @@ e.g.
 (NullableInt)6
 (Sbyte)-2
 ```
-Note: At the time of writing, **function parameters must be (via a cast if necessary) the expected type.**  
-E.g. the `Sin` function expects a double, so if you want the `Sin` of a `float` you must cast the float to a double 
-or you will get an InvalidCastException:  
-```csharp
-Sin((Double)myFloat)
-```
+
+**Top Tip:** Pre-registered functions such as `Sin`, `Cos`, `Lerp` etc  automatically cast their input to the required type.
+E.g. `Sin(myFloat)` works (without an explicit cast), despite the `Sin` function requiring a double.
+
+Assignments will cast the RHS to the correct type for the LHS.
+E.g. `myDouble = myFloat` works without an explicit cast.
 
 ## Operators supported out of the box
 |Operator|Precedence|Name|
@@ -212,7 +217,8 @@ You can register your own operators with the `ExpressionParser.RegisterOperator`
 The code for this is self-explanatory and any attempt to explain it here will only obfuscate the process, 
 so take a look at the ExpressionParser constructor for examples of how to add operators and unary-operators.  
 If you are serious about adding your own operators and they support many data-types you should invest some 
-time looking at the `MatrixCodeGen` project and perhaps tidy it up while you're in there :)
+time looking at the `MatrixCodeGen` project to see how to auto-generate your own _FunctionMatrices_ and 
+(for unary operators) _FunctionVectors_.
 
 ## Functions
 If you are using `ExpressionBind` the following *functions* are registered for you. 
@@ -271,10 +277,13 @@ private static void DoLerp(Stack<IOperand> operandStack, IBackingStore backingSt
     IOperand second = OperatorActions.PopAndResolve(operandStack, backingStore);
     IOperand first = OperatorActions.PopAndResolve(operandStack, backingStore);
 
-    double a = (double)first.GetValue();
-    double b = (double)second.GetValue();
-    double t = (double)third.GetValue();
-
+    // Update:
+    // Note, casting a boxed variable to a double will fail if the boxed variable is not a double,
+    // so using 'Convert.ToDouble' rather than just casting to double allows us to pass in float, int, etc.
+    double a = Convert.ToDouble(first.GetValue());
+    double b = Convert.ToDouble(second.GetValue());
+    double t = Convert.ToDouble(third.GetValue());
+    
     // The result is of type double
     double result = a + t * (b - a);
 
@@ -307,8 +316,6 @@ This can be useful in debugging, for example if you are seeing rounding-errors o
 `INotifyPropertyChanged` events.  
 Put simply, `PathBind` binds to a property on a *host*, retrieves its value, and raises an `Action<object>` 
 if that value changes.  
-The path to a property can be fully qualified using dotted notation and the `PathBind` object will track changes 
-to values within a path as long as each `property` raises `INotifyPropertyChanged`
 ```csharp
 [TestMethod]
 public void TestPathBind()
@@ -324,6 +331,23 @@ private void ValueChanged(object obj)
     Assert.AreEqual(13, (int)obj);
 }
 ```
+### `PathBind` is **self-healing**
+The path to a property can be fully qualified using dotted notation and the `PathBind` object will track changes 
+to values within a path as long as each `property` raises `INotifyPropertyChanged`
+
+
+### Two-Way binding
+As well as notifying when a property changes, `PathBind` can also make a **TwoWay** binding, for example,
+to bind `this.SomeName` to `this.Record.Person.Name.PrimaryName`
+```csharp
+var binding = new PathBind(this, "Record.Person.Name.PrimaryName");
+binding.BindTo(nameof(SomeName));
+```
+or more succinctly:
+```csharp
+var binding = new PathBind(this, "Record.Person.Name.PrimaryName").BindTo(nameof(SomeName));
+```
+Changes to `this.SomeName` will propogate to `this.Record.Person.Name.PrimaryName` and vice-versa.
 
 ## IBackingStore
 This is used when evaluating expressions in order to read and write to 'variables'.  

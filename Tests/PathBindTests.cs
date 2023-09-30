@@ -76,5 +76,36 @@ namespace ExpressionParserUnitTests
             Assert.AreEqual(-42, binding.Value);
             Assert.AreEqual(binding.Value, target);
         }
+
+
+
+        [TestMethod]
+        public void TestBindFromProperty()
+        {
+            var host = new TestClass(new TestClass(new TestClass(null, 5), 6), 7);
+
+            int target = -9;
+
+            var binding = new PathBind(host, $"{nameof(TestClass.Child)}.{nameof(TestClass.Child)}.{nameof(TestClass.TestInt)}", (o) => target = (int)o);
+            binding.BindTo(nameof(host.TestInt));
+
+            Assert.AreEqual(5, binding.Value);
+            Assert.AreEqual(binding.Value, target);
+
+            var oldHostValue = host.TestInt;
+            host.TestInt++;
+
+            Assert.AreEqual(host.TestInt, oldHostValue + 1);
+            Assert.AreEqual(host.Child.Child.TestInt, host.TestInt);
+
+            host.Child.Child.TestInt= 42;
+
+            Assert.AreEqual(42, binding.Value);
+            Assert.AreEqual(target, 42);
+            Assert.AreEqual(host.TestInt, 42);
+
+            //binding.SetValue(host.TestInt + 1);
+            //Assert.AreEqual(host.Child.Child.TestInt, host.TestInt);
+        }
     }
 }
