@@ -80,7 +80,7 @@ namespace ExpressionParserUnitTests
 
 
         [TestMethod]
-        public void TestBindFromProperty()
+        public void TestOneWayToSourceProperty()
         {
             var host = new TestClass(new TestClass(new TestClass(null, 5), 6), 7);
 
@@ -92,11 +92,12 @@ namespace ExpressionParserUnitTests
             Assert.AreEqual(5, binding.Value);
             Assert.AreEqual(binding.Value, target);
 
-            var oldHostValue = host.TestInt;
+            Assert.AreEqual(5, host.TestInt);
+
             host.TestInt++;
 
-            Assert.AreEqual(host.TestInt, oldHostValue + 1);
-            Assert.AreEqual(host.Child.Child.TestInt, host.TestInt);
+            Assert.AreEqual(host.TestInt, 6);
+            Assert.AreEqual(host.Child.Child.TestInt, 5);
 
             host.Child.Child.TestInt = 42;
 
