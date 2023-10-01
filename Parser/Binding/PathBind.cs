@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Reflection;
+using System.Xml.Linq;
 
 namespace FunctionZero.ExpressionParserZero.Binding
 {
@@ -31,6 +32,7 @@ namespace FunctionZero.ExpressionParserZero.Binding
         private object _value;
         private readonly Action<object> _valueChanged;
         private string _hostPropertyName;
+        private PathBindMode _mode;
 
         public object Value
         {
@@ -51,7 +53,9 @@ namespace FunctionZero.ExpressionParserZero.Binding
                 throw new InvalidOperationException("Something has gone very wrong!");
 
             if (_hostPropertyInfo != null)
-                _hostPropertyInfo.SetValue(_host, value);
+                if (_mode > PathBindMode.OneWay)    // Not OneShot, not OneWay.
+                    if (_hostPropertyInfo.CanWrite)
+                        _hostPropertyInfo.SetValue(_host, value);
 
             _valueChanged(value);
         }
@@ -127,8 +131,17 @@ namespace FunctionZero.ExpressionParserZero.Binding
             // If 'this' is the root PathBind, and the property we are interested in has changed ...
             else if ((this == _bindingRoot) && (e.PropertyName == _hostPropertyName))
             {
-                var newval = _hostPropertyInfo.GetValue(_host);
-                SetValue(newval);
+                switch (_mode)
+                {
+                    case PathBindMode.OneWay:
+                    case PathBindMode.TwoWay:
+                        var newval = _hostPropertyInfo.GetValue(_host);
+                        SetValue(newval);
+                        break;
+                    case PathBindMode.OneShot:
+                    case PathBindMode.OneWayToSource:
+                        break;
+                }
             }
         }
 
@@ -136,22 +149,42 @@ namespace FunctionZero.ExpressionParserZero.Binding
         protected void SetValue(object newValue)
         {
             if (_isLeaf)
-                this._propertyInfo.SetValue(_host, (int)newValue);
+                this._propertyInfo.SetValue(_host, newValue);
             else if (_child != null)
                 _child.SetValue(newValue);
         }
 
-        public PathBind BindTo(string hostPropertyName)
+        public PathBind BindTo(string hostPropertyName, PathBindMode mode = PathBindMode.TwoWay)
         {
             _hostPropertyName = hostPropertyName;
+            _mode = mode;
 
             if (!string.IsNullOrEmpty(hostPropertyName))
             {
+                // NOTE: A readonly host property can change, e.g. if the getter wraps something else that raises INPC for it.
                 _hostPropertyInfo = _host.GetType().GetProperty(_hostPropertyName, BindingFlags.Public | BindingFlags.Instance);
-                if (_hostPropertyInfo?.CanWrite == false)
-                    _hostPropertyInfo = null;
+
+                // If the host-property does not exist, null the name so we don't try to interact with it in HostPropertyChanged.
+                if (_hostPropertyInfo != null)
+                {
+                    switch (mode)
+                    {
+                        case PathBindMode.OneShot:
+                        case PathBindMode.OneWay:
+                        case PathBindMode.TwoWay:
+                            var newval = _hostPropertyInfo.GetValue(_host);
+                            SetValue(newval);
+                            break;
+                        case PathBindMode.OneWayToSource:
+                            _hostPropertyInfo.SetValue(_host, Value);
+                            break;
+                    }
+                }
+                else
+                    _hostPropertyName = null;
             }
             return this;
         }
+
     }
 }

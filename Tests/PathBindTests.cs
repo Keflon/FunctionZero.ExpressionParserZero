@@ -87,7 +87,7 @@ namespace ExpressionParserUnitTests
             int target = -9;
 
             var binding = new PathBind(host, $"{nameof(TestClass.Child)}.{nameof(TestClass.Child)}.{nameof(TestClass.TestInt)}", (o) => target = (int)o);
-            binding.BindTo(nameof(host.TestInt));
+            binding.BindTo(nameof(host.TestInt), PathBindMode.OneWayToSource);
 
             Assert.AreEqual(5, binding.Value);
             Assert.AreEqual(binding.Value, target);
@@ -98,7 +98,7 @@ namespace ExpressionParserUnitTests
             Assert.AreEqual(host.TestInt, oldHostValue + 1);
             Assert.AreEqual(host.Child.Child.TestInt, host.TestInt);
 
-            host.Child.Child.TestInt= 42;
+            host.Child.Child.TestInt = 42;
 
             Assert.AreEqual(42, binding.Value);
             Assert.AreEqual(target, 42);
@@ -106,6 +106,180 @@ namespace ExpressionParserUnitTests
 
             //binding.SetValue(host.TestInt + 1);
             //Assert.AreEqual(host.Child.Child.TestInt, host.TestInt);
+        }
+
+        [TestMethod]
+        public void TestTwoWayBind_1_Property()
+        {
+            var host = new TestClass(new TestClass(new TestClass(null, 5), 6), 7);
+
+            var binding = new PathBind(host, $"{nameof(TestClass.Child)}.{nameof(TestClass.Child)}.{nameof(TestClass.TestInt)}")
+                .BindTo(nameof(host.TestInt), PathBindMode.TwoWay);
+
+            Assert.AreEqual(7, host.TestInt);
+            Assert.AreEqual(host.TestInt, binding.Value);
+
+            host.TestInt++;
+
+            Assert.AreEqual(8, binding.Value);
+
+            host.TestInt++;
+
+            Assert.AreEqual(9, binding.Value);
+
+        }
+
+        [TestMethod]
+        public void TestTwoWayBind_2_Property()
+        {
+            var host = new TestClass(new TestClass(new TestClass(null, 5), 6), 7);
+
+            var binding = new PathBind(host, $"{nameof(TestClass.Child)}.{nameof(TestClass.Child)}.{nameof(TestClass.TestInt)}")
+                .BindTo(nameof(host.TestInt), PathBindMode.TwoWay);
+
+            Assert.AreEqual(7, host.TestInt);
+            Assert.AreEqual(host.TestInt, binding.Value);
+
+            host.Child.Child.TestInt++;
+
+            Assert.AreEqual(8, host.TestInt);
+            Assert.AreEqual(8, binding.Value);
+
+            host.Child.Child.TestInt++;
+
+            Assert.AreEqual(9, host.TestInt);
+            Assert.AreEqual(9, binding.Value);
+
+        }
+
+        [TestMethod]
+        public void TestOneWayToSourceBind_1_Property()
+        {
+            var host = new TestClass(new TestClass(new TestClass(null, 5), 6), 7);
+
+            var binding = new PathBind(host, $"{nameof(TestClass.Child)}.{nameof(TestClass.Child)}.{nameof(TestClass.TestInt)}")
+                .BindTo(nameof(host.TestInt), PathBindMode.OneWayToSource);
+
+            Assert.AreEqual(5, host.TestInt);
+            Assert.AreEqual(host.TestInt, binding.Value);
+
+            host.TestInt++;
+
+            Assert.AreEqual(5, binding.Value);
+
+            host.TestInt++;
+
+            Assert.AreEqual(5, binding.Value);
+
+        }
+
+        [TestMethod]
+        public void TestOneWayToSourceBind_2_Property()
+        {
+            var host = new TestClass(new TestClass(new TestClass(null, 5), 6), 7);
+
+            var binding = new PathBind(host, $"{nameof(TestClass.Child)}.{nameof(TestClass.Child)}.{nameof(TestClass.TestInt)}")
+                .BindTo(nameof(host.TestInt), PathBindMode.OneWayToSource);
+
+            Assert.AreEqual(5, host.TestInt);
+            Assert.AreEqual(host.TestInt, binding.Value);
+
+            host.TestInt++;
+
+            Assert.AreEqual(5, binding.Value);
+
+            host.TestInt++;
+
+            Assert.AreEqual(5, binding.Value);
+
+        }
+
+        [TestMethod]
+        public void TestOneShotBind_1_Property()
+        {
+            var host = new TestClass(new TestClass(new TestClass(null, 5), 6), 7);
+
+            var binding = new PathBind(host, $"{nameof(TestClass.Child)}.{nameof(TestClass.Child)}.{nameof(TestClass.TestInt)}")
+                .BindTo(nameof(host.TestInt), PathBindMode.OneShot);
+
+            Assert.AreEqual(7, host.TestInt);
+            Assert.AreEqual(host.TestInt, binding.Value);
+
+            host.TestInt++;
+
+            Assert.AreEqual(7, binding.Value);
+
+            host.TestInt++;
+
+            Assert.AreEqual(7, binding.Value);
+
+        }
+
+        [TestMethod]
+        public void TestOneShotBind_2_Property()
+        {
+            var host = new TestClass(new TestClass(new TestClass(null, 5), 6), 7);
+
+            var binding = new PathBind(host, $"{nameof(TestClass.Child)}.{nameof(TestClass.Child)}.{nameof(TestClass.TestInt)}")
+                .BindTo(nameof(host.TestInt), PathBindMode.OneShot);
+
+            Assert.AreEqual(7, host.TestInt);
+            Assert.AreEqual(host.TestInt, binding.Value);
+
+            host.Child.Child.TestInt++;
+
+            Assert.AreEqual(7, host.TestInt);
+            Assert.AreEqual(8, binding.Value);
+
+            host.Child.Child.TestInt++;
+
+            Assert.AreEqual(7, host.TestInt);
+            Assert.AreEqual(9, binding.Value);
+
+        }
+
+        [TestMethod]
+        public void TestOneWayBind_1_Property()
+        {
+            var host = new TestClass(new TestClass(new TestClass(null, 5), 6), 7);
+
+            var binding = new PathBind(host, $"{nameof(TestClass.Child)}.{nameof(TestClass.Child)}.{nameof(TestClass.TestInt)}")
+                .BindTo(nameof(host.TestInt), PathBindMode.OneWay);
+
+            Assert.AreEqual(7, host.TestInt);
+            Assert.AreEqual(host.TestInt, binding.Value);
+
+            host.TestInt++;
+
+            Assert.AreEqual(8, binding.Value);
+
+            host.TestInt++;
+
+            Assert.AreEqual(9, binding.Value);
+
+        }
+
+        [TestMethod]
+        public void TestOneWayBind_2_Property()
+        {
+            var host = new TestClass(new TestClass(new TestClass(null, 5), 6), 7);
+
+            var binding = new PathBind(host, $"{nameof(TestClass.Child)}.{nameof(TestClass.Child)}.{nameof(TestClass.TestInt)}")
+                .BindTo(nameof(host.TestInt), PathBindMode.OneWay);
+
+            Assert.AreEqual(7, host.TestInt);
+            Assert.AreEqual(host.TestInt, binding.Value);
+
+            host.Child.Child.TestInt++;
+
+            Assert.AreEqual(7, host.TestInt);
+            Assert.AreEqual(8, binding.Value);
+
+            host.Child.Child.TestInt++;
+
+            Assert.AreEqual(7, host.TestInt);
+            Assert.AreEqual(9, binding.Value);
+
         }
     }
 }

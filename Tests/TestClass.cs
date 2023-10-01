@@ -18,9 +18,6 @@ namespace zBindTests
 
         private int _testInt;
 
-
-
-
         public int TestInt
         {
             get
