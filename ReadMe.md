@@ -1,3 +1,4 @@
+Nuget [here](https://www.nuget.org/packages/FunctionZero.ExpressionParserZero)  
 
 # October 2023 Update
 1. `PathBind` can now make a two-way binding. Use `BindTo` to DataBind any `INPC` properties to each other!
