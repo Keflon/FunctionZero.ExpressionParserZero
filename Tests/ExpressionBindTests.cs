@@ -6,7 +6,7 @@ using zBindTests;
 namespace ExpressionParserUnitTests
 {
     [TestClass]
-    public class UnitTest2
+    public class ExpressionBindTests
     {
         [TestMethod]
         public void TestExpression()
@@ -73,5 +73,23 @@ namespace ExpressionParserUnitTests
             var binding = new ExpressionBind(this, $"MyNullableInt");
             Assert.AreEqual(null, (int?)binding.Result);
         }
+
+        [TestMethod]
+        public void TestFloatParserExpression()
+        {
+            var binding = new ExpressionBind(this, "0.1");
+            Assert.AreEqual(0.1, (double)binding.Result);
+        }
+
+        [TestMethod]
+        public void TestNegativeFloatParserExpression()
+        {
+            var binding = new ExpressionBind(this, "-2.2");
+            Assert.AreEqual(-2.2, (double)binding.Result);
+        }
+
+
+        //var binding = new ExpressionBind(/*...*/, "0.1"); // Result gives 1 instead of 0.1
+        //var binding = new ExpressionBind(/*...*/, "-2.2"); // Result gives -22 instead of -2.2
     }
 }
