@@ -1,53 +1,53 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>FunctionZero.ExpressionParserZero</PackageId>
-    <Version>5.3.1</Version>
-    <Description>RPN Expression Parser and Evaluator with databinding to POCO and INPC instances.</Description>
-    <Copyright>Copyright 2017-2021 (c) Function Zero Ltd.</Copyright>
-    <PackageTags>RPN postfix expression parser evaluator infix reverse polish overload typesafe variable variables bind binding zbind z:bind cast casting</PackageTags>
-    <PackageReleaseNotes>Added PathBindMode.
-Removed accidental hard cast to int.</PackageReleaseNotes>
-    <Authors>Keith Pickford</Authors>
-    <Company>Function Zero Ltd</Company>
-    <RootNamespace>FunctionZero.ExpressionParserZero</RootNamespace>
-    <PackageProjectUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</RepositoryUrl>
-    <PackageLicenseExpression></PackageLicenseExpression>
-    <PackageLicenseFile>License.txt</PackageLicenseFile>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<PackageId>FunctionZero.ExpressionParserZero</PackageId>
+		<Version>5.3.1</Version>
+		<Description>RPN Expression Parser and Evaluator with databinding to POCO and INPC instances.</Description>
+		<Copyright>Copyright 2017-2021 (c) Function Zero Ltd.</Copyright>
+		<PackageTags>RPN postfix expression parser evaluator infix reverse polish overload typesafe variable variables bind binding zbind z:bind cast casting</PackageTags>
+		<PackageReleaseNotes>
+			Added PathBindMode.
+			Removed accidental hard cast to int.
+		</PackageReleaseNotes>
+		<Authors>Keith Pickford</Authors>
+		<Company>Function Zero Ltd</Company>
+		<RootNamespace>FunctionZero.ExpressionParserZero</RootNamespace>
+		<PackageProjectUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</RepositoryUrl>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<PackageLicenseFile>License.txt</PackageLicenseFile>
+		<PackageReadmeFile>Readme.NuGet.md</PackageReadmeFile>
+		<PackageIcon>F0 gravatar.png</PackageIcon>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-  </ItemGroup>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+	</ItemGroup>
 
 
-  <ItemGroup>
-    <PackageReadmeFile>Readme.NuGet.md</PackageReadmeFile>
-    <PackageIcon>F0 gravatar.png</PackageIcon>
-  </PropertyGroup>
+	<ItemGroup>
+		<None Include="..\Images\F0 gravatar.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\License.txt">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\Readme.NuGet.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\Images\F0 gravatar.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\License.txt">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="..\Readme.NuGet.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="FunctionMatrices\Generated\FunctionMatrices\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="FunctionMatrices\Generated\FunctionMatrices\" />
+	</ItemGroup>
 
 </Project>
