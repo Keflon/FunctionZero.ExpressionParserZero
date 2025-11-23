@@ -26,23 +26,24 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Tokens;
-using FunctionZero.ExpressionParserZero.Variables;
 
 namespace FunctionZero.ExpressionParserZero.Operators
 {
-	class Operator : IOperator
+	public class Operator : IOperator
 	{
 		private int _precedence;
 
 		public bool IsOperator => true;
 		public bool IsOperand => false;
 
-		public Operator(OperatorType operatorType, int precedence, Action<Stack<IOperand>, IVariableStore, long> doOperation, string asString)
+		public Operator(OperatorType operatorType, int precedence, ShortCircuitMode shortCircuit, Action<Stack<IOperand>, IBackingStore, long> doOperation, string asString)
 		{
 			Precedence = precedence;
-			DoOperation = doOperation;
+            ShortCircuit = shortCircuit;
+            DoOperation = doOperation;
 			AsString = asString;
 		    Type = operatorType;
 		}
@@ -60,7 +61,8 @@ namespace FunctionZero.ExpressionParserZero.Operators
 	        }
 	    }
 
-	    public Action<Stack<IOperand>, IVariableStore, long> DoOperation { get; }
+        public ShortCircuitMode ShortCircuit { get; }
+        public Action<Stack<IOperand>, IBackingStore, long> DoOperation { get; }
 	    public OperatorType Type { get; }
 
 	    public long ParserPosition { get {throw new NotImplementedException("This should never be accessed!");} }

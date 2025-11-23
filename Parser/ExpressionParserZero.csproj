@@ -3,11 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>FunctionZero.ExpressionParserZero</PackageId>
-    <Version>3.0.0.0-pre-2</Version>
-    <Description>RPN Expression Parser and Evaluator</Description>
-    <Copyright>Copyright 2017-2020 (c) Function Zero Ltd.</Copyright>
-    <PackageTags>RPN postfix expression parser evaluator infix reverse polish overload typesafe variable variables</PackageTags>
-    <PackageReleaseNotes>Simplifying interfaces</PackageReleaseNotes>
+    <Version>5.3.1</Version>
+    <Description>RPN Expression Parser and Evaluator with databinding to POCO and INPC instances.</Description>
+    <Copyright>Copyright 2017-2021 (c) Function Zero Ltd.</Copyright>
+    <PackageTags>RPN postfix expression parser evaluator infix reverse polish overload typesafe variable variables bind binding zbind z:bind cast casting</PackageTags>
+    <PackageReleaseNotes>Added PathBindMode.
+Removed accidental hard cast to int.</PackageReleaseNotes>
     <Authors>Keith Pickford</Authors>
     <Company>Function Zero Ltd</Company>
     <RootNamespace>FunctionZero.ExpressionParserZero</RootNamespace>
@@ -26,10 +27,27 @@
 
 
   <ItemGroup>
+    <PackageReadmeFile>Readme.NuGet.md</PackageReadmeFile>
+    <PackageIcon>F0 gravatar.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\Images\F0 gravatar.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\License.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+    <None Include="..\Readme.NuGet.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="FunctionMatrices\Generated\FunctionMatrices\" />
   </ItemGroup>
 
 </Project>

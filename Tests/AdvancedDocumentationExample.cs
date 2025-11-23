@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using FunctionZero.ExpressionParserZero;
+using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Parser;
 using FunctionZero.ExpressionParserZero.Variables;
@@ -88,13 +89,13 @@ namespace ExpressionParserUnitTests
         /// long StringContains(string source, string subString, bool isCaseSensitive)
         /// Returns index of subString, or -1
         /// </summary>
-        private void DoStringContains(Stack<IOperand> operands, IVariableStore variables, long parserPosition)
+        private void DoStringContains(Stack<IOperand> operands, IBackingStore backingStore, long parserPosition)
         {
             // Pop the correct number of parameters from the operands stack, ** in reverse order **
             // If an operand is a variable, it is resolved from the variables provided
-            IOperand third = OperatorActions.PopAndResolve(operands, variables);
-            IOperand second = OperatorActions.PopAndResolve(operands, variables);
-            IOperand first = OperatorActions.PopAndResolve(operands, variables);
+            IOperand third = OperatorActions.PopAndResolve(operands, backingStore);
+            IOperand second = OperatorActions.PopAndResolve(operands, backingStore);
+            IOperand first = OperatorActions.PopAndResolve(operands, backingStore);
 
             string strSource = (string)first.GetValue();
             string strSubstring = (string)second.GetValue();

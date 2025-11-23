@@ -24,6 +24,7 @@
 // SOFTWARE.
 #endregion
 using FunctionZero.ExpressionParserZero.Operands;
+using System;
 
 namespace FunctionZero.ExpressionParserZero.FunctionMatrices
 {

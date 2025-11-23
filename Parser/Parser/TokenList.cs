@@ -23,20 +23,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-using FunctionZero.ExpressionParserZero.Operands;
+using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Tokens;
-using FunctionZero.ExpressionParserZero.Variables;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace FunctionZero.ExpressionParserZero.Parser
 {
     public class TokenList : List<IToken>
     {
-        public OperandStack Evaluate(IVariableStore variables)
+        public OperandStack Evaluate(IBackingStore backingStore)
         {
-            return ExpressionEvaluator.Evaluate(this, variables);
+            return ExpressionEvaluator.Evaluate(this, backingStore);
         }
 
         public override string ToString()

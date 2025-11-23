@@ -26,159 +26,204 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Exceptions;
 using FunctionZero.ExpressionParserZero.FunctionMatrices;
 using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Tokens;
-using FunctionZero.ExpressionParserZero.Variables;
 
 namespace FunctionZero.ExpressionParserZero
 {
-	public static class OperatorActions
-	{
-		private const long Bogey = -1;
+    public static class OperatorActions
+    {
+        private const long Bogey = -1;
 
-		/// <summary>
-		/// Pops an operand from the stack. If it's a variable it returns an operand holding the variable value, otherwise it returns the operand.
-		/// </summary>
-		/// <param name="stack"></param>
-		/// <param name="variables"></param>
-		/// <returns></returns>
-		public static IOperand PopAndResolve(Stack<IOperand> stack, IVariableStore variables)
-		{
-			IOperand retVal = stack.Pop();
-			
-			if(retVal.Type == OperandType.Variable)
-			{
-				var variable = ResolveVariable(variables, retVal);
-				return new Operand(retVal.ParserPosition, variable.VariableType, variable.Value);
-			}
-			return retVal;
-		}
+        /// <summary>
+        /// Pops an operand from the stack. If it's a variable it returns an operand holding the variable value, otherwise it returns the operand.
+        /// </summary>
+        /// <param name="stack"></param>
+        /// <param name="variables"></param>
+        /// <returns></returns>
+        public static IOperand PopAndResolve(Stack<IOperand> stack, IBackingStore backingStore)
+        {
+            IOperand operand = stack.Pop();
 
-		private static Variable ResolveVariable(IVariableStore variables, IOperand variable)
-		{
-			try
-			{
-				// Supports dotted notation
-				Variable v = variables.GetVariable((string)variable.GetValue());
-				// TODO: What if 'v.Value' is a Variable'? 
-				return v;
-			}
-			catch (KeyNotFoundException)
-			{
-				throw new ExpressionEvaluatorException(variable.ParserPosition, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, variable.GetValue().ToString());
-			}
-		}
+            if (operand.Type == OperandType.Variable)
+            {
+                //var variable = ResolveVariable(variables, retVal);
 
-		[Obsolete("Used by a test-case call to RegisterFunction.")]
-		internal static void DoMultiply(Stack<IOperand> stack, IVariableStore variables, long parserPosition)
-		{
-			IOperand second = PopAndResolve(stack, variables);
-			IOperand first = PopAndResolve(stack, variables);
-
-			if(first.IsNumber && second.IsNumber)
-			{
-				if(first.Type == OperandType.Double)
-					if(second.Type == OperandType.Double)
-						stack.Push(new Operand(Bogey, OperandType.Double, (double)first.GetValue() * (double)second.GetValue()));        // double double
-					else
-						stack.Push(new Operand(Bogey, OperandType.Double, (double)first.GetValue() * (long)second.GetValue()));          // double long
-				else if(second.Type == OperandType.Double)
-					stack.Push(new Operand(Bogey, OperandType.Double, (long)first.GetValue() * (double)second.GetValue()));              // long double
-				else
-					stack.Push(new Operand(Bogey, OperandType.Long, (long)first.GetValue() * (long)second.GetValue()));                  // long long
-			}
-			else
-			{
-				throw new ExpressionEvaluatorException(parserPosition, ExpressionEvaluatorException.ExceptionCause.BadOperand, "Operator '*' cannot be applied to operands of type " + first.TokenType + " and " + second.TokenType);
-
-			}
-		}
-
-	    internal static Tuple<OperandType> DoUnaryOperation(SingleOperandFunctionVector vector, Stack<IOperand> stack, IVariableStore variables)
-	    {
-	        IOperand first = PopAndResolve(stack, variables);
-
-	        IOperand result = vector.PerformDelegate(first);
-
-	        if (result != null)
-	        {
-	            stack.Push(result);
-	            return null;
-	        }
-	        else
-	        {
-                // Signal an error ...
-	            return new Tuple<OperandType>(first.Type);
-	        }
-	    }
-
-	    internal static Tuple<OperandType, OperandType> DoOperation(DoubleOperandFunctionMatrix matrix, Stack<IOperand> stack, IVariableStore variables)
-	    {
-	        IOperand second = PopAndResolve(stack, variables);
-	        IOperand first = PopAndResolve(stack, variables);
-
-	        IOperand result = matrix.PerformDelegate(first, second);
-
-	        if (result != null)
-	        {
-	            stack.Push(result);
-	            return null;
-	        }
-	        else
-	        {
-                // Signal an error ...
-	            return new Tuple<OperandType, OperandType>(first.Type, second.Type);
-	        }
+                try
+                {
+                    var valueAndType = backingStore.GetValue((string)operand.GetValue());
+                    operand = new Operand(operand.ParserPosition, valueAndType.type, valueAndType.value);
+                }
+                catch// (KeyNotFoundException)
+                {
+                    throw new ExpressionEvaluatorException(operand.ParserPosition, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, $"'{operand.GetValue().ToString()}'");
+                }
+            }
+            return operand;
         }
-		
-		#region =
 
-		/// <summary>
-		/// This ought to be implemented with a FunctionMartix but it would be huge.
-		/// This way is easier!
-		/// </summary>
-		internal static Tuple<OperandType, OperandType> DoSetEquals(DoubleOperandFunctionMatrix matrix, Stack<IOperand> stack, IVariableStore variables, long parserPosition)
-		{
-			IOperand second = PopAndResolve(stack, variables);
-			IOperand first = stack.Pop();       // Not PopAndResolve. LHS must be a variable.
+        /// <summary>
+        /// Peeks an operand from the stack. If it's a variable it returns an operand holding the variable value, otherwise it returns the operand.
+        /// </summary>
+        /// <param name="stack"></param>
+        /// <param name="variables"></param>
+        /// <returns></returns>
+        public static IOperand PeekAndResolve(Stack<IOperand> stack, IBackingStore backingStore)
+        {
+            IOperand operand = stack.Peek();
 
-			if(first.Type != OperandType.Variable)
-			{
-				throw new ExpressionEvaluatorException(parserPosition, ExpressionEvaluatorException.ExceptionCause.BadOperand, "LHS of '=' is a '" + first.Type + "' when it must be a variable");
-			}
-			else
-			{
-				string varName = (string)first.GetValue();
-				Variable targetVariable = ResolveVariable(variables, first);
+            if (operand.Type == OperandType.Variable)
+            {
+                //var variable = ResolveVariable(variables, retVal);
 
-				var firstOperand = new Operand(first.ParserPosition, targetVariable.VariableType, targetVariable.Value);
+                try
+                {
+                    var valueAndType = backingStore.GetValue((string)operand.GetValue());
+                    operand = new Operand(operand.ParserPosition, valueAndType.type, valueAndType.value);
+                }
+                catch// (KeyNotFoundException)
+                {
+                    throw new ExpressionEvaluatorException(operand.ParserPosition, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, $"'{operand.GetValue().ToString()}'");
+                }
+            }
+            return operand;
+        }
 
-				IOperand result = matrix.PerformDelegate(firstOperand, second);
+        //private static Variable ResolveVariable(IVariableStore variables, IOperand variable)
+        //{
+        //	try
+        //	{
+        //		// Supports dotted notation
+        //		Variable v = variables.GetVariable((string)variable.GetValue());
+        //		// TODO: What if 'v.Value' is a Variable'? 
+        //		return v;
+        //	}
+        //	catch (KeyNotFoundException)
+        //	{
+        //		throw new ExpressionEvaluatorException(variable.ParserPosition, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, variable.GetValue().ToString());
+        //	}
+        //}
 
-				if (result != null)
-				{
-					Debug.Assert(targetVariable.VariableType == result.Type);
-					targetVariable.Value = result.GetValue();
-					stack.Push(result);
-					return null;
-				}
-				else
-				{
-					// Signal an error ...
-					return new Tuple<OperandType, OperandType>(first.Type, second.Type);
-				}
-#if false
-				// Supports dotted notation.
-				Variable v = variables.GetVariable(varName);
-				v.Value = second.GetValue();
-				// Put the result on the stack. Is that right? Should the result be the variable or it's value?
-				stack.Push(new Operand(Bogey, v.VariableType, v.Value));
-#endif
-			}
-		}
+        [Obsolete("Used by a test-case call to RegisterFunction.")]
+        internal static void DoMultiply(Stack<IOperand> stack, IBackingStore backingStore, long parserPosition)
+        {
+            IOperand second = PopAndResolve(stack, backingStore);
+            IOperand first = PopAndResolve(stack, backingStore);
 
-#endregion
-	}
+            // Don't do this in production code.
+            var matrix = Parser.FunctionMatrices.MultiplyMatrix.Create();
+
+            stack.Push(matrix.PerformDelegate(first, second));
+
+        }
+
+        internal static Tuple<OperandType> DoUnaryOperation(SingleOperandFunctionVector vector, Stack<IOperand> stack, IBackingStore backingStore)
+        {
+            IOperand first = PopAndResolve(stack, backingStore);
+
+            IOperand result = vector.PerformDelegate(first);
+
+            if (result != null)
+            {
+                stack.Push(result);
+                return null;
+            }
+            else
+            {
+                // Signal an error ...
+                return new Tuple<OperandType>(first.Type);
+            }
+        }
+
+        internal static Tuple<OperandType, OperandType> DoOperation(DoubleOperandFunctionMatrix matrix, Stack<IOperand> stack, IBackingStore backingStore)
+        {
+            IOperand second = PopAndResolve(stack, backingStore);
+            IOperand first = PopAndResolve(stack, backingStore);
+
+            IOperand result = matrix.PerformDelegate(first, second);
+
+            if (result != null)
+            {
+                stack.Push(result);
+                return null;
+            }
+            else
+            {
+                // Signal an error ...
+                return new Tuple<OperandType, OperandType>(first.Type, second.Type);
+            }
+        }
+
+        #region =
+
+        /// <summary>
+        /// This ought to be implemented with a FunctionMartix but it would be huge.
+        /// This way is easier!
+        /// </summary>
+        internal static Tuple<OperandType, OperandType> DoSetEquals(DoubleOperandFunctionMatrix matrix, Stack<IOperand> stack, IBackingStore backingStore, long parserPosition)
+        {
+            IOperand second = PopAndResolve(stack, backingStore);
+            IOperand first = stack.Pop();       // Not PopAndResolve. LHS must be a variable.
+
+            if (first.Type != OperandType.Variable)
+            {
+                throw new ExpressionEvaluatorException(parserPosition, ExpressionEvaluatorException.ExceptionCause.BadOperand, "LHS of '=' is a '" + first.Type + "' when it must be a variable");
+            }
+            else
+            {
+                string varName = (string)first.GetValue();
+
+                (OperandType type, object value) valueAndType;
+                try
+                {
+                    // We need the type, don't need the value because it's going to be overwritten.
+                    valueAndType = backingStore.GetValue(varName);
+                }
+                catch(Exception ex)
+                {
+                    throw new ExpressionEvaluatorException(-1, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, $"'{varName}'");
+                }
+
+                // type is needed so we can pick out the correct martrix operation. Value is irrelevant as it is overwritten.
+                var firstOperand = new Operand(first.ParserPosition, valueAndType.type, valueAndType.value);
+
+                IOperand result = matrix.PerformDelegate(firstOperand, second);
+
+                if (result != null)
+                {
+                    backingStore.SetValue(varName, result.GetValue());
+                    stack.Push(result);
+                    return null;
+                }
+                else
+                {
+                    // Signal an error ...
+                    return new Tuple<OperandType, OperandType>(first.Type, second.Type);
+                }
+            }
+        }
+
+        internal static Tuple<OperandType> DoUnaryCastOperation(DoubleOperandFunctionMatrix matrix, Stack<IOperand> operandStack, IBackingStore backingStore, Operand castTo)
+        {
+            IOperand operand = PopAndResolve(operandStack, backingStore);
+
+            IOperand result = matrix.PerformDelegate(operand, castTo);
+
+            if (result != null)
+            {
+                operandStack.Push(result);
+                return null;
+            }
+            else
+            {
+                // Signal an error ...
+                return new Tuple<OperandType>(operand.Type);
+            }
+        }
+
+        #endregion
+    }
 }

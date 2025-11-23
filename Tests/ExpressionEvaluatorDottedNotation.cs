@@ -46,7 +46,7 @@ namespace ExpressionParserUnitTests
             ExpressionParser e = new ExpressionParser();
             VariableSet daddyVarbs = new VariableSet();
             VariableSet childVarbs = new VariableSet();
-
+            
             daddyVarbs.RegisterVariable(OperandType.Long, "daddyLong", 5);
             childVarbs.RegisterVariable(OperandType.Long, "childLong", 6);
             childVarbs.RegisterVariable(OperandType.VSet, "daddy", daddyVarbs);

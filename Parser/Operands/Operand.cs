@@ -25,89 +25,167 @@
 #endregion
 using System;
 using System.Diagnostics;
+using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Tokens;
-using FunctionZero.ExpressionParserZero.Variables;
 
 namespace FunctionZero.ExpressionParserZero.Operands
 {
-	public class Operand : IOperand, IToken
-	{
-	    private const long Bogey = -1;
+    public class Operand : IOperand, IToken
+    {
+        private const long Bogey = -1;
 
         public Operand(OperandType operandType, object operandValue) : this(Bogey, operandType, operandValue)
-	    {
+        {
 
-	    }
+        }
+
+        internal Operand(OperandType operandType)
+        {
+            Type = operandType;
+            OperandValue = null;
+            ParserPosition = -1;
+        }
 
         public Operand(long parserPosition, OperandType operandType, object operandValue)
-		{
-			Debug.Assert(CheckValueType(operandType, operandValue) == true);
+        {
+            Debug.Assert(CheckValueType(operandType, operandValue) == true);
 
-			Type = operandType;
-			OperandValue = operandValue;
-			ParserPosition = parserPosition;
-		}
-		
-		public long ParserPosition { get; }
-		public OperandType Type { get; }
-		private object OperandValue { get; }
+            Type = operandType;
+            OperandValue = operandValue;
+            ParserPosition = parserPosition;
+        }
 
-		public bool IsNumber => (Type == OperandType.Double) || (Type == OperandType.Long);
+        public long ParserPosition { get; }
+        public OperandType Type { get; }
+        private object OperandValue { get; }
+
+        public bool IsNumber => (Type == OperandType.Double) || (Type == OperandType.Long);
 
         public TokenType TokenType => TokenType.Operand;
 
         public object GetValue()
-		{
-			Debug.Assert(CheckValueType(Type, OperandValue) == true);
+        {
+            Debug.Assert(CheckValueType(Type, OperandValue) == true);
 
-			return OperandValue;
-		}
+            return OperandValue;
+        }
 
-		private bool CheckValueType(OperandType tokenType, object tokenValue)
-		{
-			switch(tokenType)
-			{
-				case OperandType.Long:
-					return tokenValue is long;
+        private bool OldCheckValueType(OperandType tokenType, object tokenValue)
+        {
+            switch (tokenType)
+            {
+                case OperandType.Long:
+                    return tokenValue is long;
 
-				case OperandType.NullableLong:
-					return tokenValue == null || tokenValue is long;
+                case OperandType.NullableLong:
+                    return tokenValue == null || tokenValue is long;
 
-				case OperandType.Double:
-					return tokenValue is double;
+                case OperandType.Double:
+                    return tokenValue is double;
 
-				case OperandType.NullableDouble:
-					return tokenValue == null || tokenValue is double;
+                case OperandType.NullableDouble:
+                    return tokenValue == null || tokenValue is double;
 
-				case OperandType.String:
-					return tokenValue is string;
+                case OperandType.String:
+                    return tokenValue is string;
 
-				case OperandType.Variable:                // TODO: Make this a reference to a variable? Possible? It might not resolve.
-					return tokenValue is string;
+                case OperandType.Variable:                // TODO: Make this a reference to a variable? Possible? It might not resolve.
+                    return tokenValue is string;
 
-				case OperandType.Bool:
-					return tokenValue is bool;
+                case OperandType.Bool:
+                    return tokenValue is bool;
 
                 case OperandType.NullableBool:
                     return tokenValue == null || tokenValue is bool;
 
                 case OperandType.VSet:
-                    return tokenValue is IVariableStore;
+                    return tokenValue is IBackingStore;
 
-				case OperandType.Object:
-					return true;
+                case OperandType.Object:
+                    return true;
 
                 case OperandType.Null:
                     return tokenValue == null;
 
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
-		}
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
 
-		public override string ToString()
-		{
-			return OperandValue.ToString();
-		}
-	}
+        private bool CheckValueType(OperandType tokenType, object tokenValue)
+        {
+            switch (tokenType)
+            {
+                case OperandType.Sbyte:
+                    return tokenValue is sbyte;
+                case OperandType.Byte:
+                    return tokenValue is byte;
+                case OperandType.Short:
+                    return tokenValue is short;
+                case OperandType.Ushort:
+                    return tokenValue is ushort;
+                case OperandType.Int:
+                    return tokenValue is int;
+                case OperandType.Uint:
+                    return tokenValue is uint;
+                case OperandType.Long:
+                    return tokenValue is long;
+                case OperandType.Ulong:
+                    return tokenValue is ulong;
+                case OperandType.Char:
+                    return tokenValue is char;
+                case OperandType.Float:
+                    return tokenValue is float;
+                case OperandType.Double:
+                    return tokenValue is double;
+                case OperandType.Bool:
+                    return tokenValue is bool;
+                case OperandType.Decimal:
+                    return tokenValue is decimal;
+                case OperandType.NullableSbyte:
+                    return tokenValue == null || tokenValue is sbyte;
+                case OperandType.NullableByte:
+                    return tokenValue == null || tokenValue is byte;
+                case OperandType.NullableShort:
+                    return tokenValue == null || tokenValue is short;
+                case OperandType.NullableUshort:
+                    return tokenValue == null || tokenValue is ushort;
+                case OperandType.NullableInt:
+                    return tokenValue == null || tokenValue is int;
+                case OperandType.NullableUint:
+                    return tokenValue == null || tokenValue is uint;
+                case OperandType.NullableLong:
+                    return tokenValue == null || tokenValue is long;
+                case OperandType.NullableUlong:
+                    return tokenValue == null || tokenValue is ulong;
+                case OperandType.NullableChar:
+                    return tokenValue == null || tokenValue is char;
+                case OperandType.NullableFloat:
+                    return tokenValue == null || tokenValue is float;
+                case OperandType.NullableDouble:
+                    return tokenValue == null || tokenValue is double;
+                case OperandType.NullableBool:
+                    return tokenValue == null || tokenValue is bool;
+                case OperandType.NullableDecimal:
+                    return tokenValue == null || tokenValue is decimal;
+                case OperandType.String:
+                    return tokenValue == null || tokenValue is string;
+                case OperandType.Variable:                // TODO: Make this a reference to a variable? Possible? It might not resolve.
+                    return tokenValue is string;
+                case OperandType.Object:
+                    return true;
+                case OperandType.Null:
+                    return tokenValue == null;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+        }
+
+        public override string ToString()
+        {
+            return OperandValue.ToString();
+        }
+    }
 }

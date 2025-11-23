@@ -54,21 +54,33 @@
     <Compile Include="AdvancedDocumentationExample.cs" />
     <Compile Include="DocumentationSnippets.cs" />
     <Compile Include="DottedVariableCreationTests.cs" />
+    <Compile Include="PocoVariableStoreTests.cs" />
+    <Compile Include="LogicalOrTests.cs" />
+    <Compile Include="LogicalAndTests.cs" />
+    <Compile Include="ExpressionSampleTests.cs" />
+    <Compile Include="ExpressionBindTests.cs" />
     <Compile Include="ExpressionEvaluatorDottedNotation.cs" />
     <Compile Include="ExpressionEvaluatorLogicalTests.cs" />
     <Compile Include="ExpressionEvaluatorTests.cs" />
+    <Compile Include="CastTests.cs" />
     <Compile Include="ExpressionParserTests.cs" />
     <Compile Include="FunctionMatrixOverloads.cs" />
     <Compile Include="NullableTypesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterVariableCastTests.cs" />
+    <Compile Include="TestClass.cs" />
+    <Compile Include="PathBindTests.cs" />
     <Compile Include="VariableCollisionTests.cs" />
     <Compile Include="VariableFactoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Parser\ExpressionParserZero.csproj">
-      <Project>{f71fc8a4-5952-4d47-99e2-14eda90f36c2}</Project>
+      <Project>{F71FC8A4-5952-4D47-99E2-14EDA90F36C2}</Project>
       <Name>ExpressionParserZero</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VariableStoreZero\VariableStoreZero.csproj">
+      <Project>{95937a11-204c-4150-bdfc-7c75167ea772}</Project>
+      <Name>VariableStoreZero</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

@@ -190,7 +190,13 @@ namespace FunctionZero.ExpressionParserZero.Parser
             if (hasDecimal)
                 return new Operand(anchor, OperandType.Double, double.Parse(number));
             else
-                return new Operand(anchor, OperandType.Long, long.Parse(number));
+            {
+                // This matches csharp. var <someNumber> will be an int or long if it's too big.
+                if (int.TryParse(number, out var intNumber))
+                    return new Operand(anchor, OperandType.Int, intNumber);
+                else
+                    return new Operand(anchor, OperandType.Long, long.Parse(number));
+            }
         }
 
         private IOperand ParseStringToken(long anchor)
